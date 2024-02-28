@@ -36,6 +36,4 @@ coverage
 !.vscode/extensions.json
 
 # Local env files
-.env
-.env.*
-!.env.example
+.env*.local
