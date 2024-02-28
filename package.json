@@ -1,0 +1,14 @@
+{
+  "name": "micro-bi",
+  "version": "1.0.0",
+  "description": "a simple BI platform",
+  "scripts": {
+    "fe": "pnpm --filter @micro-bi/frontend run dev",
+    "be": "pnpm --filter @micro-bi/backend run dev",
+    "dev": "pnpm --filter @micro-bi/* run dev"
+  },
+  "private": true,
+  "keywords": [],
+  "author": "youranreus (https://mitsuha.space)",
+  "license": "ISC"
+}
