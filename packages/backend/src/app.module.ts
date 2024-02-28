@@ -8,6 +8,7 @@ import {
   BusinessException,
   HLOGGER_TOKEN,
   HLogger,
+  LoggerModule,
 } from '@reus-able/nestjs';
 import { ENV_LIST } from './utils/constants';
 
@@ -17,6 +18,7 @@ import { ENV_LIST } from './utils/constants';
       isGlobal: true,
       envFilePath: [...ENV_LIST],
     }),
+    LoggerModule,
   ],
   controllers: [AppController],
   providers: [
