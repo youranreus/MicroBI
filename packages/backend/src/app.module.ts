@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { APP_GUARD, APP_PIPE, Reflector } from '@nestjs/core';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import {
   AuthGuard,
   BusinessException,
@@ -11,12 +12,27 @@ import {
   LoggerModule,
 } from '@reus-able/nestjs';
 import { ENV_LIST } from './utils/constants';
+import { ENTITY_LIST } from '@/entities';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: [...ENV_LIST],
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        type: 'mysql',
+        host: configService.get('MYSQL_SERVER', 'localhost'),
+        port: configService.get<number>('MYSQL_PORT', 3306),
+        username: configService.get('MYSQL_USER', 'root'),
+        password: configService.get('MYSQL_PASSWORD', 'root'),
+        database: configService.get('MYSQL_DATABASE', 'h'),
+        synchronize: true,
+        entities: [...ENTITY_LIST],
+      }),
     }),
     LoggerModule,
   ],

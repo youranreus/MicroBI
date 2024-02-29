@@ -4,7 +4,6 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
-  JoinTable,
   ManyToMany,
   OneToMany,
 } from 'typeorm';
@@ -44,7 +43,6 @@ export class User {
   })
   avatar: string;
 
-  @JoinTable()
   @ManyToMany(() => Workspace, (u) => u.users)
   workspaces: Workspace[];
 

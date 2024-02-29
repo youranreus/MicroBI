@@ -48,7 +48,7 @@ export class DataSet {
   @OneToMany(() => Field, (f) => f.workspace, {
     cascade: true,
   })
-  datasets: Field[];
+  fields: Field[];
 
   @CreateDateColumn()
   created_at: Date;
