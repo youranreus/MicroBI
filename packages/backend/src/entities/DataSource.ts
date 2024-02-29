@@ -5,11 +5,13 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import { User } from './User';
 
 import { DataSourceType } from '@/utils/types';
 import { Workspace } from './Workspace';
+import { DataSet } from './DataSet';
 
 export interface DataSourceExportData {
   id: number;
@@ -72,6 +74,11 @@ export class DataSource {
 
   @ManyToOne(() => Workspace)
   workspace: Workspace;
+
+  @OneToMany(() => DataSet, (ds) => ds.datasource, {
+    cascade: true,
+  })
+  datasets: DataSet[];
 
   @CreateDateColumn()
   created_at: Date;
