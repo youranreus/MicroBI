@@ -8,3 +8,14 @@ export enum FieldType {
   NUMBER = 'number',
   DATE = 'date',
 }
+
+export interface Restful<T> {
+  code: number;
+  msg: string;
+  data: T;
+}
+
+export interface TokenPayload {
+  email: string;
+  id: number;
+}
