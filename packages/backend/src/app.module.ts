@@ -13,7 +13,7 @@ import {
 } from '@reus-able/nestjs';
 import { ENV_LIST } from './utils/constants';
 import { ENTITY_LIST } from '@/entities';
-import { UserModule } from '@/modules';
+import { UserModule, WorkspaceModule } from '@/modules';
 
 @Module({
   imports: [
@@ -37,6 +37,7 @@ import { UserModule } from '@/modules';
     }),
     LoggerModule,
     UserModule,
+    WorkspaceModule,
   ],
   controllers: [AppController],
   providers: [

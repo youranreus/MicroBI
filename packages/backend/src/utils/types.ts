@@ -14,8 +14,3 @@ export interface Restful<T> {
   msg: string;
   data: T;
 }
-
-export interface TokenPayload {
-  email: string;
-  id: number;
-}
