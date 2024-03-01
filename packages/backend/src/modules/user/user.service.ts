@@ -6,7 +6,7 @@ import { HLOGGER_TOKEN, HLogger } from '@reus-able/nestjs';
 import { Repository } from 'typeorm';
 import axios from 'axios';
 import { BusinessException } from '@reus-able/nestjs';
-import { UserJwtPayload } from '@reus-able/types';
+import { UserJwtPayload, UserRole } from '@reus-able/types';
 import { Restful } from '@/utils/types';
 import { isNil } from 'lodash';
 import * as jwt from 'jsonwebtoken';
@@ -60,6 +60,8 @@ export class UserService {
       {
         email: user.email,
         id: user.id,
+        role: UserRole.USER,
+        refresh: false,
       },
       this.config.get<string>('TOKEN_SECRET', ''),
       {
@@ -71,5 +73,14 @@ export class UserService {
       token: ticket,
       user: user.getData(),
     };
+  }
+
+  async updateName(id: number, name: string) {
+    const user = await this.repo.findOneByOrFail({ id });
+
+    user.name = name;
+    await this.repo.save(user);
+
+    return true;
   }
 }
