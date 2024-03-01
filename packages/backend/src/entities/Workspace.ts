@@ -17,7 +17,7 @@ export interface WorkspaceExportData {
   id: number;
   name: string;
   logo?: string;
-  users: User[];
+  users?: User[];
   datasources?: DataSource[];
   created_at: Date;
   updated_at: Date;

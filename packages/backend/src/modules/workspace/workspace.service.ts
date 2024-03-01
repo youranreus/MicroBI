@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CreateWorkspaceDto, UpdateWorkspaceDto } from '@/dtos';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '@/entities/User';
-import { Repository } from 'typeorm';
+import { Repository, Like } from 'typeorm';
+import { paginate } from 'nestjs-typeorm-paginate';
 import { Workspace } from '@/entities/Workspace';
 import { BusinessException } from '@reus-able/nestjs';
 
@@ -27,8 +28,17 @@ export class WorkspaceService {
     return null;
   }
 
-  findAll() {
-    return `This action returns all workspace`;
+  async findAll(page = 1, limit = 10, search = '') {
+    const { items, meta } = await paginate<Workspace>(
+      this.wsRepo,
+      { page, limit },
+      { where: { name: Like(`%${search}%`) } },
+    );
+
+    return {
+      items: items.map((ws) => ws.getData()),
+      total: meta.totalItems,
+    };
   }
 
   async findOne(id: number) {

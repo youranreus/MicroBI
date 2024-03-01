@@ -7,6 +7,9 @@ import {
   Param,
   Delete,
   VERSION_NEUTRAL,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { WorkspaceService } from './workspace.service';
 import { CreateWorkspaceDto } from '../../dtos/workspace/create-workspace.dto';
@@ -31,11 +34,17 @@ export class WorkspaceController {
   }
 
   @Get()
-  findAll() {
-    return this.service.findAll();
+  @AuthRoles('user')
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('size', new DefaultValuePipe(10), ParseIntPipe) size = 10,
+    @Query('search') search = '',
+  ) {
+    return this.service.findAll(page, size, search);
   }
 
   @Get(':id')
+  @AuthRoles('user')
   findOne(@Param('id') id: string) {
     return this.service.findOne(+id);
   }
