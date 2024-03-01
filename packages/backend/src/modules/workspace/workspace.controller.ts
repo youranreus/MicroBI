@@ -64,7 +64,8 @@ export class WorkspaceController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.service.remove(+id);
+  @AuthRoles('user')
+  remove(@UserParams() user: UserJwtPayload, @Param('id') id: string) {
+    return this.service.remove(user.id, +id);
   }
 }

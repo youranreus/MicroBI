@@ -81,7 +81,17 @@ export class WorkspaceService {
     };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} workspace`;
+  async remove(userId: number, id: number) {
+    const ws = await this.wsRepo.findOneOrFail({
+      relations: { users: true },
+      where: { id },
+    });
+
+    if (!ws.users.some((u) => u.id === userId)) {
+      BusinessException.throwForbidden();
+    }
+
+    await this.wsRepo.remove(ws);
+    return null;
   }
 }
