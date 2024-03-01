@@ -9,8 +9,10 @@ import {
   VERSION_NEUTRAL,
 } from '@nestjs/common';
 import { WorkspaceService } from './workspace.service';
-import { CreateWorkspaceDto } from './dto/create-workspace.dto';
-import { UpdateWorkspaceDto } from './dto/update-workspace.dto';
+import { CreateWorkspaceDto } from '../../dtos/workspace/create-workspace.dto';
+import { UpdateWorkspaceDto } from '../../dtos/workspace/update-workspace.dto';
+import { AuthRoles, UserParams } from '@reus-able/nestjs';
+import { UserJwtPayload } from '@reus-able/types';
 
 @Controller({
   path: 'workspace',
@@ -20,8 +22,12 @@ export class WorkspaceController {
   constructor(private readonly service: WorkspaceService) {}
 
   @Post()
-  create(@Body() createWorkspaceDto: CreateWorkspaceDto) {
-    return this.service.create(createWorkspaceDto);
+  @AuthRoles('user')
+  create(
+    @UserParams() user: UserJwtPayload,
+    @Body() createWorkspaceDto: CreateWorkspaceDto,
+  ) {
+    return this.service.create(user.id, createWorkspaceDto);
   }
 
   @Get()
