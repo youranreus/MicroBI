@@ -40,6 +40,12 @@ export class WorkspaceController {
     return this.service.findOne(+id);
   }
 
+  @Get(':id/user')
+  @AuthRoles('user')
+  getUser(@UserParams() user: UserJwtPayload, @Param('id') id: string) {
+    return this.service.getUser(user.id, +id);
+  }
+
   @Patch(':id')
   update(
     @Param('id') id: string,

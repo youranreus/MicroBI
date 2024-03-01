@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '@/entities/User';
 import { Repository } from 'typeorm';
 import { Workspace } from '@/entities/Workspace';
+import { BusinessException } from '@reus-able/nestjs';
 
 @Injectable()
 export class WorkspaceService {
@@ -30,8 +31,37 @@ export class WorkspaceService {
     return `This action returns all workspace`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} workspace`;
+  async findOne(id: number) {
+    const ws = await this.wsRepo.findOneOrFail({
+      where: { id },
+      relations: {
+        users: true,
+        datasources: true,
+      },
+    });
+
+    const result = ws.getData();
+
+    return {
+      ...result,
+      users: result.users.map((u) => u.id),
+    };
+  }
+
+  async getUser(userId: number, id: number) {
+    const ws = await this.wsRepo.findOneOrFail({
+      where: { id },
+      relations: {
+        users: true,
+        datasources: true,
+      },
+    });
+
+    if (!ws.users.some((u) => u.id === userId)) {
+      BusinessException.throwForbidden();
+    }
+
+    return ws.users.map((u) => u.getData());
   }
 
   update(id: number, updateWorkspaceDto: UpdateWorkspaceDto) {
