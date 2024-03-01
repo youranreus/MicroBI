@@ -56,11 +56,13 @@ export class WorkspaceController {
   }
 
   @Patch(':id')
+  @AuthRoles('user')
   update(
+    @UserParams() user: UserJwtPayload,
     @Param('id') id: string,
-    @Body() updateWorkspaceDto: UpdateWorkspaceDto,
+    @Body() body: UpdateWorkspaceDto,
   ) {
-    return this.service.update(+id, updateWorkspaceDto);
+    return this.service.update(user.id, +id, body);
   }
 
   @Delete(':id')

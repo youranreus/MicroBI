@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateWorkspaceDto, UpdateWorkspaceDto } from '@/dtos';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '@/entities/User';
-import { Repository, Like } from 'typeorm';
+import { Repository, Like, In } from 'typeorm';
 import { paginate } from 'nestjs-typeorm-paginate';
 import { Workspace } from '@/entities/Workspace';
 import { BusinessException } from '@reus-able/nestjs';
@@ -74,11 +74,35 @@ export class WorkspaceService {
     return ws.users.map((u) => u.getData());
   }
 
-  update(id: number, updateWorkspaceDto: UpdateWorkspaceDto) {
-    return {
-      id,
-      updateWorkspaceDto,
-    };
+  async update(userId: number, id: number, body: UpdateWorkspaceDto) {
+    const ws = await this.wsRepo.findOneOrFail({
+      where: { id },
+      relations: {
+        users: true,
+      },
+    });
+
+    if (!ws.users.some((u) => u.id === userId)) {
+      BusinessException.throwForbidden();
+    }
+
+    (['logo', 'name'] as const).forEach((key) => {
+      if (body[key]) {
+        ws[key] = body[key];
+      }
+    });
+
+    if (Array.isArray(body.users)) {
+      const users = await this.userRepo.findBy({
+        id: In(body.users),
+      });
+
+      ws.users = users;
+    }
+
+    await this.wsRepo.save(ws);
+
+    return null;
   }
 
   async remove(userId: number, id: number) {
