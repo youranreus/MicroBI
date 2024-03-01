@@ -48,6 +48,9 @@ import { UserModule, WorkspaceModule, DataSourceModule } from '@/modules';
       useFactory() {
         return new ValidationPipe({
           transform: true,
+          transformOptions: {
+            enableImplicitConversion: true, // 开启隐式转换
+          },
           exceptionFactory: (errors) => {
             const errorProperties = errors.map((e) => e.property).join(',');
             return new BusinessException(

@@ -1,3 +1,4 @@
+import { ConnectTestDto } from '@/dtos';
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
@@ -20,5 +21,9 @@ export class DataSourceService {
 
   remove(id: number) {
     return `This action removes a #${id} datasource`;
+  }
+
+  async test(conn: ConnectTestDto) {
+    return conn;
   }
 }
