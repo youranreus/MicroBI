@@ -5,6 +5,7 @@ import { DataSource } from '@/entities/DataSource';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource as DB, Repository } from 'typeorm';
+import { BusinessException } from '@reus-able/nestjs';
 
 @Injectable()
 export class DataSourceService {
@@ -26,6 +27,7 @@ export class DataSourceService {
       type: body.type,
       ip: body.type,
       port: body.port,
+      dbuser: body.user,
       password: body.password,
       database: body.database,
       creator: user,
@@ -42,8 +44,26 @@ export class DataSourceService {
     return `This action returns all datasource`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} datasource`;
+  async findOne(userId: number, id: number) {
+    const ds = await this.dsRepo.findOneOrFail({
+      where: { id },
+      relations: {
+        workspace: {
+          users: true,
+        },
+        datasets: true,
+        creator: true,
+      },
+    });
+
+    if (!ds.workspace.users.some((u) => u.id === userId)) {
+      BusinessException.throwForbidden();
+    }
+
+    return {
+      meta: ds.getData(),
+      datasets: ds.datasets,
+    };
   }
 
   update(id: number) {

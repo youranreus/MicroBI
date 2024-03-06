@@ -17,11 +17,13 @@ export interface DataSourceExportData {
   id: number;
   name: string;
   type: DataSourceType;
-  creator?: User;
-  workspace?: Workspace;
+  creator?: number;
+  workspace?: number;
+  dataset_count?: number;
   connect: {
     ip: string;
     port: number;
+    user: string;
     password: string;
     database: string;
   };
@@ -60,6 +62,11 @@ export class DataSource {
   port: number;
 
   @Column({
+    nullable: false,
+  })
+  dbuser: string;
+
+  @Column({
     nullable: true,
   })
   password: string;
@@ -94,11 +101,13 @@ export class DataSource {
       connect: {
         ip: this.ip,
         port: this.port,
+        user: this.dbuser,
         password: this.password,
-        database: this.password,
+        database: this.database,
       },
-      workspace: this.workspace,
-      creator: this.creator,
+      dataset_count: this.datasets?.length,
+      workspace: this.workspace?.id,
+      creator: this.creator?.id,
       created_at: this.created_at,
       updated_at: this.updated_at,
     };

@@ -36,8 +36,9 @@ export class DataSourceController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.service.findOne(+id);
+  @AuthRoles('user')
+  findOne(@UserParams() user: UserJwtPayload, @Param('id') id: string) {
+    return this.service.findOne(user.id, +id);
   }
 
   @Patch(':id')
