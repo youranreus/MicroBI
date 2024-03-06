@@ -8,6 +8,9 @@ import {
   VERSION_NEUTRAL,
   Put,
   Body,
+  DefaultValuePipe,
+  ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { DataSourceService } from './datasource.service';
 import { ConnectTestDto, CreateDatasourceDto } from '@/dtos';
@@ -31,8 +34,14 @@ export class DataSourceController {
   }
 
   @Get()
-  findAll() {
-    return this.service.findAll();
+  @AuthRoles('user')
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('size', new DefaultValuePipe(10), ParseIntPipe) size = 10,
+    @Query('workspace') workspace: string,
+    @Query('search') search = '',
+  ) {
+    return this.service.findAll(page, size, +workspace, search);
   }
 
   @Get(':id')

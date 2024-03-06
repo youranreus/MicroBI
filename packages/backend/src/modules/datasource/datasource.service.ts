@@ -4,8 +4,9 @@ import { Workspace } from '@/entities/Workspace';
 import { DataSource } from '@/entities/DataSource';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DataSource as DB, Repository } from 'typeorm';
+import { DataSource as DB, Like, Repository } from 'typeorm';
 import { BusinessException } from '@reus-able/nestjs';
+import { paginate } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class DataSourceService {
@@ -40,8 +41,29 @@ export class DataSourceService {
     return null;
   }
 
-  findAll() {
-    return `This action returns all datasource`;
+  async findAll(page = 1, limit = 10, wsId: number, search = '') {
+    const { items, meta } = await paginate<DataSource>(
+      this.dsRepo,
+      { page, limit },
+      {
+        where: {
+          name: Like(`%${search}%`),
+          workspace: {
+            id: wsId,
+          },
+        },
+        relations: {
+          workspace: true,
+          creator: true,
+          datasets: true,
+        },
+      },
+    );
+
+    return {
+      items: items.map((ds) => ds.getData()),
+      total: meta.totalItems,
+    };
   }
 
   async findOne(userId: number, id: number) {
