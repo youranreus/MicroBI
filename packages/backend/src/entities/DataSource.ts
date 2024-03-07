@@ -64,7 +64,7 @@ export class DataSource {
   @Column({
     nullable: false,
   })
-  dbuser: string;
+  user: string;
 
   @Column({
     nullable: true,
@@ -101,7 +101,7 @@ export class DataSource {
       connect: {
         ip: this.ip,
         port: this.port,
-        user: this.dbuser,
+        user: this.user,
         password: this.password,
         database: this.database,
       },

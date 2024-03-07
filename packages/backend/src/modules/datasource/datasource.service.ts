@@ -1,4 +1,8 @@
-import { ConnectTestDto, CreateDatasourceDto } from '@/dtos';
+import {
+  ConnectTestDto,
+  CreateDatasourceDto,
+  UpdateDatasourceDto,
+} from '@/dtos';
 import { User } from '@/entities/User';
 import { Workspace } from '@/entities/Workspace';
 import { DataSource } from '@/entities/DataSource';
@@ -28,7 +32,7 @@ export class DataSourceService {
       type: body.type,
       ip: body.type,
       port: body.port,
-      dbuser: body.user,
+      user: body.user,
       password: body.password,
       database: body.database,
       creator: user,
@@ -88,12 +92,50 @@ export class DataSourceService {
     };
   }
 
-  update(id: number) {
-    return `This action updates a #${id} datasource`;
+  async update(userId: number, id: number, body: UpdateDatasourceDto) {
+    const ds = await this.dsRepo.findOneOrFail({
+      where: { id },
+      relations: {
+        workspace: {
+          users: true,
+        },
+      },
+    });
+
+    if (!ds.workspace.users.some((u) => u.id === userId)) {
+      BusinessException.throwForbidden();
+    }
+
+    ['name', 'ip', 'port', 'password', 'user', 'type', 'database'].forEach(
+      (key) => {
+        if (body[key]) {
+          ds[key] = body[key];
+        }
+      },
+    );
+
+    await this.dsRepo.save(ds);
+
+    return null;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} datasource`;
+  async remove(userId: number, id: number) {
+    const ds = await this.dsRepo.findOneOrFail({
+      where: { id },
+      relations: {
+        workspace: {
+          users: true,
+        },
+      },
+    });
+
+    if (!ds.workspace.users.some((u) => u.id === userId)) {
+      BusinessException.throwForbidden();
+    }
+
+    await this.dsRepo.remove(ds);
+
+    return null;
   }
 
   async test(body: ConnectTestDto) {

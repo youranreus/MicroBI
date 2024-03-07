@@ -13,7 +13,11 @@ import {
   Query,
 } from '@nestjs/common';
 import { DataSourceService } from './datasource.service';
-import { ConnectTestDto, CreateDatasourceDto } from '@/dtos';
+import {
+  ConnectTestDto,
+  CreateDatasourceDto,
+  UpdateDatasourceDto,
+} from '@/dtos';
 import { AuthRoles, UserParams } from '@reus-able/nestjs';
 import { UserJwtPayload } from '@reus-able/types';
 
@@ -51,13 +55,19 @@ export class DataSourceController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string) {
-    return this.service.update(+id);
+  @AuthRoles('user')
+  update(
+    @UserParams() user: UserJwtPayload,
+    @Param('id') id: string,
+    @Body() body: UpdateDatasourceDto,
+  ) {
+    return this.service.update(user.id, +id, body);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.service.remove(+id);
+  @AuthRoles('user')
+  remove(@UserParams() user: UserJwtPayload, @Param('id') id: string) {
+    return this.service.remove(user.id, +id);
   }
 
   @Put()
