@@ -13,7 +13,12 @@ import {
 } from '@reus-able/nestjs';
 import { ENV_LIST } from './utils/constants';
 import { ENTITY_LIST } from '@/entities';
-import { UserModule, WorkspaceModule, DataSourceModule } from '@/modules';
+import {
+  UserModule,
+  WorkspaceModule,
+  DataSourceModule,
+  DataSetModule,
+} from '@/modules';
 
 @Module({
   imports: [
@@ -39,6 +44,7 @@ import { UserModule, WorkspaceModule, DataSourceModule } from '@/modules';
     UserModule,
     WorkspaceModule,
     DataSourceModule,
+    DataSetModule,
   ],
   controllers: [AppController],
   providers: [
