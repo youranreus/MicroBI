@@ -4,7 +4,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BusinessException } from '@reus-able/nestjs';
 import { mysqlDataTypeToCategory } from '@/utils';
 import { DataSource as DB, Like, Repository } from 'typeorm';
-import { CreateDataSetDto, UpdateDataSetDto } from '@/dtos';
+import {
+  CreateDataSetDto,
+  UpdateDataSetDto,
+  DatasetFieldCreateDto,
+} from '@/dtos';
 import { Field } from '@/entities/Field';
 import { DataSet } from '@/entities/DataSet';
 import { paginate } from 'nestjs-typeorm-paginate';
@@ -201,5 +205,50 @@ export class DataSetService {
       ...col,
       type: mysqlDataTypeToCategory(col.type),
     }));
+  }
+
+  async addField(user: number, id: number, body: DatasetFieldCreateDto) {
+    const ds = await this.dsRepo.findOneOrFail({
+      where: { id },
+      relations: {
+        workspace: {
+          users: true,
+        },
+      },
+    });
+
+    if (!ds.workspace.users.some((u) => u.id === user)) {
+      BusinessException.throwForbidden();
+    }
+
+    const field = this.fieldRepo.create({
+      name: body.name,
+      fieldname: body.fieldname,
+      type: body.type,
+      workspace: ds.workspace,
+      dataset: ds,
+    });
+
+    await this.fieldRepo.save(field);
+
+    return null;
+  }
+
+  async getFields(user: number, id: number) {
+    const ds = await this.dsRepo.findOneOrFail({
+      where: { id },
+      relations: {
+        workspace: {
+          users: true,
+        },
+        fields: true,
+      },
+    });
+
+    if (!ds.workspace.users.some((u) => u.id === user)) {
+      BusinessException.throwForbidden();
+    }
+
+    return ds.fields.map((f) => f.getData());
   }
 }

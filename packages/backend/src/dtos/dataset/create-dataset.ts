@@ -2,7 +2,7 @@ import { IsInt, IsNotEmpty, ValidateNested, IsEnum } from 'class-validator';
 import { Type } from 'class-transformer';
 import { FieldType } from '@/utils/types';
 
-class DatasetFieldCreateItem {
+export class DatasetFieldCreateDto {
   @IsNotEmpty()
   name: string;
 
@@ -24,6 +24,6 @@ export class CreateDataSetDto {
   datasource: number;
 
   @ValidateNested()
-  @Type(() => DatasetFieldCreateItem)
-  fields: DatasetFieldCreateItem[];
+  @Type(() => DatasetFieldCreateDto)
+  fields: DatasetFieldCreateDto[];
 }

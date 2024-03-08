@@ -15,7 +15,11 @@ import {
 import { DataSetService } from './dataset.service';
 import { UserParams, AuthRoles } from '@reus-able/nestjs';
 import { UserJwtPayload } from '@reus-able/types';
-import { CreateDataSetDto, UpdateDataSetDto } from '@/dtos';
+import {
+  CreateDataSetDto,
+  UpdateDataSetDto,
+  DatasetFieldCreateDto,
+} from '@/dtos';
 
 @Controller({
   path: 'dataset',
@@ -77,5 +81,21 @@ export class DataSetController {
     @Query('table') table: string,
   ) {
     return this.dataSetService.getColumn(+id, user.id, table);
+  }
+
+  @Post(':id/field')
+  @AuthRoles('user')
+  addField(
+    @UserParams() user: UserJwtPayload,
+    @Param('id') id: string,
+    @Body() body: DatasetFieldCreateDto,
+  ) {
+    return this.dataSetService.addField(user.id, +id, body);
+  }
+
+  @Get(':id/field')
+  @AuthRoles('user')
+  getFields(@UserParams() user: UserJwtPayload, @Param('id') id: string) {
+    return this.dataSetService.getFields(user.id, +id);
   }
 }
