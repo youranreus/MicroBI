@@ -7,8 +7,12 @@ import {
   Param,
   Delete,
   VERSION_NEUTRAL,
+  Put,
+  Query,
 } from '@nestjs/common';
 import { DataSetService } from './dataset.service';
+import { UserParams, AuthRoles } from '@reus-able/nestjs';
+import { UserJwtPayload } from '@reus-able/types';
 
 @Controller({
   path: 'dataset',
@@ -40,5 +44,15 @@ export class DataSetController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.dataSetService.remove(+id);
+  }
+
+  @Put(':id')
+  @AuthRoles('user')
+  getCol(
+    @UserParams() user: UserJwtPayload,
+    @Param('id') id: string,
+    @Query('table') table: string,
+  ) {
+    return this.dataSetService.getColumn(+id, user.id, table);
   }
 }

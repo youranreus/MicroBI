@@ -14,3 +14,7 @@ export interface Restful<T> {
   msg: string;
   data: T;
 }
+
+export type DatasetFieldType = 'string' | 'number' | 'date';
+
+export type RawDatasetFieldType = 'string' | 'number' | 'date' | 'unknown';
