@@ -4,14 +4,60 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BusinessException } from '@reus-able/nestjs';
 import { mysqlDataTypeToCategory } from '@/utils';
 import { DataSource as DB, Repository } from 'typeorm';
+import { CreateDataSetDto } from '@/dtos';
+import { Field } from '@/entities/Field';
+import { DataSet } from '@/entities/DataSet';
 
 @Injectable()
 export class DataSetService {
+  @InjectRepository(DataSet)
+  private dsRepo: Repository<DataSet>;
+
   @InjectRepository(DataSource)
   private srcRepo: Repository<DataSource>;
 
-  create(createDataSetDto) {
-    return 'This action adds a new dataSet';
+  @InjectRepository(Field)
+  private fieldRepo: Repository<Field>;
+
+  async create(userId: number, body: CreateDataSetDto) {
+    const src = await this.srcRepo.findOneOrFail({
+      where: { id: body.datasource },
+      relations: {
+        workspace: {
+          users: true,
+        },
+      },
+    });
+
+    if (!src.workspace.users.some((u) => u.id === userId)) {
+      BusinessException.throwForbidden();
+    }
+
+    const dataset = this.dsRepo.create({
+      datasource: src,
+      workspace: src.workspace,
+      name: body.name,
+      tablename: body.tablename,
+      fields: [],
+    });
+
+    await this.dsRepo.save(dataset);
+
+    const fields = body.fields.map((f) =>
+      this.fieldRepo.create({
+        name: f.name,
+        fieldname: f.fieldname,
+        type: f.type,
+        workspace: src.workspace,
+        dataset,
+      }),
+    );
+
+    dataset.fields = fields;
+
+    await this.dsRepo.save(dataset);
+
+    return null;
   }
 
   findAll() {

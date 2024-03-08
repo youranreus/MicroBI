@@ -1,6 +1,6 @@
-import { RawDatasetFieldType } from './types';
+import { FieldType } from './types';
 
-export function mysqlDataTypeToCategory(type: string): RawDatasetFieldType {
+export function mysqlDataTypeToCategory(type: string): FieldType | 'unknown' {
   // 数字类型
   const numberTypes = [
     'int',
@@ -34,11 +34,11 @@ export function mysqlDataTypeToCategory(type: string): RawDatasetFieldType {
   type = type.toLowerCase();
 
   if (numberTypes.includes(type)) {
-    return 'number';
+    return FieldType.NUMBER;
   } else if (stringTypes.includes(type)) {
-    return 'string';
+    return FieldType.STRING;
   } else if (dateTypes.includes(type)) {
-    return 'date';
+    return FieldType.DATE;
   } else {
     return 'unknown';
   }

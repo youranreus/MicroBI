@@ -13,6 +13,7 @@ import {
 import { DataSetService } from './dataset.service';
 import { UserParams, AuthRoles } from '@reus-able/nestjs';
 import { UserJwtPayload } from '@reus-able/types';
+import { CreateDataSetDto } from '@/dtos';
 
 @Controller({
   path: 'dataset',
@@ -22,8 +23,9 @@ export class DataSetController {
   constructor(private readonly dataSetService: DataSetService) {}
 
   @Post()
-  create(@Body() createDataSetDto) {
-    return this.dataSetService.create(createDataSetDto);
+  @AuthRoles('user')
+  create(@UserParams() user: UserJwtPayload, @Body() body: CreateDataSetDto) {
+    return this.dataSetService.create(user.id, body);
   }
 
   @Get()

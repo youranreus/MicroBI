@@ -4,3 +4,4 @@ export * from './workspace/update-workspace.dto';
 export * from './datasource/connect-test';
 export * from './datasource/create-datasource';
 export * from './datasource/update-datasource';
+export * from './dataset/create-dataset';

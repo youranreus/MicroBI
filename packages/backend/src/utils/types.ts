@@ -15,6 +15,8 @@ export interface Restful<T> {
   data: T;
 }
 
-export type DatasetFieldType = 'string' | 'number' | 'date';
-
-export type RawDatasetFieldType = 'string' | 'number' | 'date' | 'unknown';
+export interface DatasetFieldCreateItem {
+  name: string;
+  type: FieldType;
+  field_name: string;
+}
