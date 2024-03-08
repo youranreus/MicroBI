@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { BusinessException } from '@reus-able/nestjs';
 import { mysqlDataTypeToCategory } from '@/utils';
 import { DataSource as DB, Repository } from 'typeorm';
-import { CreateDataSetDto } from '@/dtos';
+import { CreateDataSetDto, UpdateDataSetDto } from '@/dtos';
 import { Field } from '@/entities/Field';
 import { DataSet } from '@/entities/DataSet';
 
@@ -68,8 +68,25 @@ export class DataSetService {
     return `This action returns a #${id} dataSet`;
   }
 
-  update(id: number, updateDataSetDto) {
-    return `This action updates a #${id} dataSet`;
+  async update(userId: number, id: number, body: UpdateDataSetDto) {
+    const ds = await this.dsRepo.findOneOrFail({
+      where: { id },
+      relations: {
+        workspace: {
+          users: true,
+        },
+      },
+    });
+
+    if (!ds.workspace.users.some((u) => u.id === userId)) {
+      BusinessException.throwForbidden();
+    }
+
+    ds.name = body.name;
+
+    await this.dsRepo.save(ds);
+
+    return null;
   }
 
   remove(id: number) {

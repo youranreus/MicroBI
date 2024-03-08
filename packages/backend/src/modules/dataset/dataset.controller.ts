@@ -13,7 +13,7 @@ import {
 import { DataSetService } from './dataset.service';
 import { UserParams, AuthRoles } from '@reus-able/nestjs';
 import { UserJwtPayload } from '@reus-able/types';
-import { CreateDataSetDto } from '@/dtos';
+import { CreateDataSetDto, UpdateDataSetDto } from '@/dtos';
 
 @Controller({
   path: 'dataset',
@@ -39,8 +39,13 @@ export class DataSetController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateDataSetDto) {
-    return this.dataSetService.update(+id, updateDataSetDto);
+  @AuthRoles('user')
+  update(
+    @UserParams() user: UserJwtPayload,
+    @Param('id') id: string,
+    @Body() body: UpdateDataSetDto,
+  ) {
+    return this.dataSetService.update(user.id, +id, body);
   }
 
   @Delete(':id')

@@ -5,3 +5,4 @@ export * from './datasource/connect-test';
 export * from './datasource/create-datasource';
 export * from './datasource/update-datasource';
 export * from './dataset/create-dataset';
+export * from './dataset/update-dataset';
