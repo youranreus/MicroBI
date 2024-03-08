@@ -45,7 +45,7 @@ export class DataSet {
   @ManyToOne(() => DataSource)
   datasource: DataSource;
 
-  @OneToMany(() => Field, (f) => f.workspace, {
+  @OneToMany(() => Field, (f) => f.dataset, {
     cascade: true,
   })
   fields: Field[];

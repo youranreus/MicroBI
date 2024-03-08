@@ -103,8 +103,26 @@ export class DataSetService {
     };
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} dataSet`;
+  async findOne(userId: number, id: number) {
+    const ds = await this.dsRepo.findOneOrFail({
+      where: { id },
+      relations: {
+        workspace: {
+          users: true,
+        },
+        datasource: true,
+        fields: true,
+      },
+    });
+
+    if (!ds.workspace.users.some((u) => u.id === userId)) {
+      BusinessException.throwForbidden();
+    }
+
+    return {
+      meta: ds.getData(),
+      fields: ds.fields.map((f) => f.getData()),
+    };
   }
 
   async update(userId: number, id: number, body: UpdateDataSetDto) {
