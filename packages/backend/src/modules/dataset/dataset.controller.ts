@@ -9,6 +9,8 @@ import {
   VERSION_NEUTRAL,
   Put,
   Query,
+  DefaultValuePipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { DataSetService } from './dataset.service';
 import { UserParams, AuthRoles } from '@reus-able/nestjs';
@@ -29,8 +31,20 @@ export class DataSetController {
   }
 
   @Get()
-  findAll() {
-    return this.dataSetService.findAll();
+  @AuthRoles('user')
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('size', new DefaultValuePipe(10), ParseIntPipe) size = 10,
+    @Query('workspace') workspace?: string,
+    @Query('datasource') datasource?: string,
+    @Query('search') search = '',
+  ) {
+    return this.dataSetService.findAll(
+      page,
+      size,
+      { workspace, datasource },
+      search,
+    );
   }
 
   @Get(':id')

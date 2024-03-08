@@ -3,10 +3,17 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BusinessException } from '@reus-able/nestjs';
 import { mysqlDataTypeToCategory } from '@/utils';
-import { DataSource as DB, Repository } from 'typeorm';
+import { DataSource as DB, Like, Repository } from 'typeorm';
 import { CreateDataSetDto, UpdateDataSetDto } from '@/dtos';
 import { Field } from '@/entities/Field';
 import { DataSet } from '@/entities/DataSet';
+import { paginate } from 'nestjs-typeorm-paginate';
+import { isNil } from 'lodash';
+
+interface DataSetQueryParam {
+  datasource?: string;
+  workspace?: string;
+}
 
 @Injectable()
 export class DataSetService {
@@ -60,8 +67,40 @@ export class DataSetService {
     return null;
   }
 
-  findAll() {
-    return `This action returns all dataSet`;
+  async findAll(page = 1, limit = 10, param: DataSetQueryParam, search = '') {
+    if (isNil(param)) {
+      BusinessException.throwForbidden();
+    }
+
+    const queryParam: Partial<
+      Record<'workspace' | 'datasource', { id: number }>
+    > = {};
+    if (param.datasource) {
+      queryParam.datasource = { id: +param.datasource };
+    }
+    if (param.workspace) {
+      queryParam.workspace = { id: +param.workspace };
+    }
+
+    const { items, meta } = await paginate<DataSet>(
+      this.dsRepo,
+      { page, limit },
+      {
+        where: {
+          name: Like(`%${search}%`),
+          ...queryParam,
+        },
+        relations: {
+          workspace: true,
+          datasource: true,
+        },
+      },
+    );
+
+    return {
+      items: items.map((ds) => ds.getData()),
+      total: meta.totalItems,
+    };
   }
 
   findOne(id: number) {

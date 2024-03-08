@@ -16,8 +16,8 @@ export interface DataSetExportData {
   id: number;
   name: string;
   tablename: string;
-  datasource?: DataSource;
-  workspace?: Workspace;
+  datasource?: number;
+  workspace?: number;
   created_at: Date;
   updated_at: Date;
 }
@@ -61,8 +61,8 @@ export class DataSet {
       id: this.id,
       name: this.name,
       tablename: this.tablename,
-      workspace: this.workspace,
-      datasource: this.datasource,
+      workspace: this.workspace?.id,
+      datasource: this.datasource?.id,
       created_at: this.created_at,
       updated_at: this.updated_at,
     };
