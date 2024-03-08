@@ -47,6 +47,8 @@ export class DataSet {
 
   @OneToMany(() => Field, (f) => f.dataset, {
     cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   })
   fields: Field[];
 

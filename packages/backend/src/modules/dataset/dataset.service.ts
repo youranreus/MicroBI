@@ -146,8 +146,23 @@ export class DataSetService {
     return null;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} dataSet`;
+  async remove(userId: number, id: number) {
+    const ds = await this.dsRepo.findOneOrFail({
+      where: { id },
+      relations: {
+        workspace: {
+          users: true,
+        },
+      },
+    });
+
+    if (!ds.workspace.users.some((u) => u.id === userId)) {
+      BusinessException.throwForbidden();
+    }
+
+    await this.dsRepo.remove(ds);
+
+    return null;
   }
 
   async getColumn(srcId: number, userId: number, tableName: string) {

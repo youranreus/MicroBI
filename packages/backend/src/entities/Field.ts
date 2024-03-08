@@ -50,7 +50,9 @@ export class Field {
   @ManyToOne(() => Workspace)
   workspace: Workspace;
 
-  @ManyToOne(() => DataSet)
+  @ManyToOne(() => DataSet, {
+    onDelete: 'CASCADE',
+  })
   dataset: DataSet;
 
   @CreateDateColumn()

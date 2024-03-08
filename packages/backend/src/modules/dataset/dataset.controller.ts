@@ -64,8 +64,9 @@ export class DataSetController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.dataSetService.remove(+id);
+  @AuthRoles('user')
+  remove(@UserParams() user: UserJwtPayload, @Param('id') id: string) {
+    return this.dataSetService.remove(user.id, +id);
   }
 
   @Put(':id')
