@@ -251,4 +251,39 @@ export class DataSetService {
 
     return ds.fields.map((f) => f.getData());
   }
+
+  async updateField(
+    user: number,
+    id: number,
+    wsId: number,
+    body: Partial<DatasetFieldCreateDto>,
+  ) {
+    const field = await this.fieldRepo.findOneOrFail({
+      where: {
+        id,
+        workspace: {
+          id: wsId,
+        },
+      },
+      relations: {
+        workspace: {
+          users: true,
+        },
+      },
+    });
+
+    if (!field.workspace.users.some((u) => u.id === user)) {
+      BusinessException.throwForbidden();
+    }
+
+    ['fieldname', 'name', 'type'].forEach((key) => {
+      if (body[key]) {
+        field[key] = body[key];
+      }
+    });
+
+    await this.fieldRepo.save(field);
+
+    return null;
+  }
 }

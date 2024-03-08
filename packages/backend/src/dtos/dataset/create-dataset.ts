@@ -1,6 +1,7 @@
 import { IsInt, IsNotEmpty, ValidateNested, IsEnum } from 'class-validator';
 import { Type } from 'class-transformer';
 import { FieldType } from '@/utils/types';
+import { PartialType } from '@nestjs/mapped-types';
 
 export class DatasetFieldCreateDto {
   @IsNotEmpty()
@@ -12,6 +13,8 @@ export class DatasetFieldCreateDto {
   @IsNotEmpty()
   fieldname: string;
 }
+
+export class DatasetFieldUpdateDto extends PartialType(DatasetFieldCreateDto) {}
 
 export class CreateDataSetDto {
   @IsNotEmpty()

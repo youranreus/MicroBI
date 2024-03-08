@@ -19,6 +19,7 @@ import {
   CreateDataSetDto,
   UpdateDataSetDto,
   DatasetFieldCreateDto,
+  DatasetFieldUpdateDto,
 } from '@/dtos';
 
 @Controller({
@@ -97,5 +98,16 @@ export class DataSetController {
   @AuthRoles('user')
   getFields(@UserParams() user: UserJwtPayload, @Param('id') id: string) {
     return this.dataSetService.getFields(user.id, +id);
+  }
+
+  @Patch(':dsId/field/:id')
+  @AuthRoles('user')
+  updateField(
+    @UserParams() user: UserJwtPayload,
+    @Param('dsId') dsId: string,
+    @Param('id') id: string,
+    @Body() body: DatasetFieldUpdateDto,
+  ) {
+    return this.dataSetService.updateField(user.id, +id, +dsId, body);
   }
 }
