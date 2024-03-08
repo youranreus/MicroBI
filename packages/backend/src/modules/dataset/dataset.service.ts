@@ -286,4 +286,28 @@ export class DataSetService {
 
     return null;
   }
+
+  async deleteField(user: number, id: number, wsId: number) {
+    const field = await this.fieldRepo.findOneOrFail({
+      where: {
+        id,
+        workspace: {
+          id: wsId,
+        },
+      },
+      relations: {
+        workspace: {
+          users: true,
+        },
+      },
+    });
+
+    if (!field.workspace.users.some((u) => u.id === user)) {
+      BusinessException.throwForbidden();
+    }
+
+    await this.fieldRepo.remove(field);
+
+    return null;
+  }
 }

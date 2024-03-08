@@ -110,4 +110,14 @@ export class DataSetController {
   ) {
     return this.dataSetService.updateField(user.id, +id, +dsId, body);
   }
+
+  @Delete(':dsId/field/:id')
+  @AuthRoles('user')
+  deleteField(
+    @UserParams() user: UserJwtPayload,
+    @Param('dsId') dsId: string,
+    @Param('id') id: string,
+  ) {
+    return this.dataSetService.deleteField(user.id, +id, +dsId);
+  }
 }
