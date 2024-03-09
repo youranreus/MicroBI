@@ -13,7 +13,7 @@ const INIT_USER_DATA: UserData = {
   email: '',
   name: '',
   created_at: '',
-  updated_at: '',
+  updated_at: ''
 }
 
 const useStore = defineStore(
@@ -49,6 +49,6 @@ export const useUserStore = () => {
 
   return {
     ...store,
-    ...storeToRefs(store),
-  };
+    ...storeToRefs(store)
+  }
 }
