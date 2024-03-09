@@ -22,7 +22,8 @@ export default defineConfig({
             'useNotification',
             'useLoadingBar'
           ]
-        }
+        },
+        'pinia',
       ]
     }),
     Components({
