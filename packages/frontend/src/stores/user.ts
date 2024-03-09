@@ -1,11 +1,4 @@
-interface UserData {
-  id: number
-  avatar: string
-  email: string
-  name: string
-  created_at: string
-  updated_at: string
-}
+import type { UserData } from '@/types/user'
 
 const INIT_USER_DATA: UserData = {
   id: -1,
