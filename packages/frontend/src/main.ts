@@ -4,8 +4,6 @@ import pinia from './stores/pinia'
 import App from './App.vue'
 import router from './router'
 
-import 'vfonts/Lato.css'
-import 'vfonts/FiraCode.css'
 import '@/assets/base.scss'
 import 'tailwindcss/tailwind.css'
 
