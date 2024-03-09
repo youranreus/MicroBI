@@ -20,6 +20,8 @@ const useStore = defineStore(
 
     const loginVisible = ref(false)
 
+    const loginLoading = ref(false)
+
     const userLogin = (data: UserData, tk: string) => {
       Object.assign(userData, data)
       token.value = tk
@@ -30,7 +32,7 @@ const useStore = defineStore(
       token.value = ''
     }
 
-    return { userData, token, hasLoggedIn, loginVisible, userLogin, userLogout }
+    return { userData, token, hasLoggedIn, loginVisible, loginLoading, userLogin, userLogout }
   },
   {
     persist: {

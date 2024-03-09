@@ -18,9 +18,16 @@ const router = createRouter({
       component: () => import('../views/AboutView.vue')
     },
     {
-      path: '/login-required',
-      name: 'login-required',
-      component: () => import('@/views/empty-page.vue')
+      path: '/user',
+      name: 'user-index',
+      component: () => import('@/views/user/view-index.vue'),
+      children: [
+        {
+          path: 'login',
+          name: 'user-login',
+          component: () => import('@/views/user/user-login.vue')
+        }
+      ]
     }
   ]
 })

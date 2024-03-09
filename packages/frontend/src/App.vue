@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
 import BaseLayout from '@/layout/base-layout.vue'
 </script>
 

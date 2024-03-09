@@ -1,26 +1,30 @@
 <template>
   <div class="flex justify-between items-center border-b-2 border-gray-100 h-12 p-8">
     <div class="text-2xl font-bold">MicroBI</div>
-    <div>
+    <n-flex align="center" :wrap="false">
       <n-menu mode="horizontal" :options="userMenuOptions" responsive />
-    </div>
+    </n-flex>
   </div>
-  <login-dialog v-model="visible"></login-dialog>
 </template>
 <script setup lang="ts">
 import { type MenuOption } from 'naive-ui'
-import LoginDialog from '@/components/layout/login-dialog.vue'
 
 defineOptions({
   name: 'BaseLayoutHeader'
 })
 
-const visible = ref(true)
-
 const userMenuOptions: MenuOption[] = [
   {
-    label: '登录',
-    key: 'login'
+    label: '看板',
+    key: 'board'
+  },
+  {
+    label: '分析',
+    key: 'analyze'
+  },
+  {
+    label: '管理',
+    key: 'config'
   }
 ]
 </script>
