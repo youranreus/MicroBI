@@ -14,6 +14,11 @@ const alovaInstance = createAlova({
     if (token.value) {
       method.config.headers.Authorization = `Bearer ${token.value}`
     }
+  },
+  responded: {
+    onSuccess: (res) => {
+      return res.data
+    }
   }
 })
 
