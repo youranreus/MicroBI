@@ -5,13 +5,17 @@
       <n-menu mode="horizontal" :options="userMenuOptions" responsive />
     </div>
   </div>
+  <login-dialog v-model="visible"></login-dialog>
 </template>
 <script setup lang="ts">
 import { type MenuOption } from 'naive-ui'
+import LoginDialog from '@/components/layout/login-dialog.vue'
 
 defineOptions({
   name: 'BaseLayoutHeader'
 })
+
+const visible = ref(true)
 
 const userMenuOptions: MenuOption[] = [
   {

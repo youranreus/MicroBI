@@ -5,10 +5,12 @@ import BaseLayout from '@/layout/base-layout.vue'
 
 <template>
   <n-config-provider>
-    <n-message-provider>
-      <base-layout>
-        <RouterView />
-      </base-layout>
-    </n-message-provider>
+    <n-modal-provider>
+      <n-message-provider>
+        <base-layout>
+          <RouterView />
+        </base-layout>
+      </n-message-provider>
+    </n-modal-provider>
   </n-config-provider>
 </template>
