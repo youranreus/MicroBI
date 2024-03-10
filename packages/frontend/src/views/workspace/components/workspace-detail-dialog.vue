@@ -21,7 +21,7 @@
             {{ dayjs(data.updated_at).format('YYYY-MM-DD') }}
           </n-descriptions-item>
           <n-descriptions-item label="用户列表" :span="2">
-            <n-avatar-group :options="userList" :size="40" :max="3">
+            <n-avatar-group v-if="userList.length" :options="userList" :size="40" :max="3">
               <template #avatar="{ option: { name, src } }">
                 <n-tooltip>
                   <template #trigger>
@@ -34,6 +34,7 @@
                 <n-avatar>+{{ rest }}</n-avatar>
               </template>
             </n-avatar-group>
+            <n-p v-else>无用户</n-p>
           </n-descriptions-item>
         </n-descriptions>
       </n-spin>
