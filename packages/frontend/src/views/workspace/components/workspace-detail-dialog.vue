@@ -62,6 +62,8 @@ const props = withDefaults(
   }
 )
 
+const msg = useMessage()
+
 const visible = defineModel({ type: Boolean })
 
 const {
@@ -78,6 +80,7 @@ onError(() => {
     msg: '',
     data: []
   }
+  msg.error('获取用户列表失败')
 })
 
 const userList = computed(() =>
