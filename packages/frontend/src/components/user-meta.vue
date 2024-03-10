@@ -20,7 +20,17 @@
             {{ data.email }}
           </n-descriptions-item>
         </n-descriptions>
-        <n-button v-if="showLogout && isCurrentUser" block strong secondary type="warning" size="small" @click="logout">登出</n-button>
+        <n-button
+          v-if="showLogout && isCurrentUser"
+          block
+          strong
+          secondary
+          type="warning"
+          size="small"
+          @click="logout"
+        >
+          登出
+        </n-button>
       </n-flex>
     </div>
   </n-popover>
@@ -42,7 +52,7 @@ const props = withDefaults(
   }>(),
   {
     showLogout: false,
-    avatarSize: 'medium',
+    avatarSize: 'medium'
   }
 )
 
