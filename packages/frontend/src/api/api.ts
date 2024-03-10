@@ -3,6 +3,8 @@ import VueHook from 'alova/vue'
 import { axiosRequestAdapter } from '@alova/adapter-axios'
 import { useUserStore } from '@/stores/user'
 import { ENV } from '@/utils'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import _axios from 'axios'
 
 const alovaInstance = createAlova({
   statesHook: VueHook,
