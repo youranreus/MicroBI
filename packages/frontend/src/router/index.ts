@@ -35,6 +35,21 @@ const router = createRouter({
           component: () => import('@/views/user/user-login-callback.vue')
         }
       ]
+    },
+    {
+      path: '/workspace',
+      name: 'workspace-layout',
+      component: () => import('@/layout/flex-center-layout.vue'),
+      children: [
+        {
+          path: '',
+          name: 'workspace-index',
+          meta: {
+            title: '选择工作区'
+          },
+          component: () => import('@/views/workspace/view-index.vue')
+        }
+      ]
     }
   ]
 })
