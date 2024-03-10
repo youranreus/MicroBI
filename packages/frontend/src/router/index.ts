@@ -16,7 +16,7 @@ const router = createRouter({
     {
       path: '/user',
       name: 'user-index',
-      component: () => import('@/views/user/view-index.vue'),
+      component: () => import('@/layout/flex-center-layout.vue'),
       children: [
         {
           path: 'login',

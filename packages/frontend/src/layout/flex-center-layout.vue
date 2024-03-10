@@ -5,6 +5,6 @@
 </template>
 <script setup lang="ts">
 defineOptions({
-  name: 'UserIndex'
+  name: 'FlextCenterLayout'
 })
 </script>
