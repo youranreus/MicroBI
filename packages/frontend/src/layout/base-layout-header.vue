@@ -4,7 +4,7 @@
     <n-flex align="center" :wrap="false">
       <n-menu mode="horizontal" :options="userMenuOptions" responsive />
       <div v-if="hasLoggedIn">
-        <user-meta :data="userData" show-logout/>
+        <user-meta :data="userData" show-logout />
       </div>
     </n-flex>
   </div>

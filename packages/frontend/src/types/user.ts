@@ -1,12 +1,10 @@
-import type { Restful } from '.'
+import type { Restful, ItemDateData } from '.'
 
-export interface UserData {
+export interface UserData extends ItemDateData {
   id: number
   avatar: string
   email: string
   name: string
-  created_at: string
-  updated_at: string
 }
 
 export interface UserLoginData {
