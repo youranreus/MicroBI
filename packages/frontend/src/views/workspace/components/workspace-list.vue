@@ -11,7 +11,7 @@
           </template>
           <template #suffix>
             <slot :data="item">
-              <n-button size="small" tertiary type="info">
+              <n-button size="small" tertiary type="info" @click="emit('select', item)">
                 <template #icon>
                   <n-icon :component="Enter"></n-icon>
                 </template>
@@ -40,11 +40,16 @@
 </template>
 <script setup lang="ts">
 import { useWorkspaceList } from '@/composables/useWorkspaceList'
+import type { WorkspaceMeta } from '@/types/workspace'
 import { Enter } from '@vicons/ionicons5'
 
 defineOptions({
   name: 'WorkspaceList'
 })
+
+const emit = defineEmits<{
+  (e: 'select', item: WorkspaceMeta): void
+}>()
 
 const { data, loading, pageBindings, searchBindings } = useWorkspaceList()
 </script>
