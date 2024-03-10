@@ -1,4 +1,5 @@
 import type { Restful, Pagination, ItemDateData } from '.'
+import type { UserData } from './user'
 
 export interface WorkspaceMeta extends ItemDateData {
   name: string
@@ -7,3 +8,5 @@ export interface WorkspaceMeta extends ItemDateData {
 }
 
 export type WorkspaceListRes = Restful<Pagination<WorkspaceMeta>>
+
+export type WorkspaceUserListRes = Restful<UserData[]>

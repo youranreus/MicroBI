@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     LoginDialog: typeof import('./src/components/layout/login-dialog.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
+    NAvatarGroup: typeof import('naive-ui')['NAvatarGroup']
     NButton: typeof import('naive-ui')['NButton']
     NCard: typeof import('naive-ui')['NCard']
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
@@ -38,6 +39,7 @@ declare module 'vue' {
     NResult: typeof import('naive-ui')['NResult']
     NSpace: typeof import('naive-ui')['NSpace']
     NSpin: typeof import('naive-ui')['NSpin']
+    NTooltip: typeof import('naive-ui')['NTooltip']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     UserMeta: typeof import('./src/components/user-meta.vue')['default']

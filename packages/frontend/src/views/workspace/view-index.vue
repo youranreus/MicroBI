@@ -13,7 +13,8 @@
         </div>
         <div class="h-[352px]">
           <n-h3>加入一个工作区</n-h3>
-          <workspace-list />
+          <workspace-list @select="handleSelectWorkspace" />
+          <workspace-detail-dialog v-if="detailItem" v-model="detailVisible" :data="detailItem" />
         </div>
       </div>
     </div>
@@ -21,9 +22,19 @@
   </div>
 </template>
 <script setup lang="ts">
+import type { WorkspaceMeta } from '@/types/workspace'
 import WorkspaceList from './components/workspace-list.vue'
+import WorkspaceDetailDialog from './components/workspace-detail-dialog.vue'
 
 defineOptions({
   name: 'WorkspaceIndex'
 })
+
+const detailVisible = ref(false)
+const detailItem = ref<WorkspaceMeta>()
+
+const handleSelectWorkspace = (item: WorkspaceMeta) => {
+  detailItem.value = item
+  detailVisible.value = true
+}
 </script>
