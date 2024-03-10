@@ -5,10 +5,20 @@
   "scripts": {
     "fe": "pnpm --filter @micro-bi/frontend run dev",
     "be": "pnpm --filter @micro-bi/backend run dev",
-    "dev": "pnpm --filter @micro-bi/* run dev"
+    "dev": "pnpm --filter @micro-bi/* run dev",
+    "c": "git-cz"
   },
   "private": true,
   "keywords": [],
   "author": "youranreus (https://mitsuha.space)",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "commitizen": "^4.3.0",
+    "cz-customizable": "^7.0.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    }
+  }
 }
