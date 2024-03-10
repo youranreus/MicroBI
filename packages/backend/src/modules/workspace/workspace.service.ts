@@ -67,9 +67,9 @@ export class WorkspaceService {
       },
     });
 
-    if (!ws.users.some((u) => u.id === userId)) {
-      BusinessException.throwForbidden();
-    }
+    // if (!ws.users.some((u) => u.id === userId)) {
+    //   BusinessException.throwForbidden();
+    // }
 
     return ws.users.map((u) => u.getData());
   }
