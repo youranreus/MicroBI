@@ -1,7 +1,28 @@
 <template>
-  <div class="bg-white shadow-md rounded-2xl p-2 h-[500px] w-[768px]">haha</div>
+  <div
+    class="bg-white shadow-xl rounded-2xl p-4 h-[500px] w-[968px] border-2 border-gray-100 flex gap-x-4"
+  >
+    <div class="w-[300px]">
+      <div class="flex flex-col gap-y-4">
+        <div class="h-[100px] flex flex-col gap-y-2">
+          <n-h3>创建一个工作区</n-h3>
+          <n-input-group>
+            <n-input placeholder="workspace名称" />
+            <n-button type="primary" ghost> 创建 </n-button>
+          </n-input-group>
+        </div>
+        <div class="h-[352px]">
+          <n-h3>加入一个工作区</n-h3>
+          <workspace-list />
+        </div>
+      </div>
+    </div>
+    <div class="flex-1"><n-h3>已加入的工作区</n-h3></div>
+  </div>
 </template>
 <script setup lang="ts">
+import WorkspaceList from './components/workspace-list.vue'
+
 defineOptions({
   name: 'WorkspaceIndex'
 })
