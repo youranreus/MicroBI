@@ -1,12 +1,12 @@
 import { getWorkspaceList } from '@/api/workspace'
 import { usePagination } from '@alova/scene-vue'
 
-export const useWorkspaceList = () => {
+export const useWorkspaceList = (type: 'user' | 'all' = 'all') => {
   const msg = useMessage()
   const searchValue = ref('')
 
   const { data, loading, page, pageSize, total, onError } = usePagination(
-    (page: number, size: number) => getWorkspaceList(page, size, searchValue.value),
+    (page: number, size: number) => getWorkspaceList(page, size, type, searchValue.value),
     {
       initialPage: 1,
       initialPageSize: 10,

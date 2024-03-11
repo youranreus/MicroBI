@@ -47,9 +47,18 @@ defineOptions({
   name: 'WorkspaceList'
 })
 
+const props = withDefaults(
+  defineProps<{
+    type?: 'all' | 'user'
+  }>(),
+  {
+    type: 'all'
+  }
+)
+
 const emit = defineEmits<{
   (e: 'select', item: WorkspaceMeta): void
 }>()
 
-const { data, loading, pageBindings, searchBindings } = useWorkspaceList()
+const { data, loading, pageBindings, searchBindings } = useWorkspaceList(props.type)
 </script>

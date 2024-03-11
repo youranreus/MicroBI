@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-white shadow-xl rounded-2xl p-4 h-[500px] w-[968px] border-2 border-gray-100 flex gap-x-4"
+    class="bg-white shadow-xl rounded-2xl p-4 h-[500px] w-[968px] border-2 border-gray-100 flex gap-x-8"
   >
     <div class="w-[300px]">
       <div class="flex flex-col gap-y-4">
@@ -18,7 +18,14 @@
         </div>
       </div>
     </div>
-    <div class="flex-1"><n-h3>已加入的工作区</n-h3></div>
+    <div class="flex-1">
+      <n-h3>已加入的工作区</n-h3>
+      <workspace-list type="user">
+        <template #default="{ data }">
+          <n-button size="small" @click="redirectWorkspace(data.id)">进入</n-button>
+        </template>
+      </workspace-list>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -36,5 +43,9 @@ const detailItem = ref<WorkspaceMeta>()
 const handleSelectWorkspace = (item: WorkspaceMeta) => {
   detailItem.value = item
   detailVisible.value = true
+}
+
+const redirectWorkspace = (id: number) => {
+  console.log('🤔 id 是 ', id)
 }
 </script>
