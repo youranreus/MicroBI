@@ -64,7 +64,8 @@ const emit = defineEmits<{
 }>()
 
 const contentStyle = computed(() => ({
-  maxHeight: `${props.height - 52 - 59}px`
+  maxHeight: `${props.height - 52 - 59}px`,
+  height: `${props.height - 52 - 59}px`
 }))
 
 const { data, loading, pageBindings, searchBindings } = useWorkspaceList(props.type)

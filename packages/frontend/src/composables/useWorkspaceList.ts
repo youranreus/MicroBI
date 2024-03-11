@@ -29,8 +29,8 @@ export const useWorkspaceList = (type: 'user' | 'all' = 'all') => {
     page: page.value,
     itemCount: total.value,
     pageSize: pageSize.value,
-    'on-upate:page': (val: number) => (page.value = val),
-    'on-upate:page-size': (val: number) => (pageSize.value = val),
+    'on-update:page': (val: number) => (page.value = val),
+    'on-update:page-size': (val: number) => (pageSize.value = val),
     loading: loading.value,
     disabled: loading.value
   }))
