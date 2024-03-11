@@ -13,14 +13,14 @@
         </div>
         <div class="h-[352px]">
           <n-h3>加入一个工作区</n-h3>
-          <workspace-list @select="handleSelectWorkspace" />
+          <workspace-list :height="305" @select="handleSelectWorkspace" />
           <workspace-detail-dialog v-if="detailItem" v-model="detailVisible" :data="detailItem" />
         </div>
       </div>
     </div>
     <div class="flex-1">
       <n-h3>已加入的工作区</n-h3>
-      <workspace-list type="user">
+      <workspace-list :height="422" type="user">
         <template #default="{ data }">
           <n-button size="small" @click="redirectWorkspace(data.id)">进入</n-button>
         </template>
