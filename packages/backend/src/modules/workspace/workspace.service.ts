@@ -25,7 +25,7 @@ export class WorkspaceService {
 
     await this.wsRepo.save(ws);
 
-    return null;
+    return { id: ws.id };
   }
 
   async findAll(page = 1, limit = 10, search = '') {
