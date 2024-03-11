@@ -36,11 +36,15 @@ export class WorkspaceController {
   @Get()
   @AuthRoles('user')
   findAll(
+    @UserParams() user: UserJwtPayload,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
     @Query('size', new DefaultValuePipe(10), ParseIntPipe) size = 10,
     @Query('search') search = '',
+    @Query('type') type = 'all',
   ) {
-    return this.service.findAll(page, size, search);
+    return type === 'user'
+      ? this.service.getUserWorkspace(user.id, page, size, search)
+      : this.service.findAll(page, size, search);
   }
 
   @Get(':id')

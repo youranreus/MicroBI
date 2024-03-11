@@ -58,7 +58,7 @@ export class WorkspaceService {
     };
   }
 
-  async getUser(userId: number, id: number) {
+  async getUser(_userId: number, id: number) {
     const ws = await this.wsRepo.findOneOrFail({
       where: { id },
       relations: {
@@ -117,5 +117,28 @@ export class WorkspaceService {
 
     await this.wsRepo.remove(ws);
     return null;
+  }
+
+  async getUserWorkspace(userId: number, page = 1, limit = 10, search = '') {
+    const { items, meta } = await paginate<Workspace>(
+      this.wsRepo,
+      { page, limit },
+      {
+        where: {
+          name: Like(`%${search}%`),
+          users: {
+            id: userId,
+          },
+        },
+        relations: {
+          users: true,
+        },
+      },
+    );
+
+    return {
+      items: items.map((ws) => ws.getData()),
+      total: meta.totalItems,
+    };
   }
 }
