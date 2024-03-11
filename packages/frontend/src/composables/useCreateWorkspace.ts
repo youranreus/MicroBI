@@ -4,6 +4,7 @@ import { useRequest } from 'alova'
 export const useCreateWorkspace = (needRedirect = true) => {
   const msg = useMessage()
   const workspaceName = ref('')
+  const router = useRouter()
   const { loading, send, onSuccess, onError } = useRequest(createWorkspace, { immediate: false })
 
   const setWorkspaceName = (val: string) => (workspaceName.value = val)
@@ -19,10 +20,10 @@ export const useCreateWorkspace = (needRedirect = true) => {
     send(workspaceName.value)
   }
 
-  onSuccess(() => {
+  onSuccess((res) => {
     msg.success('创建成功')
-    if (needRedirect) {
-      console.log('redirect')
+    if (needRedirect && res.data?.data?.id) {
+      router.push({ name: 'workspace-admin-layout', params: { id: res.data?.data?.id } })
     }
   })
 

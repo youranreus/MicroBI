@@ -8,4 +8,5 @@ export const getWorkspaceList = (page = 1, size = 10, type = 'all', search?: str
 export const getWorkspaceUsers = (id: number) =>
   api.Get<WorkspaceUserListRes>(`/workspace/${id}/user`)
 
-export const createWorkspace = (name: string) => api.Post<Restful>('/workspace', { name })
+export const createWorkspace = (name: string) =>
+  api.Post<Restful<{ id: number }>>('/workspace', { name })
