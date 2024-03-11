@@ -4,14 +4,18 @@
       class="w-[500px]"
       :title="data.name"
       :bordered="false"
-      size="huge"
+      size="small"
       role="dialog"
       aria-modal="true"
+      content-style="padding: 16px 20px;"
+      header-style="padding: 16px 20px 0;"
     >
       <template v-if="data.logo" #cover>
         <img :src="data.logo" />
       </template>
-      <template #header-extra> #{{ data.id }} </template>
+      <template #header-extra>
+        <n-tag type="info" :bordered="false" size="small">#{{ data.id }}</n-tag>
+      </template>
       <n-spin :show="loading">
         <n-descriptions label-placement="top" :column="2">
           <n-descriptions-item label="创建于">
@@ -39,13 +43,20 @@
         </n-descriptions>
       </n-spin>
 
-      <template v-if="showAction" #action> 如果需要加入，请联系上述用户添加噢 </template>
+      <template v-if="showAction" #action>
+        <n-flex justify="end">
+          <n-button :disabled="hasJoined" type="info" secondary @click="enter">{{
+            hasJoined ? '已加入' : '加入'
+          }}</n-button>
+        </n-flex>
+      </template>
     </n-card>
   </n-modal>
 </template>
 <script setup lang="ts">
 import type { WorkspaceMeta } from '@/types/workspace'
 import { getWorkspaceUsers } from '@/api/workspace'
+import { useUserStore } from '@/stores/user'
 import { useWatcher } from 'alova'
 import dayjs from 'dayjs'
 
@@ -64,7 +75,7 @@ const props = withDefaults(
 )
 
 const msg = useMessage()
-
+const { userData } = useUserStore()
 const visible = defineModel({ type: Boolean })
 
 const {
@@ -87,4 +98,10 @@ onError(() => {
 const userList = computed(() =>
   userListRes.value ? userListRes.value.data.map((u) => ({ name: u.name, src: u.avatar })) : []
 )
+
+const hasJoined = computed(() => userListRes.value?.data.some((u) => u.id === userData.value.id))
+
+const enter = () => {
+  msg.info('如果需要加入，请联系上述用户添加噢')
+}
 </script>
