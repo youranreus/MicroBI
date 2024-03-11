@@ -27,6 +27,7 @@ defineOptions({
 
 const { hasLoggedIn, userData } = useUserStore()
 const { currentNav } = useMenuStore()
+const route = useRoute()
 const router = useRouter()
 
 const redirectHome = () => {
@@ -34,6 +35,8 @@ const redirectHome = () => {
 }
 
 const handleSelectNav = (key: string) => {
-  router.push({ name: key })
+  if (route.matched.some((r) => r.name === 'workspace-base-layout')) {
+    router.push({ name: key })
+  }
 }
 </script>

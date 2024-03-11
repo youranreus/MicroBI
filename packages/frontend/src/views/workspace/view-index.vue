@@ -38,6 +38,7 @@ defineOptions({
   name: 'WorkspaceIndex'
 })
 
+const router = useRouter()
 const detailVisible = ref(false)
 const detailItem = ref<WorkspaceMeta>()
 const { loading, workspaceNameBindings, create } = useCreateWorkspace()
@@ -48,6 +49,6 @@ const handleSelectWorkspace = (item: WorkspaceMeta) => {
 }
 
 const redirectWorkspace = (id: number) => {
-  console.log('🤔 id 是 ', id)
+  router.push({ name: 'workspace-admin-layout', params: { id } })
 }
 </script>
