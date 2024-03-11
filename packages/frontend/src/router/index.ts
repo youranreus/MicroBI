@@ -48,6 +48,14 @@ const router = createRouter({
             title: '选择工作区'
           },
           component: () => import('@/views/workspace/view-index.vue')
+        },
+        {
+          path: ':id',
+          name: 'workspace-base',
+          meta: {
+            title: '工作区'
+          },
+          component: () => import('@/views/workspace/workspace-base.vue')
         }
       ]
     }

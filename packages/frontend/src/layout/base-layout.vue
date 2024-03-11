@@ -1,12 +1,12 @@
 <template>
-  <n-layout>
-    <n-layout-header>
+  <n-layout class="h-screen">
+    <n-layout-header bordered>
       <base-layout-header />
     </n-layout-header>
-    <n-layout-content content-style="padding: 16px;">
+    <n-layout-content position="absolute" style="top: 65px; bottom: 65px">
       <slot />
     </n-layout-content>
-    <n-layout-footer>
+    <n-layout-footer position="absolute" style="bottom: 0" bordered>
       <div class="h-16 text-center leading-[64px] opacity-80 text-base">
         MicroBI@2024 | Made with love by Youranreus
       </div>
