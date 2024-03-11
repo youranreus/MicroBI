@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import { useUserStore } from '@/stores/user'
+import { useMenuStore } from '@/stores/menu'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -51,11 +52,34 @@ const router = createRouter({
         },
         {
           path: ':id',
-          name: 'workspace-base',
-          meta: {
-            title: '工作区'
-          },
-          component: () => import('@/views/workspace/workspace-base.vue')
+          name: 'workspace-layout',
+          component: () => import('@/views/workspace/workspace-layout.vue'),
+          children: [
+            {
+              path: 'admin',
+              name: 'workspace-admin-layout',
+              meta: {
+                title: '管理工作区'
+              },
+              component: () => import('@/views/workspace/admin/view-index.vue')
+            },
+            {
+              path: 'dashboard',
+              name: 'workspace-dashboard-layout',
+              meta: {
+                title: '看板'
+              },
+              component: () => import('@/views/workspace/dashboard/view-index.vue')
+            },
+            {
+              path: 'analyze',
+              name: 'workspace-analyze-layout',
+              meta: {
+                title: '分析'
+              },
+              component: () => import('@/views/workspace/analyze/view-index.vue')
+            }
+          ]
         }
       ]
     }
@@ -67,6 +91,9 @@ router.beforeEach((to) => {
   if (!hasLoggedIn.value && !['user-login', 'user-login-callback'].includes(to.name as string)) {
     return { name: 'user-login' }
   }
+
+  const { handleRouteChange } = useMenuStore()
+  handleRouteChange(to)
 
   return true
 })
