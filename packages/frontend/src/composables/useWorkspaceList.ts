@@ -31,13 +31,15 @@ export const useWorkspaceList = (type: 'user' | 'all' = 'all') => {
     pageSize: pageSize.value,
     'on-upate:page': (val: number) => (page.value = val),
     'on-upate:page-size': (val: number) => (pageSize.value = val),
-    loading: loading.value
+    loading: loading.value,
+    disabled: loading.value
   }))
 
   const searchBindings = computed(() => ({
     value: searchValue.value,
     'on-input': (val: string) => (searchValue.value = val),
-    loading: loading.value
+    loading: loading.value,
+    disabled: loading.value
   }))
 
   onError((e) => {

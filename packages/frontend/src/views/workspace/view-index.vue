@@ -7,8 +7,8 @@
         <div class="h-[100px] flex flex-col gap-y-2">
           <n-h3>创建一个工作区</n-h3>
           <n-input-group>
-            <n-input placeholder="workspace名称" />
-            <n-button type="primary" ghost> 创建 </n-button>
+            <n-input v-bind="workspaceNameBindings" placeholder="workspace名称" />
+            <n-button type="primary" :loading="loading" ghost @click="create"> 创建 </n-button>
           </n-input-group>
         </div>
         <div class="h-[352px]">
@@ -32,6 +32,7 @@
 import type { WorkspaceMeta } from '@/types/workspace'
 import WorkspaceList from './components/workspace-list.vue'
 import WorkspaceDetailDialog from './components/workspace-detail-dialog.vue'
+import { useCreateWorkspace } from '@/composables/useCreateWorkspace'
 
 defineOptions({
   name: 'WorkspaceIndex'
@@ -39,6 +40,7 @@ defineOptions({
 
 const detailVisible = ref(false)
 const detailItem = ref<WorkspaceMeta>()
+const { loading, workspaceNameBindings, create } = useCreateWorkspace()
 
 const handleSelectWorkspace = (item: WorkspaceMeta) => {
   detailItem.value = item
