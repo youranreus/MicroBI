@@ -6,8 +6,12 @@ import router from './router'
 
 import '@/assets/base.scss'
 import 'tailwindcss/tailwind.css'
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
 
 const app = createApp(App)
+
+dayjs.extend(relativeTime)
 
 app.use(pinia)
 app.use(router)
