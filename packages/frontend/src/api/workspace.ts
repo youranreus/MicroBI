@@ -1,5 +1,10 @@
 import api from './api'
-import type { WorkspaceListRes, WorkspaceUserListRes, WorkspaceData } from '@/types/workspace'
+import type {
+  WorkspaceListRes,
+  WorkspaceUserListRes,
+  WorkspaceData,
+  WorkspaceUpdateParams
+} from '@/types/workspace'
 import type { Restful } from '@/types'
 
 export const getWorkspaceList = (page = 1, size = 10, type = 'all', search?: string) =>
@@ -13,3 +18,6 @@ export const createWorkspace = (name: string) =>
 
 export const getWorkspaceDetail = (id: number) =>
   api.Get<Restful<WorkspaceData>>(`/workspace/${id}`)
+
+export const updateWorkspace = (id: number, data: WorkspaceUpdateParams) =>
+  api.Patch<Restful>(`/workspace/${id}`, data)
