@@ -1,6 +1,8 @@
 import { IsNotEmpty } from 'class-validator';
 
-export class UserNameUpdateDto {
+export class UserDataUpdateDto {
   @IsNotEmpty()
   name: string;
+
+  avatar?: string;
 }

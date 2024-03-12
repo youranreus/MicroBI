@@ -10,6 +10,7 @@ import { UserJwtPayload, UserRole } from '@reus-able/types';
 import { Restful } from '@/utils/types';
 import { isNil } from 'lodash';
 import * as jwt from 'jsonwebtoken';
+import { UserDataUpdateDto } from '@/dtos';
 
 @Injectable()
 export class UserService {
@@ -75,10 +76,11 @@ export class UserService {
     };
   }
 
-  async updateName(id: number, name: string) {
+  async updateName(id: number, body: UserDataUpdateDto) {
     const user = await this.repo.findOneByOrFail({ id });
 
-    user.name = name;
+    user.name = body.name;
+    user.avatar = body.avatar;
     await this.repo.save(user);
 
     return true;

@@ -9,7 +9,7 @@ import {
 import { UserService } from './user.service';
 import { AuthRoles, UserParams } from '@reus-able/nestjs';
 import { UserJwtPayload } from '@reus-able/types';
-import { UserNameUpdateDto } from '@/dtos';
+import { UserDataUpdateDto } from '@/dtos';
 
 @Controller({
   path: 'user',
@@ -27,8 +27,8 @@ export class UserController {
   @AuthRoles('user')
   updateName(
     @UserParams() user: UserJwtPayload,
-    @Body() body: UserNameUpdateDto,
+    @Body() body: UserDataUpdateDto,
   ) {
-    return this.userService.updateName(user.id, body.name);
+    return this.userService.updateName(user.id, body);
   }
 }
