@@ -20,8 +20,16 @@ const alovaInstance = createAlova({
   responded: {
     onSuccess: (res) => {
       return res.data
+    },
+    onError: (e) => {
+      if (e.response.data.code === 30001) {
+        throw new Error('无权限')
+      }
+
+      throw new Error(e?.response?.data?.msg || e)
     }
-  }
+  },
+  localCache: null
 })
 
 export default alovaInstance
