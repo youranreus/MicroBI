@@ -28,7 +28,11 @@ const useStore = defineStore(
       token.value = ''
     }
 
-    return { userData, token, hasLoggedIn, userLogin, userLogout }
+    const updateUser = (data: Partial<UserData>) => {
+      Object.assign(userData, data)
+    }
+
+    return { userData, token, hasLoggedIn, userLogin, userLogout, updateUser }
   },
   {
     persist: {

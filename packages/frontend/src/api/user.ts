@@ -5,4 +5,5 @@ import type { Restful } from '@/types'
 export const userLogin = (token: string) =>
   api.Post<UserLoginRes>('/user', {}, { params: { token } })
 
-export const updateUserName = (name: string) => api.Patch<Restful>('/user', { name })
+export const updateUserData = (data: { name: string; avatar: string }) =>
+  api.Patch<Restful>('/user', data)

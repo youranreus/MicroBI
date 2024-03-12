@@ -10,7 +10,7 @@
         {{ displayName }}
       </n-avatar>
     </div>
-    <div class="px-3 py-2">
+    <div class="px-3 py-2 w-[200px]">
       <n-flex vertical>
         <n-descriptions label-placement="top" :column="1">
           <n-descriptions-item label="用户名">
