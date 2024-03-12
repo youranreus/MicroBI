@@ -47,7 +47,11 @@ const useStore = defineStore(
       console.log(e)
     })
 
-    return { data, loading, updateData, handleChangeWorkspace }
+    const refresh = () => {
+      send(data.id)
+    }
+
+    return { data, loading, updateData, handleChangeWorkspace, refresh }
   },
   {
     persist: {
