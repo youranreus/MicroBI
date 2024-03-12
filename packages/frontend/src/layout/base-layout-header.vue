@@ -1,6 +1,11 @@
 <template>
   <div class="flex justify-between items-center h-12 p-8">
-    <div class="text-2xl font-bold cursor-pointer" @click="redirectHome">MicroBI</div>
+    <div class="flex gap-x-2 items-center">
+      <n-spin v-if="loading" size="small" />
+      <span class="text-2xl font-bold cursor-pointer" @click="redirectBack">
+        {{ loading ? '加载中' : workspace.name || 'MicroBI' }}
+      </span>
+    </div>
     <n-flex align="center" :wrap="false">
       <n-menu
         :value="currentNav"
@@ -20,6 +25,7 @@ import UserMeta from '@/components/user-meta.vue'
 import { NAV_ITEMS } from '@/utils/constants'
 import { useUserStore } from '@/stores/user'
 import { useMenuStore } from '@/stores/menu'
+import { useWorkspaceStore } from '@/stores/workspace'
 
 defineOptions({
   name: 'BaseLayoutHeader'
@@ -27,11 +33,16 @@ defineOptions({
 
 const { hasLoggedIn, userData } = useUserStore()
 const { currentNav } = useMenuStore()
+const { data: workspace, loading } = useWorkspaceStore()
 const route = useRoute()
 const router = useRouter()
 
-const redirectHome = () => {
-  router.push('/')
+const redirectBack = () => {
+  if (workspace.value.name) {
+    router.push({ name: 'workspace-index' })
+  } else {
+    router.push('/')
+  }
 }
 
 const handleSelectNav = (key: string) => {
