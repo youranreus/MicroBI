@@ -4,6 +4,7 @@ import { cloneDeep } from 'lodash-es'
 import { updateWorkspace, delWorkspace } from '@/api/workspace'
 import { useUserStore } from '@/stores/user'
 import { useRequest } from 'alova'
+import { v4 as uuidv4 } from 'uuid'
 
 export const useEditWorkspace = () => {
   const { data, refresh } = useWorkspaceStore()
@@ -75,6 +76,18 @@ export const useEditWorkspace = () => {
     confirmUpdate()
   }
 
+  const addUser = (id: number) => {
+    editData.value.users.push({
+      id,
+      name: '加载中',
+      email: uuidv4(),
+      created_at: '',
+      updated_at: '',
+      avatar: ''
+    })
+    confirmUpdate()
+  }
+
   const quit = () => {
     isQuit.value = true
     removeUser(userData.value.id)
@@ -117,6 +130,7 @@ export const useEditWorkspace = () => {
     confirmUpdate,
     removeUser,
     quit,
-    del
+    del,
+    addUser
   }
 }

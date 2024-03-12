@@ -30,6 +30,14 @@
           </n-tag>
         </n-flex>
       </n-form-item>
+      <n-form-item label="添加用户">
+        <n-input-group>
+          <n-input v-model:value="newUser" v-bind="commonBindings" placeholder="新用户id" />
+          <n-button type="primary" v-bind="commonBindings" ghost @click="handleClickAdd">
+            添加
+          </n-button>
+        </n-input-group>
+      </n-form-item>
     </n-tab-pane>
     <n-tab-pane name="other" tab="其他">
       <n-flex vertical>
@@ -56,6 +64,13 @@ const {
   confirmUpdate,
   removeUser,
   quit,
-  del
+  del,
+  addUser
 } = useEditWorkspace()
+
+const newUser = ref('')
+
+const handleClickAdd = () => {
+  addUser(Number(newUser.value))
+}
 </script>
