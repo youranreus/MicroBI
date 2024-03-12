@@ -23,7 +23,7 @@ export const useCreateWorkspace = (needRedirect = true) => {
   onSuccess((res) => {
     msg.success('创建成功')
     if (needRedirect && res.data?.data?.id) {
-      router.push({ name: 'workspace-admin-layout', params: { id: res.data?.data?.id } })
+      router.push({ name: 'workspace-admin-layout', params: { wsId: res.data?.data?.id } })
     }
   })
 

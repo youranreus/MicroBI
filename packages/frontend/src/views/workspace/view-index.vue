@@ -49,6 +49,6 @@ const handleSelectWorkspace = (item: WorkspaceMeta) => {
 }
 
 const redirectWorkspace = (id: number) => {
-  router.push({ name: 'workspace-admin-layout', params: { id } })
+  router.push({ name: 'workspace-admin-layout', params: { wsId: id } })
 }
 </script>

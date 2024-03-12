@@ -52,7 +52,7 @@ const router = createRouter({
           component: () => import('@/views/workspace/view-index.vue')
         },
         {
-          path: ':id',
+          path: ':wsId',
           name: 'workspace-base-layout',
           component: () => import('@/views/workspace/workspace-layout.vue'),
           children: [
