@@ -20,13 +20,13 @@ export interface DataSourceExportData {
   creator?: number;
   workspace?: number;
   dataset_count?: number;
-  connect: {
-    ip: string;
-    port: number;
-    user: string;
-    password: string;
-    database: string;
-  };
+  // connect: {
+  //   ip: string;
+  //   port: number;
+  //   user: string;
+  //   password: string;
+  //   database: string;
+  // };
   created_at: Date;
   updated_at: Date;
 }
@@ -98,13 +98,13 @@ export class DataSource {
       id: this.id,
       name: this.name,
       type: this.type,
-      connect: {
-        ip: this.ip,
-        port: this.port,
-        user: this.user,
-        password: this.password,
-        database: this.database,
-      },
+      // connect: {
+      //   ip: this.ip,
+      //   port: this.port,
+      //   user: this.user,
+      //   password: this.password,
+      //   database: this.database,
+      // },
       dataset_count: this.datasets?.length,
       workspace: this.workspace?.id,
       creator: this.creator?.id,
