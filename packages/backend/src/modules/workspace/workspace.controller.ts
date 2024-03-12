@@ -49,8 +49,8 @@ export class WorkspaceController {
 
   @Get(':id')
   @AuthRoles('user')
-  findOne(@Param('id') id: string) {
-    return this.service.findOne(+id);
+  findOne(@UserParams() user: UserJwtPayload, @Param('id') id: string) {
+    return this.service.findOne(user.id, +id);
   }
 
   @Get(':id/user')

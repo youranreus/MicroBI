@@ -41,7 +41,7 @@ export class WorkspaceService {
     };
   }
 
-  async findOne(id: number) {
+  async findOne(userId: number, id: number) {
     const ws = await this.wsRepo.findOneOrFail({
       where: { id },
       relations: {
@@ -52,6 +52,10 @@ export class WorkspaceService {
         },
       },
     });
+
+    if (!ws.users.some((u) => u.id === userId)) {
+      BusinessException.throwForbidden();
+    }
 
     const result = ws.getData();
 
