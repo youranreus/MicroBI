@@ -50,6 +50,7 @@ declare module 'vue' {
     NTooltip: typeof import('naive-ui')['NTooltip']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    UserList: typeof import('./src/components/user-list.vue')['default']
     UserMeta: typeof import('./src/components/user-meta.vue')['default']
   }
 }

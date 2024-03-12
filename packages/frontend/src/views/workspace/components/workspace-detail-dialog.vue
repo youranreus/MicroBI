@@ -25,19 +25,10 @@
             {{ dayjs(data.updated_at).format('YYYY-MM-DD') }}
           </n-descriptions-item>
           <n-descriptions-item label="用户列表" :span="2">
-            <n-avatar-group v-if="userList.length" :options="userList" :size="40" :max="3">
-              <template #avatar="{ option: { name, src } }">
-                <n-tooltip>
-                  <template #trigger>
-                    <n-avatar :src="src">{{ name.slice(0, 2) }}</n-avatar>
-                  </template>
-                  {{ name }}
-                </n-tooltip>
-              </template>
-              <template #rest="{ options: rest }">
-                <n-avatar>+{{ rest }}</n-avatar>
-              </template>
-            </n-avatar-group>
+            <user-list
+              v-if="userListRes?.data && userListRes?.data?.length"
+              :users="userListRes?.data"
+            ></user-list>
             <n-p v-else>无用户</n-p>
           </n-descriptions-item>
         </n-descriptions>
@@ -55,6 +46,7 @@
 </template>
 <script setup lang="ts">
 import type { WorkspaceMeta } from '@/types/workspace'
+import UserList from '@/components/user-list.vue'
 import { getWorkspaceUsers } from '@/api/workspace'
 import { useUserStore } from '@/stores/user'
 import { useWatcher } from 'alova'
@@ -94,10 +86,6 @@ onError(() => {
   }
   msg.error('获取用户列表失败')
 })
-
-const userList = computed(() =>
-  userListRes.value ? userListRes.value.data.map((u) => ({ name: u.name, src: u.avatar })) : []
-)
 
 const hasJoined = computed(() => userListRes.value?.data.some((u) => u.id === userData.value.id))
 
