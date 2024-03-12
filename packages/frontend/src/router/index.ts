@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import { adminChildren, analyzeChildren, dashboardChildren } from './detail-routes'
 import { useUserStore } from '@/stores/user'
 import { useMenuStore } from '@/stores/menu'
+import { useWorkspaceStore } from '@/stores/workspace'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -100,7 +101,9 @@ router.beforeEach((to) => {
   }
 
   const { handleRouteChange } = useMenuStore()
+  const { handleChangeWorkspace } = useWorkspaceStore()
   handleRouteChange(to)
+  handleChangeWorkspace(to)
 
   return true
 })

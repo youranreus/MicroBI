@@ -13,4 +13,5 @@ export type WorkspaceUserListRes = Restful<UserData[]>
 
 export type WorkspaceData = WorkspaceMeta & {
   users: number[]
+  datasources: number[]
 }
