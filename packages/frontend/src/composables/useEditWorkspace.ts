@@ -19,6 +19,9 @@ export const useEditWorkspace = () => {
     () => data.value,
     () => {
       editData.value = cloneDeep(data.value)
+    },
+    {
+      deep: true
     }
   )
 
