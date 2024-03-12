@@ -46,16 +46,16 @@ export class WorkspaceService {
       where: { id },
       relations: {
         users: true,
-        datasources: true,
+        datasources: {
+          creator: true,
+          datasets: true,
+        },
       },
     });
 
     const result = ws.getData();
 
-    return {
-      ...result,
-      users: result.users.map((u) => u.id),
-    };
+    return result;
   }
 
   async getUser(_userId: number, id: number) {

@@ -8,8 +8,8 @@ import {
   ManyToMany,
   OneToMany,
 } from 'typeorm';
-import { User } from './User';
-import { DataSource } from './DataSource';
+import { User, UserExportData } from './User';
+import { DataSource, DataSourceExportData } from './DataSource';
 import { DataSet } from './DataSet';
 import { Field } from './Field';
 
@@ -17,8 +17,8 @@ export interface WorkspaceExportData {
   id: number;
   name: string;
   logo?: string;
-  users?: User[];
-  datasources?: DataSource[];
+  users?: UserExportData[];
+  datasources?: DataSourceExportData[];
   created_at: Date;
   updated_at: Date;
 }
@@ -70,8 +70,8 @@ export class Workspace {
       id: this.id,
       name: this.name,
       logo: this.logo,
-      users: this.users,
-      datasources: this.datasources,
+      users: this.users?.map((u) => u.getData()),
+      datasources: this.datasources?.map((d) => d.getData()),
       created_at: this.created_at,
       updated_at: this.updated_at,
     };
