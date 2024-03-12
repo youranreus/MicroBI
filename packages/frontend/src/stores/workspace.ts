@@ -23,7 +23,8 @@ const useStore = defineStore(
     const { send, loading, onSuccess, onError } = useRequest(
       (id: number) => getWorkspaceDetail(id),
       {
-        immediate: false
+        immediate: false,
+        force: true
       }
     )
 

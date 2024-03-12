@@ -12,7 +12,7 @@ export type WorkspaceListRes = Restful<Pagination<WorkspaceMeta>>
 export type WorkspaceUserListRes = Restful<UserData[]>
 
 export type WorkspaceData = WorkspaceMeta & {
-  users: number[]
+  users: UserData[]
   datasources: number[]
 }
 

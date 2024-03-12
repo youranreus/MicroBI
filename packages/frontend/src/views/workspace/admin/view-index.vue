@@ -8,12 +8,12 @@
 
           <div>
             <div>创建于: {{ dayjs(data.created_at).fromNow() }}</div>
-            <div>最后修改于: {{ dayjs(data.updated_at).fromNow() }}</div>
+            <div>修改于: {{ dayjs(data.updated_at).fromNow() }}</div>
           </div>
         </div>
       </div>
     </n-spin>
-    <div class="mx-5 my-5">
+    <div class="mx-5 mb-5">
       <router-view></router-view>
     </div>
   </div>

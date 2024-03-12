@@ -47,15 +47,15 @@ export const useEditWorkspace = () => {
 
   const nameBindings = computed(() => ({
     ...commonBindings.value,
-    value: editData.value,
+    value: editData.value.name,
     'on-input': (val: string) => (editData.value.name = val)
   }))
 
   const logoBindings = computed(() => ({
     ...commonBindings.value,
-    value: editData.value,
+    value: editData.value.logo,
     'on-input': (val: string) => (editData.value.logo = val)
   }))
 
-  return { editData, loading, nameBindings, logoBindings, confirmUpdate }
+  return { editData, loading, nameBindings, logoBindings, commonBindings, confirmUpdate }
 }
