@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { adminChildren, analyzeChildren, dashboardChildren } from './detail-routes'
 import { useUserStore } from '@/stores/user'
 import { useMenuStore } from '@/stores/menu'
 
@@ -61,23 +62,29 @@ const router = createRouter({
               meta: {
                 title: '管理工作区'
               },
-              component: () => import('@/views/workspace/admin/view-index.vue')
+              component: () => import('@/views/workspace/admin/view-index.vue'),
+              children: adminChildren,
+              redirect: { name: 'workspace-admin-index' }
             },
             {
               path: 'dashboard',
-              name: 'workspace-dashboard-layout',
+              name: 'dashboard-layout',
               meta: {
                 title: '看板'
               },
-              component: () => import('@/views/workspace/dashboard/view-index.vue')
+              component: () => import('@/views/dashboard/view-index.vue'),
+              children: dashboardChildren,
+              redirect: { name: 'dashboard-view' }
             },
             {
               path: 'analyze',
-              name: 'workspace-analyze-layout',
+              name: 'analyze-layout',
               meta: {
                 title: '分析'
               },
-              component: () => import('@/views/workspace/analyze/view-index.vue')
+              component: () => import('@/views/analyze/view-index.vue'),
+              children: analyzeChildren,
+              redirect: { name: 'analyze-create' }
             }
           ]
         }

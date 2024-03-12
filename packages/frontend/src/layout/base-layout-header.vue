@@ -36,7 +36,11 @@ const redirectHome = () => {
 
 const handleSelectNav = (key: string) => {
   if (route.matched.some((r) => r.name === 'workspace-base-layout')) {
-    router.push({ name: key })
+    router.push({
+      name: key,
+      query: route.query,
+      params: route.params
+    })
   }
 }
 </script>

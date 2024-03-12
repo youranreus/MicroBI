@@ -1,0 +1,1 @@
+<template>analyze-gallery</template>
