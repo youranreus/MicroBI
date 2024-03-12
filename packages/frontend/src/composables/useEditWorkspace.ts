@@ -2,12 +2,16 @@ import type { WorkspaceData } from '@/types/workspace'
 import { useWorkspaceStore } from '@/stores/workspace'
 import { cloneDeep } from 'lodash-es'
 import { updateWorkspace } from '@/api/workspace'
+import { useUserStore } from '@/stores/user'
 import { useRequest } from 'alova'
 
 export const useEditWorkspace = () => {
   const { data, refresh } = useWorkspaceStore()
+  const { userData } = useUserStore()
 
   const msg = useMessage()
+  const router = useRouter()
+  const isQuit = ref(false)
 
   const editData = ref<WorkspaceData>(cloneDeep(data.value))
 
@@ -26,6 +30,11 @@ export const useEditWorkspace = () => {
   )
 
   onSuccess(() => {
+    if (isQuit.value) {
+      msg.success('退出成功')
+      router.push({ name: 'workspace-index' })
+      return
+    }
     msg.success('保存成功')
     refresh()
   })
@@ -39,7 +48,7 @@ export const useEditWorkspace = () => {
     send(data.value.id, {
       name: editData.value.name,
       logo: editData.value.logo,
-      users: editData.value.users
+      users: editData.value.users.map((u) => u.id)
     })
   }
 
@@ -60,5 +69,24 @@ export const useEditWorkspace = () => {
     'on-input': (val: string) => (editData.value.logo = val)
   }))
 
-  return { editData, loading, nameBindings, logoBindings, commonBindings, confirmUpdate }
+  const removeUser = (id: number) => {
+    editData.value.users = editData.value.users.filter((u) => u.id !== id)
+    confirmUpdate()
+  }
+
+  const quit = () => {
+    isQuit.value = true
+    removeUser(userData.value.id)
+  }
+
+  return {
+    editData,
+    loading,
+    nameBindings,
+    logoBindings,
+    commonBindings,
+    confirmUpdate,
+    removeUser,
+    quit
+  }
 }

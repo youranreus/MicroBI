@@ -13,16 +13,41 @@
         </n-button>
       </n-form>
     </n-tab-pane>
-    <n-tab-pane name="user" tab="用户"> 用户 </n-tab-pane>
-    <n-tab-pane name="other" tab="其他"> 其他 </n-tab-pane>
+    <n-tab-pane name="user" tab="用户">
+      <n-form-item label="当前用户">
+        <n-flex>
+          <n-tag
+            v-for="user in editData.users"
+            :key="user.email"
+            :bordered="false"
+            :closable="user.id !== userData.id"
+            @close="removeUser(user.id)"
+          >
+            {{ user.name }}
+            <template v-if="user.avatar" #avatar>
+              <n-avatar :src="user.avatar" />
+            </template>
+          </n-tag>
+        </n-flex>
+      </n-form-item>
+    </n-tab-pane>
+    <n-tab-pane name="other" tab="其他">
+      <n-flex vertical>
+        <n-button block strong secondary type="error" @click="quit"> 退出 </n-button>
+        <n-button block strong secondary type="error"> 删除 </n-button>
+      </n-flex>
+    </n-tab-pane>
   </n-tabs>
 </template>
 <script setup lang="ts">
 import { useEditWorkspace } from '@/composables/useEditWorkspace'
+import { useUserStore } from '@/stores/user'
 
 defineOptions({
   name: 'WorkspaceAdmin'
 })
 
-const { editData, nameBindings, logoBindings, commonBindings, confirmUpdate } = useEditWorkspace()
+const { userData } = useUserStore()
+const { editData, nameBindings, logoBindings, commonBindings, confirmUpdate, removeUser, quit } =
+  useEditWorkspace()
 </script>
