@@ -17,6 +17,7 @@ const useStore = defineStore(
   'workspace',
   () => {
     const data = reactive<WorkspaceData>({ ...INIT_WS_DATA })
+    const msg = useMessage()
 
     const updateData = (val: WorkspaceData) => Object.assign(data, val)
 
@@ -40,11 +41,12 @@ const useStore = defineStore(
     }
 
     onSuccess((res) => {
-      console.log('🤔 res.data 是 ', res.data.data)
       updateData(res.data.data)
     })
 
     onError((e) => {
+      msg.error(e.error.message)
+      updateData({ ...INIT_WS_DATA })
       console.log(e)
     })
 
