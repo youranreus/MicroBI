@@ -1,14 +1,22 @@
 <template>
   <n-popover trigger="hover" style="padding: 0" :show-arrow="false">
     <template #trigger>
-      <n-avatar round :size="avatarSize" class="cursor-pointer">
+      <n-avatar v-if="!data.avatar" round :size="avatarSize" class="cursor-pointer">
         {{ displayName }}
       </n-avatar>
+      <n-avatar
+        v-else
+        round
+        :size="avatarSize"
+        class="cursor-pointer"
+        :src="data.avatar"
+      ></n-avatar>
     </template>
     <div class="h-20 w-full bg-slate-300 flex justify-center items-center">
-      <n-avatar round size="large">
+      <n-avatar v-if="!data.avatar" round size="large">
         {{ displayName }}
       </n-avatar>
+      <n-avatar v-else round size="large" :src="data.avatar"></n-avatar>
     </div>
     <div class="px-3 py-2 w-[200px]">
       <n-flex vertical>
