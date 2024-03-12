@@ -72,5 +72,6 @@ const newUser = ref('')
 
 const handleClickAdd = () => {
   addUser(Number(newUser.value))
+  newUser.value = ''
 }
 </script>
