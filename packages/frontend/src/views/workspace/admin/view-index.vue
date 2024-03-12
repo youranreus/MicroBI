@@ -12,6 +12,9 @@
             <div>修改于: {{ dayjs(data.updated_at).fromNow() }}</div>
           </div>
         </div>
+        <div class="flex flex-1 justify-end items-end">
+          <user-list :users="data.users"></user-list>
+        </div>
       </div>
     </n-spin>
     <div class="mx-5 mb-5">
@@ -21,6 +24,7 @@
 </template>
 <script setup lang="ts">
 import { useWorkspaceStore } from '@/stores/workspace'
+import UserList from '@/components/user-list.vue'
 import dayjs from 'dayjs'
 
 defineOptions({
