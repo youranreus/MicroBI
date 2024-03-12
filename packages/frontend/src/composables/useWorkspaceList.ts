@@ -21,8 +21,7 @@ export const useWorkspaceList = (type: 'user' | 'all' = 'all') => {
       total: (res) => res.data.total,
       data: (res) => res.data.items,
       watchingStates: [searchValue],
-      debounce: 300,
-      force: true
+      debounce: 300
     }
   )
 
