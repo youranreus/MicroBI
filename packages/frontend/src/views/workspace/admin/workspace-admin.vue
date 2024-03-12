@@ -34,7 +34,7 @@
     <n-tab-pane name="other" tab="其他">
       <n-flex vertical>
         <n-button block strong secondary type="error" @click="quit"> 退出 </n-button>
-        <n-button block strong secondary type="error"> 删除 </n-button>
+        <n-button block strong secondary type="error" @click="del"> 删除 </n-button>
       </n-flex>
     </n-tab-pane>
   </n-tabs>
@@ -48,6 +48,14 @@ defineOptions({
 })
 
 const { userData } = useUserStore()
-const { editData, nameBindings, logoBindings, commonBindings, confirmUpdate, removeUser, quit } =
-  useEditWorkspace()
+const {
+  editData,
+  nameBindings,
+  logoBindings,
+  commonBindings,
+  confirmUpdate,
+  removeUser,
+  quit,
+  del
+} = useEditWorkspace()
 </script>

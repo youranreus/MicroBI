@@ -1,7 +1,7 @@
 import type { WorkspaceData } from '@/types/workspace'
 import { useWorkspaceStore } from '@/stores/workspace'
 import { cloneDeep } from 'lodash-es'
-import { updateWorkspace } from '@/api/workspace'
+import { updateWorkspace, delWorkspace } from '@/api/workspace'
 import { useUserStore } from '@/stores/user'
 import { useRequest } from 'alova'
 
@@ -10,6 +10,7 @@ export const useEditWorkspace = () => {
   const { userData } = useUserStore()
 
   const msg = useMessage()
+  const dialog = useDialog()
   const router = useRouter()
   const isQuit = ref(false)
 
@@ -79,6 +80,34 @@ export const useEditWorkspace = () => {
     removeUser(userData.value.id)
   }
 
+  const del = () => {
+    const d = dialog.warning({
+      title: `删除工作区`,
+      content: `你确定要删除工作区「${editData.value.name}」吗`,
+      positiveText: '删除',
+      negativeText: '取消',
+      positiveButtonProps: {
+        secondary: true,
+        ghost: false
+      },
+      negativeButtonProps: {
+        secondary: true,
+        ghost: false
+      },
+      onPositiveClick: () => {
+        d.loading = true
+        return new Promise((rs) => {
+          delWorkspace(editData.value.id)
+            .then(() => {
+              msg.success('删除成功')
+              router.push({ name: 'workspace-index' })
+            })
+            .then(rs)
+        })
+      }
+    })
+  }
+
   return {
     editData,
     loading,
@@ -87,6 +116,7 @@ export const useEditWorkspace = () => {
     commonBindings,
     confirmUpdate,
     removeUser,
-    quit
+    quit,
+    del
   }
 }

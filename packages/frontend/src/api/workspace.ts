@@ -21,3 +21,5 @@ export const getWorkspaceDetail = (id: number) =>
 
 export const updateWorkspace = (id: number, data: WorkspaceUpdateParams) =>
   api.Patch<Restful>(`/workspace/${id}`, data)
+
+export const delWorkspace = (id: number) => api.Delete<Restful>(`/workspace/${id}`)
