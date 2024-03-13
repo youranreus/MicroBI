@@ -1,6 +1,6 @@
 <template>
   <div class="my-4 flex justify-between items-center">
-    <div class="font-bold text-xl">已创建数据源</div>
+    <div class="font-bold text-xl">创建数据源</div>
 
     <n-button v-bind="commonBindings" type="info" secondary @click="redirectBack">返回</n-button>
   </div>
