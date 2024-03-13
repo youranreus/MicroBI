@@ -7,6 +7,7 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    DatasourceType: typeof import('./src/components/datasource-type.vue')['default']
     LoginDialog: typeof import('./src/components/layout/login-dialog.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NAvatarGroup: typeof import('naive-ui')['NAvatarGroup']

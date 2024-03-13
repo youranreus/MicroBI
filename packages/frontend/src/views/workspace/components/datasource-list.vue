@@ -5,7 +5,7 @@
         <template v-if="data.length">
           <n-list-item v-for="item in data" :key="item.id">
             <template #prefix>
-              <n-tag :bordered="false">#{{ item.id }}</n-tag>
+              <datasource-type :type="item.type"></datasource-type>
             </template>
             <template #suffix>
               <slot :data="item">
@@ -38,6 +38,7 @@
   </n-list>
 </template>
 <script setup lang="ts">
+import DatasourceType from '@/components/datasource-type.vue'
 import { useDatasourceList } from '@/composables/useDatasourceList'
 import type { DatasourceMeta } from '@/types/datasource'
 import { CreateOutline } from '@vicons/ionicons5'
