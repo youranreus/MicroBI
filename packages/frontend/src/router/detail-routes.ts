@@ -1,4 +1,4 @@
-import type { RouteRecordRaw } from 'vue-router'
+import { type RouteRecordRaw, RouterView } from 'vue-router'
 import { getBasicRoute } from '@/utils'
 
 export const adminChildren: RouteRecordRaw[] = [
@@ -16,7 +16,26 @@ export const adminChildren: RouteRecordRaw[] = [
     meta: {
       title: '数据源管理'
     },
-    component: () => import('@/views/workspace/admin/datasource/view-index.vue')
+    component: RouterView,
+    redirect: { name: 'datasource-admin-index' },
+    children: [
+      {
+        path: '',
+        name: 'datasource-admin-index',
+        meta: {
+          title: '数据源管理'
+        },
+        component: () => import('@/views/workspace/admin/datasource/view-index.vue')
+      },
+      {
+        path: 'create',
+        name: 'datasource-admin-create',
+        meta: {
+          title: '新增数据源'
+        },
+        component: () => import('@/views/workspace/admin/datasource/create-datasource.vue')
+      }
+    ]
   },
   {
     path: 'dataset',
