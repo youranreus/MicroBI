@@ -11,6 +11,14 @@ export const adminChildren: RouteRecordRaw[] = [
     component: () => import('@/views/workspace/admin/workspace-admin.vue')
   },
   {
+    path: 'datasource',
+    name: 'datasource-admin-layout',
+    meta: {
+      title: '数据源管理'
+    },
+    component: () => import('@/views/workspace/admin/datasource/view-index.vue')
+  },
+  {
     path: 'dataset',
     name: 'dataset-admin-layout',
     meta: {
