@@ -2,6 +2,7 @@ import { type DatasourceConnection, DatasourceType } from '@/types/datasource'
 import { testDatasourceConnection, createDatasource } from '@/api/datasource'
 import { useRequest } from 'alova'
 import { useWorkspaceStore } from '@/stores/workspace'
+import type { FormRules } from 'naive-ui'
 
 export const useCreateDatasource = () => {
   const connection = ref<DatasourceConnection>({
@@ -38,6 +39,11 @@ export const useCreateDatasource = () => {
   })
 
   const loading = computed(() => createLoading.value || testLoading.value)
+
+  const formData = computed(() => ({
+    ...connection.value,
+    name: name.value
+  }))
 
   const commonBindings = computed(() => ({
     disabled: loading.value,
@@ -114,5 +120,61 @@ export const useCreateDatasource = () => {
     msg.error(e.error.message)
   })
 
-  return { canSave, name, loading, connection, bindings, commonBindings, test, create }
+  const rules: FormRules = {
+    password: [
+      {
+        required: true,
+        message: '请输入密码'
+      }
+    ],
+    name: [
+      {
+        required: true,
+        message: '请输入名称'
+      }
+    ],
+    ip: [
+      {
+        required: true,
+        message: '请输入数据库IP'
+      }
+    ],
+    user: [
+      {
+        required: true,
+        message: '请输入数据库用户名'
+      }
+    ],
+    port: [
+      {
+        required: true,
+        message: '请输入数据库端口'
+      }
+    ],
+    type: [
+      {
+        required: true,
+        message: '请选择数据库类型'
+      }
+    ],
+    database: [
+      {
+        required: true,
+        message: '请输入数据库名'
+      }
+    ]
+  }
+
+  return {
+    formRules: rules,
+    formData,
+    canSave,
+    name,
+    loading,
+    connection,
+    bindings,
+    commonBindings,
+    test,
+    create
+  }
 }
