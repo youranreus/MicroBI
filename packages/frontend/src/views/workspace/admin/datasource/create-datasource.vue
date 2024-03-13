@@ -34,8 +34,16 @@
     </n-form-item>
   </n-form>
   <n-flex justify="space-between">
-    <n-button type="primary" secondary>测试连接</n-button>
-    <n-button type="info" secondary>创建</n-button>
+    <n-button v-bind="commonBindings" type="primary" secondary @click="test">测试连接</n-button>
+    <n-button
+      v-bind="commonBindings"
+      :disabled="!canSave || loading"
+      type="info"
+      secondary
+      @click="create"
+    >
+      创建
+    </n-button>
   </n-flex>
 </template>
 <script setup lang="ts">
@@ -47,7 +55,7 @@ defineOptions({
 })
 
 const router = useRouter()
-const { bindings } = useCreateDatasource()
+const { canSave, loading, bindings, commonBindings, test, create } = useCreateDatasource()
 const redirectBack = () => {
   router.push({ name: 'datasource-admin-index' })
 }
