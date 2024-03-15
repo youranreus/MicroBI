@@ -2,7 +2,8 @@ import api from './api'
 import type {
   DatasourceListRes,
   DatasourceConnection,
-  DatasourceCreateParams
+  DatasourceCreateParams,
+  DatasourceMeta
 } from '@/types/datasource'
 import type { Restful } from '@/types'
 
@@ -14,3 +15,8 @@ export const testDatasourceConnection = (data: DatasourceConnection) =>
 
 export const createDatasource = (data: DatasourceCreateParams) =>
   api.Post<Restful>('/datasource', data)
+
+export const updateDatasource = (data: DatasourceCreateParams, id: number) =>
+  api.Patch<Restful>(`/datasource/${id}`, data)
+
+export const getDatasource = (id: number) => api.Get<Restful<DatasourceMeta>>(`/datasource/${id}`)

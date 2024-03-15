@@ -1,6 +1,6 @@
 <template>
   <div class="my-4 flex justify-between items-center">
-    <div class="font-bold text-xl">创建数据源</div>
+    <div class="font-bold text-xl">{{ isEdit ? '编辑' : '创建' }}数据源</div>
 
     <n-button v-bind="commonBindings" type="info" secondary @click="redirectBack">返回</n-button>
   </div>
@@ -40,25 +40,36 @@
       :disabled="!canSave || loading"
       type="info"
       secondary
-      @click="create"
+      @click="send"
     >
-      创建
+      {{ isEdit ? '保存' : '创建' }}
     </n-button>
   </n-flex>
 </template>
 <script setup lang="ts">
 import { DatasourceType } from '@/types/datasource'
-import { useCreateDatasource } from '@/composables/useCreateDatasource'
+import { useDatasource } from '@/composables/useDatasource'
 import type { FormInst } from 'naive-ui'
 
 defineOptions({
-  name: 'CreateDatasource'
+  name: 'EditDatasource'
 })
 
+const route = useRoute()
 const router = useRouter()
 const formRef = ref<FormInst>()
-const { formBindings, canSave, loading, bindings, commonBindings, test, create } =
-  useCreateDatasource(formRef)
+
+const isEdit = computed(() => route.name === 'datasource-admin-edit')
+
+const { formBindings, canSave, loading, bindings, commonBindings, test, send } = useDatasource(
+  formRef,
+  isEdit.value
+    ? {
+        name: route.query?.name as string,
+        id: Number(route.params.sourceId)
+      }
+    : undefined
+)
 
 const redirectBack = () => {
   router.push({ name: 'datasource-admin-index' })

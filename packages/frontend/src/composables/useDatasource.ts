@@ -1,5 +1,5 @@
-import { type DatasourceConnection, DatasourceType } from '@/types/datasource'
-import { testDatasourceConnection, createDatasource } from '@/api/datasource'
+import { type DatasourceConnection, DatasourceType, type DatasourceMeta } from '@/types/datasource'
+import { testDatasourceConnection, createDatasource, updateDatasource } from '@/api/datasource'
 import { useRequest } from 'alova'
 import { useWorkspaceStore } from '@/stores/workspace'
 import type { FormRules, FormInst } from 'naive-ui'
@@ -49,7 +49,10 @@ const rules: FormRules = {
   ]
 }
 
-export const useCreateDatasource = (formRef: Ref<FormInst | undefined>) => {
+export const useDatasource = (
+  formRef: Ref<FormInst | undefined>,
+  data?: Pick<DatasourceMeta, 'id' | 'name'>
+) => {
   const connection = ref<DatasourceConnection>({
     ip: '',
     port: 3306,
@@ -60,7 +63,7 @@ export const useCreateDatasource = (formRef: Ref<FormInst | undefined>) => {
   })
 
   const { data: workspace } = useWorkspaceStore()
-  const name = ref('')
+  const name = ref(data?.name || '')
   const canSave = ref(false)
   const msg = useMessage()
   const router = useRouter()
@@ -70,7 +73,7 @@ export const useCreateDatasource = (formRef: Ref<FormInst | undefined>) => {
     loading: createLoading,
     onSuccess: onCreateSuccess,
     onError: onCreateError
-  } = useRequest(createDatasource, {
+  } = useRequest(data?.id ? updateDatasource : createDatasource, {
     immediate: false
   })
 
@@ -141,7 +144,7 @@ export const useCreateDatasource = (formRef: Ref<FormInst | undefined>) => {
       .catch(() => {})
   }
 
-  const create = () => {
+  const send = () => {
     formRef.value
       ?.validate()
       .then(() => {
@@ -149,11 +152,14 @@ export const useCreateDatasource = (formRef: Ref<FormInst | undefined>) => {
           return
         }
 
-        sendCreate({
-          ...connection.value,
-          name: name.value,
-          workspace: workspace.value.id
-        })
+        sendCreate(
+          {
+            ...connection.value,
+            name: name.value,
+            workspace: workspace.value.id
+          },
+          data?.id
+        )
       })
       .catch(() => {})
   }
@@ -169,7 +175,7 @@ export const useCreateDatasource = (formRef: Ref<FormInst | undefined>) => {
   })
 
   onCreateSuccess(() => {
-    msg.success('创建成功')
+    msg.success('操作成功')
     router.push({ name: 'datasource-admin-index' })
   })
 
@@ -192,6 +198,6 @@ export const useCreateDatasource = (formRef: Ref<FormInst | undefined>) => {
     commonBindings,
     formBindings,
     test,
-    create
+    send
   }
 }

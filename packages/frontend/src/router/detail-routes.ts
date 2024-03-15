@@ -33,7 +33,15 @@ export const adminChildren: RouteRecordRaw[] = [
         meta: {
           title: '新增数据源'
         },
-        component: () => import('@/views/workspace/admin/datasource/create-datasource.vue')
+        component: () => import('@/views/workspace/admin/datasource/edit-datasource.vue')
+      },
+      {
+        path: 'edit/:sourceId',
+        name: 'datasource-admin-edit',
+        meta: {
+          title: '编辑数据源'
+        },
+        component: () => import('@/views/workspace/admin/datasource/edit-datasource.vue')
       }
     ]
   },
