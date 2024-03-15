@@ -5,7 +5,7 @@
     <n-button v-bind="commonBindings" type="info" secondary @click="redirectBack">返回</n-button>
   </div>
 
-  <n-form ref="formRef" :model="formData" :rules="formRules">
+  <n-form ref="formRef" v-bind="formBindings">
     <n-form-item path="name" label="名称">
       <n-input v-bind="bindings.name" placeholder="新的数据源"></n-input>
     </n-form-item>
@@ -34,15 +34,13 @@
     </n-form-item>
   </n-form>
   <n-flex justify="space-between">
-    <n-button v-bind="commonBindings" type="primary" secondary @click="handleTest">
-      测试连接
-    </n-button>
+    <n-button v-bind="commonBindings" type="primary" secondary @click="test"> 测试连接 </n-button>
     <n-button
       v-bind="commonBindings"
       :disabled="!canSave || loading"
       type="info"
       secondary
-      @click="handleCreate"
+      @click="create"
     >
       创建
     </n-button>
@@ -58,29 +56,11 @@ defineOptions({
 })
 
 const router = useRouter()
-const { formData, formRules, canSave, loading, bindings, commonBindings, test, create } =
-  useCreateDatasource()
 const formRef = ref<FormInst>()
+const { formBindings, canSave, loading, bindings, commonBindings, test, create } =
+  useCreateDatasource(formRef)
 
 const redirectBack = () => {
   router.push({ name: 'datasource-admin-index' })
-}
-
-const handleTest = () => {
-  formRef.value
-    ?.validate()
-    .then(() => {
-      test()
-    })
-    .catch(() => {})
-}
-
-const handleCreate = () => {
-  formRef.value
-    ?.validate()
-    .then(() => {
-      create()
-    })
-    .catch(() => {})
 }
 </script>

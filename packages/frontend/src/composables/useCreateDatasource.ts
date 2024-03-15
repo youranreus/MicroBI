@@ -2,9 +2,54 @@ import { type DatasourceConnection, DatasourceType } from '@/types/datasource'
 import { testDatasourceConnection, createDatasource } from '@/api/datasource'
 import { useRequest } from 'alova'
 import { useWorkspaceStore } from '@/stores/workspace'
-import type { FormRules } from 'naive-ui'
+import type { FormRules, FormInst } from 'naive-ui'
 
-export const useCreateDatasource = () => {
+const rules: FormRules = {
+  password: [
+    {
+      required: true,
+      message: '请输入密码'
+    }
+  ],
+  name: [
+    {
+      required: true,
+      message: '请输入名称'
+    }
+  ],
+  ip: [
+    {
+      required: true,
+      message: '请输入数据库IP'
+    }
+  ],
+  user: [
+    {
+      required: true,
+      message: '请输入数据库用户名'
+    }
+  ],
+  port: [
+    {
+      required: true,
+      message: '请输入数据库端口'
+    }
+  ],
+  type: [
+    {
+      required: true,
+      message: '请选择数据库类型'
+    }
+  ],
+  database: [
+    {
+      required: true,
+      message: '请输入数据库名'
+    }
+  ]
+}
+
+export const useCreateDatasource = (formRef: Ref<FormInst | undefined>) => {
   const connection = ref<DatasourceConnection>({
     ip: '',
     port: 3306,
@@ -50,6 +95,12 @@ export const useCreateDatasource = () => {
     loading: loading.value
   }))
 
+  const formBindings = computed(() => ({
+    ...commonBindings.value,
+    rules,
+    model: formData.value
+  }))
+
   const bindings = computed(() => {
     const keys = Object.keys(connection.value)
 
@@ -82,19 +133,29 @@ export const useCreateDatasource = () => {
   })
 
   const test = () => {
-    sendTest(connection.value)
+    formRef.value
+      ?.validate()
+      .then(() => {
+        sendTest(connection.value)
+      })
+      .catch(() => {})
   }
 
   const create = () => {
-    if (!canSave.value) {
-      return
-    }
+    formRef.value
+      ?.validate()
+      .then(() => {
+        if (!canSave.value) {
+          return
+        }
 
-    sendCreate({
-      ...connection.value,
-      name: name.value,
-      workspace: workspace.value.id
-    })
+        sendCreate({
+          ...connection.value,
+          name: name.value,
+          workspace: workspace.value.id
+        })
+      })
+      .catch(() => {})
   }
 
   onTestSuccess((res) => {
@@ -120,51 +181,6 @@ export const useCreateDatasource = () => {
     msg.error(e.error.message)
   })
 
-  const rules: FormRules = {
-    password: [
-      {
-        required: true,
-        message: '请输入密码'
-      }
-    ],
-    name: [
-      {
-        required: true,
-        message: '请输入名称'
-      }
-    ],
-    ip: [
-      {
-        required: true,
-        message: '请输入数据库IP'
-      }
-    ],
-    user: [
-      {
-        required: true,
-        message: '请输入数据库用户名'
-      }
-    ],
-    port: [
-      {
-        required: true,
-        message: '请输入数据库端口'
-      }
-    ],
-    type: [
-      {
-        required: true,
-        message: '请选择数据库类型'
-      }
-    ],
-    database: [
-      {
-        required: true,
-        message: '请输入数据库名'
-      }
-    ]
-  }
-
   return {
     formRules: rules,
     formData,
@@ -174,6 +190,7 @@ export const useCreateDatasource = () => {
     connection,
     bindings,
     commonBindings,
+    formBindings,
     test,
     create
   }
