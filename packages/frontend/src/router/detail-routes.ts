@@ -51,7 +51,18 @@ export const adminChildren: RouteRecordRaw[] = [
     meta: {
       title: '数据集管理'
     },
-    component: () => import('@/views/workspace/admin/dataset/view-index.vue')
+    component: RouterView,
+    redirect: { name: 'dataset-admin-index' },
+    children: [
+      {
+        path: '',
+        name: 'dataset-admin-index',
+        meta: {
+          title: '数据集管理'
+        },
+        component: () => import('@/views/workspace/admin/dataset/view-index.vue')
+      }
+    ]
   }
 ]
 

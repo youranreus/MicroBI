@@ -2,7 +2,7 @@ import { getDatasourceList } from '@/api/datasource'
 import { useWorkspaceStore } from '@/stores/workspace'
 import { usePagination } from '@alova/scene-vue'
 
-export const useDatasourceList = () => {
+export const useDatasourceList = (size = 10) => {
   const msg = useMessage()
   const searchValue = ref('')
   const { data: ws } = useWorkspaceStore()
@@ -11,7 +11,7 @@ export const useDatasourceList = () => {
     (page: number, size: number) => getDatasourceList(page, size, ws.value.id, searchValue.value),
     {
       initialPage: 1,
-      initialPageSize: 10,
+      initialPageSize: size,
       initialData: {
         code: 0,
         msg: '',
