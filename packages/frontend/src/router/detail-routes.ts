@@ -61,6 +61,22 @@ export const adminChildren: RouteRecordRaw[] = [
           title: '数据集管理'
         },
         component: () => import('@/views/workspace/admin/dataset/view-index.vue')
+      },
+      {
+        path: 'create',
+        name: 'dataset-admin-create',
+        meta: {
+          title: '新增数据集'
+        },
+        component: () => import('@/views/workspace/admin/dataset/edit-dataset.vue')
+      },
+      {
+        path: 'edit/:setId',
+        name: 'dataset-admin-edit',
+        meta: {
+          title: '编辑数据集'
+        },
+        component: () => import('@/views/workspace/admin/dataset/edit-dataset.vue')
       }
     ]
   }

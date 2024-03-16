@@ -36,7 +36,7 @@ const editDataset = (data: DatasetMeta) => {
   router.push({
     name: 'dataset-admin-edit',
     params: {
-      sourceId: data.id
+      setId: data.id
     },
     query: {
       name: data.name
