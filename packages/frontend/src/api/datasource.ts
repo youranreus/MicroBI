@@ -20,3 +20,5 @@ export const updateDatasource = (data: DatasourceCreateParams, id: number) =>
   api.Patch<Restful>(`/datasource/${id}`, data)
 
 export const getDatasource = (id: number) => api.Get<Restful<DatasourceMeta>>(`/datasource/${id}`)
+
+export const delDatasource = (id: number) => api.Delete<Restful>(`/datasource/${id}`)

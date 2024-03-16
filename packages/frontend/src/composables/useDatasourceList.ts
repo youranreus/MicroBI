@@ -7,7 +7,7 @@ export const useDatasourceList = () => {
   const searchValue = ref('')
   const { data: ws } = useWorkspaceStore()
 
-  const { data, loading, page, pageSize, total, onError } = usePagination(
+  const { refresh, data, loading, page, pageSize, total, onError } = usePagination(
     (page: number, size: number) => getDatasourceList(page, size, ws.value.id, searchValue.value),
     {
       initialPage: 1,
@@ -48,5 +48,5 @@ export const useDatasourceList = () => {
     msg.error(e.error.message)
   })
 
-  return { loading, data, searchBindings, pageBindings }
+  return { refresh, loading, data, searchBindings, pageBindings }
 }

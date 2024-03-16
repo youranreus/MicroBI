@@ -8,7 +8,7 @@
               <datasource-type :type="item.type"></datasource-type>
             </template>
             <template #suffix>
-              <slot :data="item">
+              <slot :data="item" :func="{ refresh }">
                 <n-button size="small" tertiary type="info" @click="emit('select', item)">
                   <template #icon>
                     <n-icon :component="CreateOutline"></n-icon>
@@ -67,5 +67,5 @@ const contentStyle = computed(() =>
     : {}
 )
 
-const { data, loading, pageBindings, searchBindings } = useDatasourceList()
+const { data, loading, pageBindings, searchBindings, refresh } = useDatasourceList()
 </script>
