@@ -30,7 +30,7 @@ export class DataSourceService {
     const ds = this.dsRepo.create({
       name: body.name,
       type: body.type,
-      ip: body.type,
+      ip: body.ip,
       port: body.port,
       user: body.user,
       password: body.password,
