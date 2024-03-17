@@ -191,7 +191,10 @@ export const useDataset = (formRef: Ref<FormInst | undefined>, id?: number) => {
         canSave.value && msg.success('获取成功')
         !canSave.value && msg.error('未获取到数据列信息')
       })
-      .catch(() => {})
+      .catch((e) => {
+        console.log('🤔 e 是 ', e)
+        msg.error(`数据列信息时出现错误: ${e.message}`)
+      })
       .finally(() => {
         columnLoading.value = false
       })
