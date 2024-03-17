@@ -5,14 +5,14 @@
     <n-button type="info" secondary @click="createDataset">创建</n-button>
   </div>
   <dataset-list>
-    <template #default="{ data }">
+    <template #default="{ data, func }">
       <n-button-group size="small">
         <n-button secondary @click="editDataset(data)">
           <template #icon>
             <n-icon :component="Options"></n-icon>
           </template>
         </n-button>
-        <n-button secondary type="error">
+        <n-button secondary type="error" @click="del(data, func.refresh)">
           <template #icon>
             <n-icon :component="TrashOutline"></n-icon>
           </template>
@@ -22,6 +22,7 @@
   </dataset-list>
 </template>
 <script setup lang="ts">
+import { useDeleteDataset } from '@/composables/useDeleteDataset'
 import type { DatasetMeta } from '@/types/dataset'
 import DatasetList from '@/views/workspace/components/dataset-list.vue'
 import { Options, TrashOutline } from '@vicons/ionicons5'
@@ -31,6 +32,8 @@ const router = useRouter()
 const createDataset = () => {
   router.push({ name: 'dataset-admin-create' })
 }
+
+const { del } = useDeleteDataset()
 
 const editDataset = (data: DatasetMeta) => {
   router.push({
