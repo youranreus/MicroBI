@@ -39,9 +39,6 @@ const editDatasource = (data: DatasourceMeta) => {
     name: 'datasource-admin-edit',
     params: {
       sourceId: data.id
-    },
-    query: {
-      name: data.name
     }
   })
 }

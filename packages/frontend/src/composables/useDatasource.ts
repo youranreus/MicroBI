@@ -1,4 +1,4 @@
-import { type DatasourceConnection, DatasourceType, type DatasourceMeta } from '@/types/datasource'
+import { type DatasourceConnection, DatasourceType } from '@/types/datasource'
 import {
   testDatasourceConnection,
   createDatasource,
