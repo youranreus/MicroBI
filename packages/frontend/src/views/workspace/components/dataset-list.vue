@@ -5,33 +5,7 @@
         <template v-if="data.length">
           <n-list-item v-for="item in data" :key="item.id">
             <template #prefix>
-              <n-popover trigger="hover" placement="bottom-start">
-                <template #trigger>
-                  <n-button tertiary size="small">
-                    <template #icon>
-                      <n-icon :component="EllipsisVerticalSharp"></n-icon>
-                    </template>
-                  </n-button>
-                </template>
-
-                <div class="w-[300px]">
-                  <n-descriptions label-placement="top" title="详情">
-                    <n-descriptions-item label="ID"> {{ item.id }} </n-descriptions-item>
-                    <n-descriptions-item label="数据源ID">
-                      {{ item.datasource }}
-                    </n-descriptions-item>
-                    <n-descriptions-item label="表名">
-                      {{ item.tablename }}
-                    </n-descriptions-item>
-                    <n-descriptions-item label="创建于">
-                      {{ dayjs(item.created_at).fromNow() }}
-                    </n-descriptions-item>
-                    <n-descriptions-item label="编辑于">
-                      {{ dayjs(item.updated_at).fromNow() }}
-                    </n-descriptions-item>
-                  </n-descriptions>
-                </div>
-              </n-popover>
+              <n-tag :bordered="false" type="info" size="small">#{{ item.id }}</n-tag>
             </template>
             <template #suffix>
               <slot :data="item" :func="{ refresh }">
@@ -42,7 +16,29 @@
                 </n-button>
               </slot>
             </template>
-            {{ item.name }}
+            <n-popover trigger="hover" placement="right">
+              <template #trigger>
+                <span class="cursor-pointer">{{ item.name }}</span>
+              </template>
+
+              <div class="w-[300px]">
+                <n-descriptions label-placement="top" title="详情">
+                  <n-descriptions-item label="ID"> {{ item.id }} </n-descriptions-item>
+                  <n-descriptions-item label="数据源ID">
+                    {{ item.datasource }}
+                  </n-descriptions-item>
+                  <n-descriptions-item label="表名">
+                    {{ item.tablename }}
+                  </n-descriptions-item>
+                  <n-descriptions-item label="创建于">
+                    {{ dayjs(item.created_at).fromNow() }}
+                  </n-descriptions-item>
+                  <n-descriptions-item label="编辑于">
+                    {{ dayjs(item.updated_at).fromNow() }}
+                  </n-descriptions-item>
+                </n-descriptions>
+              </div>
+            </n-popover>
           </n-list-item>
         </template>
         <template v-else>
