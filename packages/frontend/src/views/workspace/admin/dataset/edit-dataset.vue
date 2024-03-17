@@ -20,9 +20,20 @@
     <n-form-item path="tablename" label="数据库表名">
       <n-input v-bind="bindings.tablename" :disabled="isEdit" placeholder="tablename"></n-input>
     </n-form-item>
+    <n-form-item path="fields" label="数据列信息">
+      <n-data-table v-bind="tableBindings" bordered></n-data-table>
+    </n-form-item>
   </n-form>
   <n-flex justify="space-between">
-    <n-button v-bind="commonBindings" type="primary" secondary @click="test"> 测试连接 </n-button>
+    <n-button
+      v-bind="commonBindings"
+      :disabled="loading || isEdit"
+      type="primary"
+      secondary
+      @click="getColumn"
+    >
+      获取数据列
+    </n-button>
     <n-button
       v-bind="commonBindings"
       type="info"
@@ -35,7 +46,7 @@
   </n-flex>
 </template>
 <script setup lang="ts">
-import { c, type FormInst } from 'naive-ui'
+import { type FormInst } from 'naive-ui'
 import { useDatasourceList } from '@/composables/useDatasourceList'
 import { useDataset } from '@/composables/useDataset'
 
@@ -50,10 +61,8 @@ const formRef = ref<FormInst>()
 const isEdit = computed(() => route.name === 'dataset-admin-edit')
 
 const { data: datasources } = useDatasourceList(100)
-const { formBindings, canSave, loading, bindings, commonBindings, test, send } = useDataset(
-  formRef,
-  Number(route.params.setId)
-)
+const { formBindings, canSave, loading, bindings, commonBindings, tableBindings, getColumn, send } =
+  useDataset(formRef, Number(route.params.setId))
 
 const dsOptions = computed(() =>
   datasources.value.map((ds) => ({

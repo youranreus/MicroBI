@@ -1,6 +1,7 @@
 import type { MenuOption } from 'naive-ui'
 import type { RouteRecordRaw } from 'vue-router'
 import { adminMenuItems, analyzeMenuItems, dashboardMenuItems } from '@/router/detail-routes'
+import { FieldType } from '@/types/field'
 
 export const NAV_ITEMS = [
   {
@@ -32,3 +33,18 @@ export const MENU_ITEMS_MAP: Record<string, MenuOption[]> = {
   'analyze-layout': analyzeMenuItems.map(mapRoute2Menu),
   'workspace-admin-layout': adminMenuItems.map(mapRoute2Menu)
 }
+
+export const FieldTypeOptions = [
+  {
+    label: '字符串',
+    value: FieldType.STRING
+  },
+  {
+    label: '数值',
+    value: FieldType.NUMBER
+  },
+  {
+    label: '日期',
+    value: FieldType.DATE
+  }
+]

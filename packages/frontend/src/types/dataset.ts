@@ -16,10 +16,12 @@ export interface DatasetCreateParams {
   name: string
   datasource: number
   tablename: string
-  fields: Pick<Field, 'name' | 'type' | 'fieldname'>[]
+  fields: Partial<Field>[]
 }
 
 export interface DatasetDetailRes {
   meta: DatasetMeta
   fields: Field[]
 }
+
+export type TableColumnRes = Restful<Pick<Field, 'name' | 'type'>[]>

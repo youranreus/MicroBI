@@ -1,5 +1,10 @@
 import api from './api'
-import type { DatasetListRes, DatasetCreateParams, DatasetDetailRes } from '@/types/dataset'
+import type {
+  DatasetListRes,
+  DatasetCreateParams,
+  DatasetDetailRes,
+  TableColumnRes
+} from '@/types/dataset'
 import type { Restful } from '@/types'
 
 export const getDatasetList = (
@@ -17,3 +22,6 @@ export const updateDataset = (data: DatasetCreateParams, id: number) =>
 export const getDataset = (id: number) => api.Get<Restful<DatasetDetailRes>>(`/dataset/${id}`)
 
 export const delDataset = (id: number) => api.Delete<Restful>(`/dataset/${id}`)
+
+export const getTableColumn = (datasource: number, table: string) =>
+  api.Put<TableColumnRes>(`/dataset/${datasource}`, {}, { params: { table } })

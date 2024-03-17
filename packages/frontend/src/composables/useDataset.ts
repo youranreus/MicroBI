@@ -1,7 +1,10 @@
 import type { DatasetCreateParams } from '@/types/dataset'
-import { createDataset, updateDataset, getDataset } from '@/api/dataset'
+import { createDataset, updateDataset, getDataset, getTableColumn } from '@/api/dataset'
 import { useRequest } from 'alova'
-import type { FormRules, FormInst } from 'naive-ui'
+import { FieldTypeOptions } from '@/utils/constants'
+import type { FormRules, FormInst, DataTableColumns } from 'naive-ui'
+import { NInput, NSelect } from 'naive-ui'
+import type { Field } from '@/types/field'
 
 const rules: FormRules = {
   datasource: [
@@ -21,6 +24,14 @@ const rules: FormRules = {
       required: true,
       message: '请输入数据表名'
     }
+  ],
+  fields: [
+    {
+      validator(_r, value: Field[]) {
+        return value.every((v) => !!v.name)
+      },
+      trigger: ['blur']
+    }
   ]
 }
 
@@ -32,11 +43,11 @@ export const useDataset = (formRef: Ref<FormInst | undefined>, id?: number) => {
     fields: []
   })
 
-  const canSave = ref(false)
+  const canSave = ref(!!id)
   const msg = useMessage()
   const router = useRouter()
   const restoreLoading = ref(false)
-  const testLoading = ref(false)
+  const columnLoading = ref(false)
 
   const {
     send: sendCreate,
@@ -47,7 +58,7 @@ export const useDataset = (formRef: Ref<FormInst | undefined>, id?: number) => {
     immediate: false
   })
 
-  const loading = computed(() => createLoading.value || testLoading.value || restoreLoading.value)
+  const loading = computed(() => createLoading.value || columnLoading.value || restoreLoading.value)
 
   const commonBindings = computed(() => ({
     disabled: loading.value,
@@ -59,6 +70,51 @@ export const useDataset = (formRef: Ref<FormInst | undefined>, id?: number) => {
     rules,
     model: editData.value
   }))
+
+  const tableBindings = computed(() => {
+    const columns: DataTableColumns<Field> = [
+      {
+        title: '字段名',
+        key: 'fieldname'
+      },
+      {
+        title: '展示名',
+        key: 'name',
+        render(rowData, rowIndex) {
+          return h(NInput, {
+            value: rowData.name,
+            onUpdateValue(v) {
+              if (editData.value.fields) {
+                editData.value.fields[rowIndex].name = v
+              }
+            }
+          })
+        }
+      },
+      {
+        title: '类型',
+        key: 'type',
+        render(rowData, rowIndex) {
+          return h(NSelect, {
+            value: rowData.type,
+            onUpdateValue(v) {
+              if (editData.value.fields) {
+                editData.value.fields[rowIndex].type = v
+              }
+            },
+            options: FieldTypeOptions,
+            disabled: !!id
+          })
+        }
+      }
+    ]
+
+    return {
+      columns,
+      data: editData.value.fields,
+      ...commonBindings.value
+    }
+  })
 
   const bindings = computed(() => {
     const keys = Object.keys(editData.value)
@@ -74,7 +130,7 @@ export const useDataset = (formRef: Ref<FormInst | undefined>, id?: number) => {
               Object.assign(editData.value, {
                 [c]: val
               })
-              canSave.value = false
+              canSave.value = !!id
             }
           }
         }
@@ -85,13 +141,27 @@ export const useDataset = (formRef: Ref<FormInst | undefined>, id?: number) => {
     return allBindings
   })
 
-  const test = () => {
+  const getColumn = () => {
+    columnLoading.value = true
     formRef.value
       ?.validate()
-      .then(() => {
-        console.log(editData.value)
+      .then(() =>
+        getTableColumn(editData.value.datasource as number, editData.value.tablename as string)
+      )
+      .then((res) => {
+        editData.value.fields = res.data.map((field) => ({
+          ...field,
+          fieldname: field.name
+        }))
+        canSave.value = !!res.data.length
+
+        canSave.value && msg.success('获取成功')
+        !canSave.value && msg.error('未获取到数据列信息')
       })
       .catch(() => {})
+      .finally(() => {
+        columnLoading.value = false
+      })
   }
 
   const send = () => {
@@ -109,7 +179,7 @@ export const useDataset = (formRef: Ref<FormInst | undefined>, id?: number) => {
 
   onCreateSuccess(() => {
     msg.success('操作成功')
-    router.push({ name: 'datasource-admin-index' })
+    router.push({ name: 'dataset-admin-index' })
   })
 
   onCreateError((e) => {
@@ -121,10 +191,10 @@ export const useDataset = (formRef: Ref<FormInst | undefined>, id?: number) => {
       restoreLoading.value = true
       getDataset(id)
         .then((res) => {
-          console.log(res)
           editData.value.name = res.data.meta.name
           editData.value.tablename = res.data.meta.tablename
           editData.value.datasource = res.data.meta.datasource as number
+          editData.value.fields = res.data.fields
         })
         .catch((e) => {
           console.log(e)
@@ -144,7 +214,8 @@ export const useDataset = (formRef: Ref<FormInst | undefined>, id?: number) => {
     bindings,
     commonBindings,
     formBindings,
-    test,
+    tableBindings,
+    getColumn,
     send
   }
 }
