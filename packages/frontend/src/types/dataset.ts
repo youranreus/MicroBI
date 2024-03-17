@@ -18,3 +18,8 @@ export interface DatasetCreateParams {
   tablename: string
   fields: Pick<Field, 'name' | 'type' | 'fieldname'>[]
 }
+
+export interface DatasetDetailRes {
+  meta: DatasetMeta
+  fields: Field[]
+}

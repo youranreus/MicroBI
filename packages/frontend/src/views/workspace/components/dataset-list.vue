@@ -72,7 +72,7 @@
 import { useDatasetList } from '@/composables/useDatasetList'
 import { useDatasourceList } from '@/composables/useDatasourceList'
 import type { DatasetMeta } from '@/types/dataset'
-import { CreateOutline, EllipsisVerticalSharp } from '@vicons/ionicons5'
+import { CreateOutline } from '@vicons/ionicons5'
 import dayjs from 'dayjs'
 
 defineOptions({
