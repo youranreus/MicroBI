@@ -261,7 +261,7 @@ export class DataSetService {
     const field = await this.fieldRepo.findOneOrFail({
       where: {
         id,
-        workspace: {
+        dataset: {
           id: wsId,
         },
       },
@@ -269,6 +269,7 @@ export class DataSetService {
         workspace: {
           users: true,
         },
+        dataset: true,
       },
     });
 
@@ -291,7 +292,7 @@ export class DataSetService {
     const field = await this.fieldRepo.findOneOrFail({
       where: {
         id,
-        workspace: {
+        dataset: {
           id: wsId,
         },
       },
@@ -299,6 +300,7 @@ export class DataSetService {
         workspace: {
           users: true,
         },
+        dataset: true,
       },
     });
 
