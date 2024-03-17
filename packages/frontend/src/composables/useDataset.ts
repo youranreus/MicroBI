@@ -1,10 +1,17 @@
 import type { DatasetCreateParams } from '@/types/dataset'
-import { createDataset, updateDataset, getDataset, getTableColumn } from '@/api/dataset'
+import {
+  createDataset,
+  updateDataset,
+  getDataset,
+  getTableColumn,
+  updateField
+} from '@/api/dataset'
 import { useRequest } from 'alova'
 import { FieldTypeOptions } from '@/utils/constants'
 import type { FormRules, FormInst, DataTableColumns } from 'naive-ui'
 import { NInput, NSelect } from 'naive-ui'
 import type { Field } from '@/types/field'
+import { debounce } from 'lodash-es'
 
 const rules: FormRules = {
   datasource: [
@@ -71,6 +78,27 @@ export const useDataset = (formRef: Ref<FormInst | undefined>, id?: number) => {
     model: editData.value
   }))
 
+  const handleUpdateName = debounce((row: Field) => {
+    if (id) {
+      columnLoading.value = true
+      updateField(id as number, row.id, {
+        name: row.name,
+        fieldname: row.fieldname,
+        type: row.type
+      })
+        .then(() => {
+          msg.success('保存成功')
+        })
+        .catch((e) => {
+          console.log('🤔 e 是 ', e)
+          msg.error('保存时出现了错误')
+        })
+        .finally(() => {
+          columnLoading.value = false
+        })
+    }
+  }, 300)
+
   const tableBindings = computed(() => {
     const columns: DataTableColumns<Field> = [
       {
@@ -86,6 +114,10 @@ export const useDataset = (formRef: Ref<FormInst | undefined>, id?: number) => {
             onUpdateValue(v) {
               if (editData.value.fields) {
                 editData.value.fields[rowIndex].name = v
+
+                if (id) {
+                  handleUpdateName(rowData)
+                }
               }
             }
           })
@@ -103,7 +135,8 @@ export const useDataset = (formRef: Ref<FormInst | undefined>, id?: number) => {
               }
             },
             options: FieldTypeOptions,
-            disabled: !!id
+            disabled: !!id || loading.value,
+            loading: loading.value
           })
         }
       }

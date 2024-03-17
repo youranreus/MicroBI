@@ -6,6 +6,7 @@ import type {
   TableColumnRes
 } from '@/types/dataset'
 import type { Restful } from '@/types'
+import type { Field } from '@/types/field'
 
 export const getDatasetList = (
   page = 1,
@@ -25,3 +26,9 @@ export const delDataset = (id: number) => api.Delete<Restful>(`/dataset/${id}`)
 
 export const getTableColumn = (datasource: number, table: string) =>
   api.Put<TableColumnRes>(`/dataset/${datasource}`, {}, { params: { table } })
+
+export const updateField = (
+  ds: number,
+  field: number,
+  data: Pick<Field, 'name' | 'type' | 'fieldname'>
+) => api.Patch<Restful>(`/dataset/${ds}/field/${field}`, data)
