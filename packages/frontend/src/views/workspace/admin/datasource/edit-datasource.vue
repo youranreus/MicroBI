@@ -63,12 +63,7 @@ const isEdit = computed(() => route.name === 'datasource-admin-edit')
 
 const { formBindings, canSave, loading, bindings, commonBindings, test, send } = useDatasource(
   formRef,
-  isEdit.value
-    ? {
-        name: route.query?.name as string,
-        id: Number(route.params.sourceId)
-      }
-    : undefined
+  Number(route.params.sourceId)
 )
 
 const redirectBack = () => {

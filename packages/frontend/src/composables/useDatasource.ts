@@ -1,5 +1,10 @@
 import { type DatasourceConnection, DatasourceType, type DatasourceMeta } from '@/types/datasource'
-import { testDatasourceConnection, createDatasource, updateDatasource } from '@/api/datasource'
+import {
+  testDatasourceConnection,
+  createDatasource,
+  updateDatasource,
+  getDatasource
+} from '@/api/datasource'
 import { useRequest } from 'alova'
 import { useWorkspaceStore } from '@/stores/workspace'
 import type { FormRules, FormInst } from 'naive-ui'
@@ -49,10 +54,7 @@ const rules: FormRules = {
   ]
 }
 
-export const useDatasource = (
-  formRef: Ref<FormInst | undefined>,
-  data?: Pick<DatasourceMeta, 'id' | 'name'>
-) => {
+export const useDatasource = (formRef: Ref<FormInst | undefined>, id?: number) => {
   const connection = ref<DatasourceConnection>({
     ip: '',
     port: 3306,
@@ -63,17 +65,18 @@ export const useDatasource = (
   })
 
   const { data: workspace } = useWorkspaceStore()
-  const name = ref(data?.name || '')
+  const name = ref('')
   const canSave = ref(false)
   const msg = useMessage()
   const router = useRouter()
+  const restoreLoading = ref(false)
 
   const {
     send: sendCreate,
     loading: createLoading,
     onSuccess: onCreateSuccess,
     onError: onCreateError
-  } = useRequest(data?.id ? updateDatasource : createDatasource, {
+  } = useRequest(id ? updateDatasource : createDatasource, {
     immediate: false
   })
 
@@ -86,7 +89,7 @@ export const useDatasource = (
     immediate: false
   })
 
-  const loading = computed(() => createLoading.value || testLoading.value)
+  const loading = computed(() => createLoading.value || testLoading.value || restoreLoading.value)
 
   const formData = computed(() => ({
     ...connection.value,
@@ -158,7 +161,7 @@ export const useDatasource = (
             name: name.value,
             workspace: workspace.value.id
           },
-          data?.id
+          id
         )
       })
       .catch(() => {})
@@ -185,6 +188,24 @@ export const useDatasource = (
 
   onCreateError((e) => {
     msg.error(e.error.message)
+  })
+
+  onMounted(() => {
+    if (id) {
+      restoreLoading.value = true
+      getDatasource(id)
+        .then((res) => {
+          name.value = res.data.meta.name
+          connection.value.type = res.data.meta.type
+        })
+        .catch((e) => {
+          console.log(e)
+          msg.error('获取数据失败')
+        })
+        .finally(() => {
+          restoreLoading.value = false
+        })
+    }
   })
 
   return {
