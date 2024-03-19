@@ -60,7 +60,8 @@ export class ChartController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.chartService.remove(+id);
+  @AuthRoles('user')
+  remove(@Param('id') id: string, @UserParams() user: UserJwtPayload) {
+    return this.chartService.remove(+id, user.id);
   }
 }

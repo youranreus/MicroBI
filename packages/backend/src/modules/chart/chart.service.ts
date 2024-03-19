@@ -144,7 +144,21 @@ export class ChartService {
     return null;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} chart`;
+  async remove(id: number, user: number) {
+    const chart = await this.repo.findOneOrFail({
+      where: {
+        id,
+        owner: {
+          id: user,
+        },
+      },
+      relations: {
+        owner: true,
+      },
+    });
+
+    await this.repo.remove(chart);
+
+    return null;
   }
 }
