@@ -35,8 +35,9 @@ export class ChartController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.chartService.findOne(+id);
+  @AuthRoles('user')
+  findOne(@UserParams() user: UserJwtPayload, @Param('id') id: string) {
+    return this.chartService.findOne(user.id, +id);
   }
 
   @Patch(':id')

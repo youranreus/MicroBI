@@ -72,8 +72,26 @@ export class ChartService {
     return `This action returns all chart`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} chart`;
+  async findOne(user: number, id: number) {
+    const chart = await this.repo.findOneOrFail({
+      where: {
+        id,
+      },
+      relations: {
+        dims: true,
+        quotas: true,
+        filters: true,
+        workspace: {
+          users: true,
+        },
+      },
+    });
+
+    if (!this.isValidUser(chart.workspace, user)) {
+      BusinessException.throwForbidden();
+    }
+
+    return chart.getData();
   }
 
   async update(user: number, id: number, body: UpdateChartDto) {
