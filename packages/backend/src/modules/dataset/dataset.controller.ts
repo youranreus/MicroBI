@@ -100,6 +100,12 @@ export class DataSetController {
     return this.dataSetService.getFields(user.id, +id);
   }
 
+  @Get(':id/preview')
+  @AuthRoles('user')
+  getPreview(@UserParams() user: UserJwtPayload, @Param('id') id: string) {
+    return this.dataSetService.previewData(user.id, +id);
+  }
+
   @Patch(':dsId/field/:id')
   @AuthRoles('user')
   updateField(

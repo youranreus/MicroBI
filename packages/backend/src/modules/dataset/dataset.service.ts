@@ -312,4 +312,46 @@ export class DataSetService {
 
     return null;
   }
+
+  async previewData(user: number, id: number) {
+    const ds = await this.dsRepo.findOneOrFail({
+      where: { id },
+      relations: {
+        datasource: true,
+        workspace: {
+          users: true,
+        },
+        fields: true,
+      },
+    });
+
+    const src = ds.datasource;
+
+    if (!ds.workspace.users.some((u) => u.id === user)) {
+      BusinessException.throwForbidden();
+    }
+
+    const db = new DB({
+      type: src.type,
+      host: src.ip,
+      port: src.port,
+      username: src.user,
+      password: src.password,
+      database: src.database,
+      synchronize: false,
+      logging: true,
+      connectorPackage: 'mysql2',
+    });
+    await db.initialize();
+
+    const fieldStr = ds.fields
+      .map((c) => `\`${c.fieldname}\` "${c.name}"`)
+      .join(', ');
+
+    const data = await db.query(`SELECT ${fieldStr} FROM ${ds.tablename}`);
+
+    await db.destroy();
+
+    return data;
+  }
 }
