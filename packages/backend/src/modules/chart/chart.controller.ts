@@ -10,6 +10,8 @@ import {
 } from '@nestjs/common';
 import { ChartService } from './chart.service';
 import { CreateChartDto, UpdateChartDto } from '@/dtos';
+import type { UserJwtPayload } from '@reus-able/types';
+import { AuthRoles, UserParams } from '@reus-able/nestjs';
 
 @Controller({
   path: 'chart',
@@ -19,8 +21,12 @@ export class ChartController {
   constructor(private readonly chartService: ChartService) {}
 
   @Post()
-  create(@Body() createChartDto: CreateChartDto) {
-    return this.chartService.create(createChartDto);
+  @AuthRoles('user')
+  create(
+    @UserParams() user: UserJwtPayload,
+    @Body() createChartDto: CreateChartDto,
+  ) {
+    return this.chartService.create(user.id, createChartDto);
   }
 
   @Get()
@@ -34,8 +40,13 @@ export class ChartController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateChartDto: UpdateChartDto) {
-    return this.chartService.update(+id, updateChartDto);
+  @AuthRoles('user')
+  update(
+    @UserParams() user: UserJwtPayload,
+    @Param('id') id: string,
+    @Body() updateChartDto: UpdateChartDto,
+  ) {
+    return this.chartService.update(user.id, +id, updateChartDto);
   }
 
   @Delete(':id')

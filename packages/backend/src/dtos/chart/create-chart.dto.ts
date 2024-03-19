@@ -1,13 +1,4 @@
-import { IsNotEmpty, ValidateNested, IsInt } from 'class-validator';
-import { Type } from 'class-transformer';
-
-export class ChartFieldDto {
-  @IsNotEmpty()
-  name: string;
-
-  @IsInt()
-  id: number;
-}
+import { IsNotEmpty, IsInt } from 'class-validator';
 
 export class CreateChartDto {
   @IsNotEmpty()
@@ -16,15 +7,15 @@ export class CreateChartDto {
   @IsNotEmpty()
   type: string;
 
-  @ValidateNested()
-  @Type(() => ChartFieldDto)
-  quotas: ChartFieldDto[];
+  @IsInt()
+  workspace: number;
 
-  @ValidateNested()
-  @Type(() => ChartFieldDto)
-  dims: ChartFieldDto[];
+  @IsInt({ each: true })
+  quotas: number[];
 
-  @ValidateNested()
-  @Type(() => ChartFieldDto)
-  filters: ChartFieldDto[];
+  @IsInt({ each: true })
+  dims: number[];
+
+  @IsInt({ each: true })
+  filters: number[];
 }
