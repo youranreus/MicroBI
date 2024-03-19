@@ -12,6 +12,7 @@ import { User, UserExportData } from './User';
 import { DataSource, DataSourceExportData } from './DataSource';
 import { DataSet } from './DataSet';
 import { Field } from './Field';
+import { Chart } from './Chart';
 
 export interface WorkspaceExportData {
   id: number;
@@ -44,10 +45,16 @@ export class Workspace {
   @ManyToMany(() => User, (u) => u.workspaces)
   users: User[];
 
-  @OneToMany(() => DataSource, (ds) => ds.creator, {
+  @OneToMany(() => DataSource, (ds) => ds.workspace, {
     cascade: true,
   })
   datasources: DataSource[];
+
+  @OneToMany(() => Chart, (ds) => ds.workspace, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  charts: Chart[];
 
   @OneToMany(() => DataSet, (ds) => ds.workspace, {
     cascade: true,

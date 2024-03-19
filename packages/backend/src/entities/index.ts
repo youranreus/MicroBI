@@ -3,5 +3,6 @@ import { DataSource } from './DataSource';
 import { Field } from './Field';
 import { User } from './User';
 import { Workspace } from './Workspace';
+import { Chart } from './Chart';
 
-export const ENTITY_LIST = [Field, DataSet, DataSource, Workspace, User];
+export const ENTITY_LIST = [Field, DataSet, DataSource, Workspace, User, Chart];

@@ -5,11 +5,13 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  ManyToMany,
 } from 'typeorm';
 
 import { Workspace } from './Workspace';
 import { DataSet } from './DataSet';
 import { FieldType } from '@/utils/types';
+import { Chart } from './Chart';
 
 export interface FieldExportData {
   id: number;
@@ -54,6 +56,15 @@ export class Field {
     onDelete: 'CASCADE',
   })
   dataset: DataSet;
+
+  @ManyToMany(() => Chart, (u) => u.dims)
+  asDim: Chart[];
+
+  @ManyToMany(() => Chart, (u) => u.quotas)
+  asQuota: Chart[];
+
+  @ManyToMany(() => Chart, (u) => u.filters)
+  asFilter: Chart[];
 
   @CreateDateColumn()
   created_at: Date;

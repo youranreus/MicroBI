@@ -18,6 +18,7 @@ import {
   WorkspaceModule,
   DataSourceModule,
   DataSetModule,
+  ChartModule,
 } from '@/modules';
 
 @Module({
@@ -45,6 +46,7 @@ import {
     WorkspaceModule,
     DataSourceModule,
     DataSetModule,
+    ChartModule,
   ],
   controllers: [AppController],
   providers: [

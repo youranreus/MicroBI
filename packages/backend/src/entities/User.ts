@@ -9,6 +9,7 @@ import {
 } from 'typeorm';
 import { Workspace } from './Workspace';
 import { DataSource } from './DataSource';
+import { Chart } from './Chart';
 
 export interface UserExportData {
   id: number;
@@ -50,6 +51,11 @@ export class User {
     cascade: true,
   })
   datasources: DataSource[];
+
+  @OneToMany(() => Chart, (ds) => ds.owner, {
+    cascade: true,
+  })
+  charts: Chart[];
 
   @CreateDateColumn()
   created_at: Date;
