@@ -7,6 +7,9 @@ import {
   Param,
   Delete,
   VERSION_NEUTRAL,
+  DefaultValuePipe,
+  ParseIntPipe,
+  Query,
 } from '@nestjs/common';
 import { ChartService } from './chart.service';
 import { CreateChartDto, UpdateChartDto } from '@/dtos';
@@ -30,8 +33,14 @@ export class ChartController {
   }
 
   @Get()
-  findAll() {
-    return this.chartService.findAll();
+  @AuthRoles('user')
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('size', new DefaultValuePipe(10), ParseIntPipe) size = 10,
+    @Query('search') search = '',
+    @UserParams() user: UserJwtPayload,
+  ) {
+    return this.chartService.findAll(page, size, user.id, search);
   }
 
   @Get(':id')

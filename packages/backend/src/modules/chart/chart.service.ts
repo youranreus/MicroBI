@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { CreateChartDto, UpdateChartDto } from '@/dtos';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { In, Like, Repository } from 'typeorm';
 import { Workspace } from '@/entities/Workspace';
 import { BusinessException } from '@reus-able/nestjs';
 import { Field } from '@/entities/Field';
 import { Chart } from '@/entities/Chart';
+import { paginate } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class ChartService {
@@ -68,8 +69,28 @@ export class ChartService {
     return null;
   }
 
-  findAll() {
-    return `This action returns all chart`;
+  async findAll(page = 1, limit = 10, user: number, search = '') {
+    const { items, meta } = await paginate<Chart>(
+      this.repo,
+      { page, limit },
+      {
+        where: {
+          name: Like(`%${search}%`),
+          owner: {
+            id: user,
+          },
+        },
+        relations: {
+          workspace: true,
+          owner: true,
+        },
+      },
+    );
+
+    return {
+      items: items.map((c) => c.getData()),
+      total: meta.totalItems,
+    };
   }
 
   async findOne(user: number, id: number) {
