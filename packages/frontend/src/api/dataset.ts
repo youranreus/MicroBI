@@ -35,3 +35,6 @@ export const updateField = (
 
 export const getPreviewData = (id: number) =>
   api.Get<Restful<Record<string, any>[]>>(`/dataset/${id}/preview`)
+
+export const delField = (dataset: number, id: number) =>
+  api.Delete<Restful>(`/dataset/${dataset}/field/${id}`)

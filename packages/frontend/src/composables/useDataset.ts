@@ -4,12 +4,13 @@ import {
   updateDataset,
   getDataset,
   getTableColumn,
-  updateField
+  updateField,
+  delField
 } from '@/api/dataset'
 import { useRequest } from 'alova'
 import { FieldTypeOptions } from '@/utils/constants'
 import type { FormRules, FormInst, DataTableColumns } from 'naive-ui'
-import { NInput, NSelect } from 'naive-ui'
+import { NButton, NInput, NSelect } from 'naive-ui'
 import type { Field } from '@/types/field'
 import { debounce } from 'lodash-es'
 
@@ -99,6 +100,25 @@ export const useDataset = (formRef: Ref<FormInst | undefined>, id?: number) => {
     }
   }, 300)
 
+  const handleDelField = (row: Field) => {
+    if (!id) {
+      return
+    }
+
+    columnLoading.value = true
+    delField(id as number, row.id)
+      .then(() => {
+        editData.value.fields = editData.value.fields?.filter((f) => f.id !== row.id) || []
+        msg.success('删除成功')
+      })
+      .catch(() => {
+        msg.error('删除时出现了错误')
+      })
+      .finally(() => {
+        columnLoading.value = false
+      })
+  }
+
   const tableBindings = computed(() => {
     const columns: DataTableColumns<Field> = [
       {
@@ -141,6 +161,27 @@ export const useDataset = (formRef: Ref<FormInst | undefined>, id?: number) => {
         }
       }
     ]
+
+    if (id) {
+      columns.push({
+        title: '操作',
+        key: 'action',
+        width: 60,
+        render(rowData) {
+          return h(
+            NButton,
+            {
+              type: 'error',
+              secondary: true,
+              onClick() {
+                handleDelField(rowData)
+              }
+            },
+            () => '删除'
+          )
+        }
+      })
+    }
 
     return {
       columns,
