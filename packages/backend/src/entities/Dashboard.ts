@@ -62,10 +62,12 @@ export class Dashboard {
   updated_at: Date;
 
   public getData(): BoardExportData {
-    const charts = this.positions.map((pos) => ({
-      ...pos,
-      data: this.charts?.find((c) => c.id === pos.chart),
-    }));
+    const charts = this.positions
+      .filter((pos) => this.charts?.find((c) => c.id === pos.chart))
+      .map((pos) => ({
+        ...pos,
+        data: this.charts?.find((c) => c.id === pos.chart),
+      }));
 
     return {
       id: this.id,
