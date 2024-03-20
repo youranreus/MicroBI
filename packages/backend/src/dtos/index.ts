@@ -8,3 +8,5 @@ export * from './dataset/create-dataset';
 export * from './dataset/update-dataset';
 export * from './chart/create-chart.dto';
 export * from './chart/update-chart.dto';
+export * from './dashboard/create-dashboard.dto';
+export * from './dashboard/update-dashboard.dto';

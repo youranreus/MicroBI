@@ -19,6 +19,7 @@ import {
   DataSourceModule,
   DataSetModule,
   ChartModule,
+  DashboardModule,
 } from '@/modules';
 
 @Module({
@@ -47,6 +48,7 @@ import {
     DataSourceModule,
     DataSetModule,
     ChartModule,
+    DashboardModule,
   ],
   controllers: [AppController],
   providers: [
