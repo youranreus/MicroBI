@@ -8,7 +8,6 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     DatasourceType: typeof import('./src/components/datasource-type.vue')['default']
-    LoginDialog: typeof import('./src/components/layout/login-dialog.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NAvatarGroup: typeof import('naive-ui')['NAvatarGroup']
     NButton: typeof import('naive-ui')['NButton']
@@ -24,12 +23,10 @@ declare module 'vue' {
     NFlex: typeof import('naive-ui')['NFlex']
     NForm: typeof import('naive-ui')['NForm']
     NFormItem: typeof import('naive-ui')['NFormItem']
-    NH2: typeof import('naive-ui')['NH2']
     NH3: typeof import('naive-ui')['NH3']
     NIcon: typeof import('naive-ui')['NIcon']
     NInput: typeof import('naive-ui')['NInput']
     NInputGroup: typeof import('naive-ui')['NInputGroup']
-    NInputGroupLabel: typeof import('naive-ui')['NInputGroupLabel']
     NInputNumber: typeof import('naive-ui')['NInputNumber']
     NLayout: typeof import('naive-ui')['NLayout']
     NLayoutContent: typeof import('naive-ui')['NLayoutContent']
@@ -42,7 +39,6 @@ declare module 'vue' {
     NMessageProvider: typeof import('naive-ui')['NMessageProvider']
     NModal: typeof import('naive-ui')['NModal']
     NModalProvider: typeof import('naive-ui')['NModalProvider']
-    NNumberInput: typeof import('naive-ui')['NNumberInput']
     NP: typeof import('naive-ui')['NP']
     NPagination: typeof import('naive-ui')['NPagination']
     NPopover: typeof import('naive-ui')['NPopover']
