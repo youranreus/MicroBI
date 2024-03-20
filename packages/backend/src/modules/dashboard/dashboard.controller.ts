@@ -10,6 +10,8 @@ import {
 } from '@nestjs/common';
 import { DashboardService } from './dashboard.service';
 import { CreateDashboardDto, UpdateDashboardDto } from '@/dtos';
+import { AuthRoles, UserParams } from '@reus-able/nestjs';
+import { UserJwtPayload } from '@reus-able/types';
 
 @Controller({
   path: 'dashboard',
@@ -19,8 +21,12 @@ export class DashboardController {
   constructor(private readonly dashboardService: DashboardService) {}
 
   @Post()
-  create(@Body() createDashboardDto: CreateDashboardDto) {
-    return this.dashboardService.create(createDashboardDto);
+  @AuthRoles('user')
+  create(
+    @UserParams() user: UserJwtPayload,
+    @Body() createDashboardDto: CreateDashboardDto,
+  ) {
+    return this.dashboardService.create(user.id, createDashboardDto);
   }
 
   @Get()
