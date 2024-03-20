@@ -7,6 +7,7 @@
   <dataset-list>
     <template #default="{ data, func }">
       <n-button-group size="small">
+        <n-button secondary @click="previewDataset(data)"> 数据预览 </n-button>
         <n-button secondary @click="editDataset(data)">
           <template #icon>
             <n-icon :component="Options"></n-icon>
@@ -40,9 +41,15 @@ const editDataset = (data: DatasetMeta) => {
     name: 'dataset-admin-edit',
     params: {
       setId: data.id
-    },
-    query: {
-      name: data.name
+    }
+  })
+}
+
+const previewDataset = (data: DatasetMeta) => {
+  router.push({
+    name: 'dataset-admin-preview',
+    params: {
+      setId: data.id
     }
   })
 }

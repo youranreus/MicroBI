@@ -32,3 +32,6 @@ export const updateField = (
   field: number,
   data: Pick<Field, 'name' | 'type' | 'fieldname'>
 ) => api.Patch<Restful>(`/dataset/${ds}/field/${field}`, data)
+
+export const getPreviewData = (id: number) =>
+  api.Get<Restful<Record<string, any>[]>>(`/dataset/${id}/preview`)
