@@ -60,8 +60,29 @@ export class DashboardService {
     return `This action returns all dashboard`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} dashboard`;
+  async findOne(userId: number, id: number) {
+    const dashboard = await this.repo.findOneOrFail({
+      where: {
+        id,
+      },
+      relations: {
+        workspace: {
+          users: true,
+        },
+        creator: true,
+        charts: {
+          dims: true,
+          quotas: true,
+          filters: true,
+        },
+      },
+    });
+
+    if (isNil(this.isValidUser(dashboard.workspace, userId))) {
+      BusinessException.throwForbidden();
+    }
+
+    return dashboard.getData();
   }
 
   update(id: number, body: UpdateDashboardDto) {

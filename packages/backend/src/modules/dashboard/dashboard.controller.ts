@@ -35,8 +35,9 @@ export class DashboardController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.dashboardService.findOne(+id);
+  @AuthRoles('user')
+  findOne(@UserParams() user: UserJwtPayload, @Param('id') id: string) {
+    return this.dashboardService.findOne(user.id, +id);
   }
 
   @Patch(':id')
