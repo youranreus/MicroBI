@@ -38,3 +38,6 @@ export const getPreviewData = (id: number) =>
 
 export const delField = (dataset: number, id: number) =>
   api.Delete<Restful>(`/dataset/${dataset}/field/${id}`)
+
+export const addField = (dataset: number, data: Pick<Field, 'name' | 'type' | 'fieldname'>) =>
+  api.Post<Restful>(`/dataset/${dataset}/field`, data)

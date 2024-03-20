@@ -25,15 +25,22 @@
     </n-form-item>
   </n-form>
   <n-flex justify="space-between">
-    <n-button
-      v-bind="commonBindings"
-      :disabled="loading || isEdit"
-      type="primary"
-      secondary
-      @click="getColumn"
-    >
-      获取数据列
-    </n-button>
+    <n-flex>
+      <n-button
+        v-bind="commonBindings"
+        :disabled="loading || isEdit"
+        type="primary"
+        secondary
+        @click="getColumn"
+      >
+        获取数据列
+      </n-button>
+      <add-field-dialog
+        v-if="isEdit"
+        :dataset="Number(route.params.setId)"
+        :callback="restoreData"
+      />
+    </n-flex>
     <n-button
       v-bind="commonBindings"
       type="info"
@@ -47,6 +54,7 @@
 </template>
 <script setup lang="ts">
 import { type FormInst } from 'naive-ui'
+import AddFieldDialog from '../../components/add-field-dialog.vue'
 import { useDatasourceList } from '@/composables/useDatasourceList'
 import { useDataset } from '@/composables/useDataset'
 
@@ -61,8 +69,17 @@ const formRef = ref<FormInst>()
 const isEdit = computed(() => route.name === 'dataset-admin-edit')
 
 const { data: datasources } = useDatasourceList(100)
-const { formBindings, canSave, loading, bindings, commonBindings, tableBindings, getColumn, send } =
-  useDataset(formRef, Number(route.params.setId))
+const {
+  formBindings,
+  canSave,
+  loading,
+  bindings,
+  commonBindings,
+  tableBindings,
+  getColumn,
+  send,
+  restoreData
+} = useDataset(formRef, Number(route.params.setId))
 
 const dsOptions = computed(() =>
   datasources.value.map((ds) => ({

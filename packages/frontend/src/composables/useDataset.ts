@@ -263,7 +263,7 @@ export const useDataset = (formRef: Ref<FormInst | undefined>, id?: number) => {
     msg.error(e.error.message)
   })
 
-  onMounted(() => {
+  const restoreData = () => {
     if (id) {
       restoreLoading.value = true
       getDataset(id)
@@ -281,6 +281,10 @@ export const useDataset = (formRef: Ref<FormInst | undefined>, id?: number) => {
           restoreLoading.value = false
         })
     }
+  }
+
+  onMounted(() => {
+    restoreData()
   })
 
   return {
@@ -293,6 +297,7 @@ export const useDataset = (formRef: Ref<FormInst | undefined>, id?: number) => {
     formBindings,
     tableBindings,
     getColumn,
-    send
+    send,
+    restoreData
   }
 }
