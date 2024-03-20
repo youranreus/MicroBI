@@ -2,10 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { CreateChartDto, UpdateChartDto } from '@/dtos';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Like, Repository } from 'typeorm';
-import { Workspace } from '@/entities/Workspace';
+import { Workspace, Field, Chart } from '@/entities';
 import { BusinessException } from '@reus-able/nestjs';
-import { Field } from '@/entities/Field';
-import { Chart } from '@/entities/Chart';
 import { paginate } from 'nestjs-typeorm-paginate';
 
 @Injectable()

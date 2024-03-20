@@ -3,9 +3,7 @@ import {
   CreateDatasourceDto,
   UpdateDatasourceDto,
 } from '@/dtos';
-import { User } from '@/entities/User';
-import { Workspace } from '@/entities/Workspace';
-import { DataSource } from '@/entities/DataSource';
+import { User, Workspace, DataSource } from '@/entities';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DataSource as DB, Like, Repository } from 'typeorm';

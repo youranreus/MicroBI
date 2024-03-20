@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateWorkspaceDto, UpdateWorkspaceDto } from '@/dtos';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from '@/entities/User';
+import { User } from '@/entities';
 import { Repository, Like, In } from 'typeorm';
 import { paginate } from 'nestjs-typeorm-paginate';
 import { Workspace } from '@/entities/Workspace';

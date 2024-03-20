@@ -1,4 +1,3 @@
-import { DataSource } from '@/entities/DataSource';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BusinessException } from '@reus-able/nestjs';
@@ -9,8 +8,7 @@ import {
   UpdateDataSetDto,
   DatasetFieldCreateDto,
 } from '@/dtos';
-import { Field } from '@/entities/Field';
-import { DataSet } from '@/entities/DataSet';
+import { Field, DataSet, DataSource } from '@/entities';
 import { paginate } from 'nestjs-typeorm-paginate';
 import { isNil } from 'lodash';
 
