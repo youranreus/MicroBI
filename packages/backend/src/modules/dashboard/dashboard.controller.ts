@@ -60,7 +60,8 @@ export class DashboardController {
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.dashboardService.remove(+id);
+  @AuthRoles('user')
+  remove(@Param('id') id: string, @UserParams() user: UserJwtPayload) {
+    return this.dashboardService.remove(+id, user.id);
   }
 }

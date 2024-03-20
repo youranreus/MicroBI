@@ -136,7 +136,21 @@ export class DashboardService {
     return null;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} dashboard`;
+  async remove(id: number, user: number) {
+    const dashboard = await this.repo.findOneOrFail({
+      where: {
+        id,
+        creator: {
+          id: user,
+        },
+      },
+      relations: {
+        creator: true,
+      },
+    });
+
+    await this.repo.remove(dashboard);
+
+    return null;
   }
 }
