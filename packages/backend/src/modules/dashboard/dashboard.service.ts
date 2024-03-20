@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { CreateDashboardDto, UpdateDashboardDto } from '@/dtos';
 import { Chart, Dashboard, Workspace } from '@/entities';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { In, Like, Repository } from 'typeorm';
 import { BusinessException } from '@reus-able/nestjs';
 import { isNil } from 'lodash';
+import { paginate } from 'nestjs-typeorm-paginate';
 
 @Injectable()
 export class DashboardService {
@@ -56,8 +57,28 @@ export class DashboardService {
     return null;
   }
 
-  findAll() {
-    return `This action returns all dashboard`;
+  async findAll(page = 1, limit = 10, user: number, search = '') {
+    const { items, meta } = await paginate<Dashboard>(
+      this.repo,
+      { page, limit },
+      {
+        where: {
+          name: Like(`%${search}%`),
+          creator: {
+            id: user,
+          },
+        },
+        relations: {
+          workspace: true,
+          creator: true,
+        },
+      },
+    );
+
+    return {
+      items: items.map((d) => d.getData()),
+      total: meta.totalItems,
+    };
   }
 
   async findOne(userId: number, id: number) {

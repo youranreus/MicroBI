@@ -7,6 +7,9 @@ import {
   Param,
   Delete,
   VERSION_NEUTRAL,
+  Query,
+  DefaultValuePipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { DashboardService } from './dashboard.service';
 import { CreateDashboardDto, UpdateDashboardDto } from '@/dtos';
@@ -30,8 +33,14 @@ export class DashboardController {
   }
 
   @Get()
-  findAll() {
-    return this.dashboardService.findAll();
+  @AuthRoles('user')
+  findAll(
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('size', new DefaultValuePipe(10), ParseIntPipe) size = 10,
+    @Query('search') search = '',
+    @UserParams() user: UserJwtPayload,
+  ) {
+    return this.dashboardService.findAll(page, size, user.id, search);
   }
 
   @Get(':id')
