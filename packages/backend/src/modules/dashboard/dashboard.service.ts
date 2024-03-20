@@ -106,8 +106,34 @@ export class DashboardService {
     return dashboard.getData();
   }
 
-  update(id: number, body: UpdateDashboardDto) {
-    return body;
+  async update(id: number, user: number, body: UpdateDashboardDto) {
+    const dashboard = await this.repo.findOneOrFail({
+      where: {
+        id,
+        creator: {
+          id: user,
+        },
+      },
+      relations: {
+        creator: true,
+      },
+    });
+
+    const chartIds = body.charts.map((item) => item.chart);
+
+    const charts = await this.chartRepo.find({
+      where: {
+        id: In(chartIds),
+      },
+    });
+
+    dashboard.name = body.name;
+    dashboard.positions = body.charts;
+    dashboard.charts = charts;
+
+    await this.repo.save(dashboard);
+
+    return null;
   }
 
   remove(id: number) {

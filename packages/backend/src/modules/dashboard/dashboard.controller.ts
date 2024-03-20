@@ -50,11 +50,13 @@ export class DashboardController {
   }
 
   @Patch(':id')
+  @AuthRoles('user')
   update(
     @Param('id') id: string,
+    @UserParams() user: UserJwtPayload,
     @Body() updateDashboardDto: UpdateDashboardDto,
   ) {
-    return this.dashboardService.update(+id, updateDashboardDto);
+    return this.dashboardService.update(+id, user.id, updateDashboardDto);
   }
 
   @Delete(':id')
