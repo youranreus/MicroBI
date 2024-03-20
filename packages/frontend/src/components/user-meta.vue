@@ -35,7 +35,7 @@
           secondary
           type="warning"
           size="small"
-          @click="logout"
+          @click="userLogout"
         >
           登出
         </n-button>
@@ -65,14 +65,8 @@ const props = withDefaults(
 )
 
 const { userData, userLogout } = useUserStore()
-const router = useRouter()
 
 const displayName = computed(() => props.data.name.slice(0, 3))
 
 const isCurrentUser = computed(() => userData.value.id === props.data.id)
-
-const logout = () => {
-  userLogout()
-  router.push({ name: 'user-login' })
-}
 </script>

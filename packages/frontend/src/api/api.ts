@@ -26,6 +26,12 @@ const alovaInstance = createAlova({
         throw new Error('无权限')
       }
 
+      if (e.response.data.code === 20003) {
+        const { userLogout } = useUserStore()
+        userLogout()
+        throw new Error(e?.response?.data?.msg)
+      }
+
       throw new Error(e?.response?.data?.msg || e)
     }
   },

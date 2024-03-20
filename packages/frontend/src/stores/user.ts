@@ -13,6 +13,7 @@ const useStore = defineStore(
   'user',
   () => {
     const userData = reactive<UserData>(INIT_USER_DATA)
+    const router = useRouter()
 
     const token = ref('')
 
@@ -26,6 +27,7 @@ const useStore = defineStore(
     const userLogout = () => {
       Object.assign(userData, INIT_USER_DATA)
       token.value = ''
+      router.push({ name: 'user-login' })
     }
 
     const updateUser = (data: Partial<UserData>) => {
