@@ -13,6 +13,7 @@ import { DataSource, DataSourceExportData } from './DataSource';
 import { DataSet } from './DataSet';
 import { Field } from './Field';
 import { Chart } from './Chart';
+import { Dashboard } from './Dashboard';
 
 export interface WorkspaceExportData {
   id: number;
@@ -47,6 +48,7 @@ export class Workspace {
 
   @OneToMany(() => DataSource, (ds) => ds.workspace, {
     cascade: true,
+    onDelete: 'CASCADE',
   })
   datasources: DataSource[];
 
@@ -56,13 +58,21 @@ export class Workspace {
   })
   charts: Chart[];
 
+  @OneToMany(() => Dashboard, (ds) => ds.workspace, {
+    cascade: true,
+    onDelete: 'CASCADE',
+  })
+  dashboards: Dashboard[];
+
   @OneToMany(() => DataSet, (ds) => ds.workspace, {
     cascade: true,
+    onDelete: 'CASCADE',
   })
   datasets: DataSet[];
 
   @OneToMany(() => DataSet, (ds) => ds.workspace, {
     cascade: true,
+    onDelete: 'CASCADE',
   })
   fields: Field[];
 

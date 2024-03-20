@@ -11,6 +11,7 @@ import {
 import { Workspace } from './Workspace';
 import { Field } from './Field';
 import { User } from './User';
+import { Dashboard } from './Dashboard';
 
 export interface ChartExportData {
   id: number;
@@ -51,6 +52,9 @@ export class Chart {
   @JoinTable()
   @ManyToMany(() => Field, (u) => u.asFilter)
   filters: Field[];
+
+  @ManyToMany(() => Dashboard, (u) => u.charts)
+  dashboards: Dashboard[];
 
   @ManyToOne(() => User)
   owner: User;

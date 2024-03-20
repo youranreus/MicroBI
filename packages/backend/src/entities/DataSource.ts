@@ -84,6 +84,7 @@ export class DataSource {
 
   @OneToMany(() => DataSet, (ds) => ds.datasource, {
     cascade: true,
+    onDelete: 'CASCADE',
   })
   datasets: DataSet[];
 
