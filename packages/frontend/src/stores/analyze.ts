@@ -10,8 +10,15 @@ const useStore = defineStore(
     const dataset = ref<DatasetMeta>()
     const allFields = ref<Field[]>([])
 
+    const resetChart = () => {
+      quotas.value = []
+      dims.value = []
+      filters.value = []
+    }
+
     const changeDataset = (data: DatasetMeta) => {
       dataset.value = data
+      resetChart()
     }
 
     const changeFields = (data: Field[]) => {
@@ -26,12 +33,6 @@ const useStore = defineStore(
       }
 
       map[type].value = data
-    }
-
-    const resetChart = () => {
-      quotas.value = []
-      dims.value = []
-      filters.value = []
     }
 
     return {
