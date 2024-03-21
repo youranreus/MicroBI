@@ -6,6 +6,9 @@
     "fe": "pnpm --filter @micro-bi/frontend run dev",
     "be": "pnpm --filter @micro-bi/backend run dev",
     "dev": "pnpm --filter @micro-bi/* run dev",
+    "build:fe": "pnpm  --filter @micro-bi/frontend run build",
+    "build:be": "pnpm  --filter @micro-bi/backend run build",
+    "build": "pnpm  --filter @micro-bi/* run build",
     "c": "git-cz"
   },
   "private": true,
