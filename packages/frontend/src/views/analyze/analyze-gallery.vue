@@ -10,7 +10,7 @@
               <chart-type-tag :type="item.type"></chart-type-tag>
             </template>
             <template #suffix>
-              <n-button size="small" tertiary type="info">
+              <n-button size="small" tertiary type="info" @click="redirect(item.id)">
                 <template #icon>
                   <n-icon :component="ArrowForward"></n-icon>
                 </template>
@@ -47,4 +47,9 @@ defineOptions({
 })
 
 const { pageBindings, searchBindings, loading, data } = useChartList()
+const router = useRouter()
+
+const redirect = (cid: number) => {
+  router.push({ name: 'analyze-edit', params: { cid } })
+}
 </script>
