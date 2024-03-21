@@ -10,6 +10,8 @@ const useStore = defineStore(
     const dataset = ref<DatasetMeta>()
     const allFields = ref<Field[]>([])
 
+    const currentDatasetId = computed(() => dataset.value?.id)
+
     const resetChart = () => {
       quotas.value = []
       dims.value = []
@@ -43,6 +45,7 @@ const useStore = defineStore(
       filters,
       dataset,
       allFields,
+      currentDatasetId,
       changeDataset,
       changeFields,
       resetChart,

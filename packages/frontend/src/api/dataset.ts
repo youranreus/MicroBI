@@ -41,3 +41,6 @@ export const delField = (dataset: number, id: number) =>
 
 export const addField = (dataset: number, data: Pick<Field, 'name' | 'type' | 'fieldname'>) =>
   api.Post<Restful>(`/dataset/${dataset}/field`, data)
+
+export const getFieldList = (dataset: number) =>
+  api.Get<Restful<Field[]>>(`/dataset/${dataset}/field`)

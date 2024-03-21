@@ -15,11 +15,18 @@
     </div>
 
     <div>字段列表</div>
+    <n-spin :show="fieldsLoading">
+      <div class="flex flex-col gap-y-1">
+        <field-item v-for="field in fieldList?.data" :key="field.id" :field="field" />
+      </div>
+    </n-spin>
   </div>
 </template>
 <script setup lang="ts">
 import { useDatasetList } from '@/composables/useDatasetList'
+import { useDatasetFields } from '@/composables/useDatasetFields'
 import { useAnalyzeStore } from '@/stores/analyze'
+import FieldItem from './field-item.vue'
 import type { DatasetMeta } from '@/types/dataset'
 
 defineOptions({
@@ -28,7 +35,11 @@ defineOptions({
 
 const route = useRoute()
 const { data: datasetList, loading: datasetLoading } = useDatasetList(100)
-const { dataset, changeDataset } = useAnalyzeStore()
+const { dataset, currentDatasetId, changeDataset, changeFields } = useAnalyzeStore()
+
+const { data: fieldList, loading: fieldsLoading } = useDatasetFields(currentDatasetId, () => {
+  changeFields(fieldList.value.data)
+})
 
 const isEdit = computed(() => route.name === 'analyze-edit')
 const datasetOptions = computed(() => {
