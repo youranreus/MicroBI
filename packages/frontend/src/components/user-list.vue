@@ -9,8 +9,10 @@
         {{ name }}
       </n-tooltip>
     </template>
-    <template #rest="{ options: rest }">
-      <n-avatar>+{{ rest }}</n-avatar>
+    <template #rest="{ options: restOptions, rest }">
+      <n-dropdown :options="createDropdownOptions(restOptions)" placement="top">
+        <n-avatar>+{{ rest }}</n-avatar>
+      </n-dropdown>
     </template>
   </n-avatar-group>
 </template>
@@ -35,4 +37,10 @@ const props = withDefaults(
 )
 
 const userList = computed(() => props.users.map((u) => ({ name: u.name, src: u.avatar })))
+
+const createDropdownOptions = (options: Array<{ name: string; src: string }>) =>
+  options.map((option) => ({
+    key: option.name,
+    label: option.name
+  }))
 </script>
