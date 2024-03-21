@@ -49,7 +49,7 @@ defineOptions({
 const { pageBindings, searchBindings, loading, data } = useChartList()
 const router = useRouter()
 
-const redirect = (cid: number) => {
-  router.push({ name: 'analyze-edit', params: { cid } })
+const redirect = (chartId: number) => {
+  router.push({ name: 'analyze-edit', params: { chartId } })
 }
 </script>

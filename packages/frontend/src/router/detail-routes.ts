@@ -108,7 +108,7 @@ export const analyzeChildren: RouteRecordRaw[] = [
     component: () => import('@/views/analyze/analyze-gallery.vue')
   },
   {
-    path: ':cid',
+    path: ':chartId',
     name: 'analyze-edit',
     meta: {
       title: '编辑分析',

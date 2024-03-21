@@ -23,7 +23,8 @@ const useStore = defineStore(
           updateNav(match.name as string)
         } else if (currentMenuList.value.some((i) => i.key === match.name)) {
           updateMenu(match.name as string)
-          break
+        } else if (currentMenuList.value.some((i) => i.key === match.meta?.menuAlias)) {
+          updateMenu(match.meta?.menuAlias as string)
         }
       }
     }
