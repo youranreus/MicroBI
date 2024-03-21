@@ -7,6 +7,9 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ChartType: typeof import('./src/components/chart-type.vue')['default']
+    ChartTypeTag: typeof import('./src/components/chart-type-tag.vue')['default']
+    copy: typeof import('./src/components/datasource-type copy.vue')['default']
     DatasourceType: typeof import('./src/components/datasource-type.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NAvatarGroup: typeof import('naive-ui')['NAvatarGroup']
