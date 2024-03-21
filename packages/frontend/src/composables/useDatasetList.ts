@@ -2,7 +2,7 @@ import { getDatasetList } from '@/api/dataset'
 import { useWorkspaceStore } from '@/stores/workspace'
 import { usePagination } from '@alova/scene-vue'
 
-export const useDatasetList = () => {
+export const useDatasetList = (initSize = 10) => {
   const msg = useMessage()
   const searchValue = ref('')
   const datasource = ref<number>()
@@ -18,7 +18,7 @@ export const useDatasetList = () => {
       ),
     {
       initialPage: 1,
-      initialPageSize: 10,
+      initialPageSize: initSize,
       initialData: {
         code: 0,
         msg: '',

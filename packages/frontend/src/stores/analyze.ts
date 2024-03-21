@@ -17,8 +17,10 @@ const useStore = defineStore(
     }
 
     const changeDataset = (data: DatasetMeta) => {
-      dataset.value = data
-      resetChart()
+      if (data.id !== dataset.value?.id) {
+        dataset.value = data
+        resetChart()
+      }
     }
 
     const changeFields = (data: Field[]) => {
