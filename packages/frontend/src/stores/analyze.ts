@@ -1,5 +1,5 @@
 import type { DatasetMeta } from '@/types/dataset'
-import type { Field } from '@/types/field'
+import { type Field, AnalyzeType } from '@/types/field'
 
 const useStore = defineStore(
   'analyze',
@@ -11,6 +11,14 @@ const useStore = defineStore(
     const allFields = ref<Field[]>([])
 
     const currentDatasetId = computed(() => dataset.value?.id)
+
+    const conditions = computed<Record<AnalyzeType, Ref<Field[]>>>(() => {
+      return {
+        [AnalyzeType.DIM]: dims,
+        [AnalyzeType.QUOTA]: quotas,
+        [AnalyzeType.FILTER]: filters
+      }
+    })
 
     const resetChart = () => {
       quotas.value = []
@@ -29,27 +37,27 @@ const useStore = defineStore(
       allFields.value = data
     }
 
-    const updateField = (type: 'dim' | 'quota' | 'filter', data: Field[]) => {
-      const map: Record<'dim' | 'quota' | 'filter', Ref<Field[]>> = {
-        dim: dims,
-        quota: quotas,
-        filter: filters
-      }
+    const updateField = (type: AnalyzeType, data: Field[]) => {
+      conditions.value[type].value = data
+    }
 
-      map[type].value = data
+    const addFieldTo = (type: AnalyzeType, data: Field) => {
+      conditions.value[type].value = [...conditions.value[type].value, data]
     }
 
     return {
       quotas,
       dims,
       filters,
+      conditions,
       dataset,
       allFields,
       currentDatasetId,
       changeDataset,
       changeFields,
       resetChart,
-      updateField
+      updateField,
+      addFieldTo
     }
   },
   {

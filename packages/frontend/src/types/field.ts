@@ -12,3 +12,9 @@ export interface Field {
   dataset: number
   workspace?: number
 }
+
+export enum AnalyzeType {
+  QUOTA = 'quota',
+  DIM = 'dim',
+  FILTER = 'filter'
+}
