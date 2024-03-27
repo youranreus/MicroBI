@@ -10,13 +10,14 @@
           :type="fieldColor"
           closable
           size="medium"
-          round
           @close="handleDelField(field)"
         >
           {{ field.name }}
         </n-tag>
       </template>
-      <n-tag v-if="isActive" size="medium" round>添加至{{ displayType }}</n-tag>
+      <n-tag v-if="isActive" size="medium">
+        添加「 {{ collect.item.name }} 」至{{ displayType }}
+      </n-tag>
     </div>
   </div>
 </template>
@@ -65,7 +66,12 @@ const fieldColor = computed(() => {
 })
 
 const handleDrop = (item: Field) => {
-  if (fields.value.some((f) => f.id === item.id)) {
+  const allFields = [
+    ...conditions.value[AnalyzeType.QUOTA].value,
+    ...conditions.value[AnalyzeType.DIM].value,
+    ...conditions.value[AnalyzeType.FILTER].value
+  ]
+  if (allFields.some((f) => f.id === item.id)) {
     msg.warning('字段重复')
     return
   }
