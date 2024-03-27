@@ -11,6 +11,7 @@ import {
   Query,
   DefaultValuePipe,
   ParseIntPipe,
+  HttpCode,
 } from '@nestjs/common';
 import { DataSetService } from './dataset.service';
 import { UserParams, AuthRoles } from '@reus-able/nestjs';
@@ -61,6 +62,7 @@ export class DataSetController {
 
   @Post(':id/query')
   @AuthRoles('user')
+  @HttpCode(200)
   queryData(
     @UserParams() user: UserJwtPayload,
     @Param('id') id: string,
