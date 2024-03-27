@@ -1,3 +1,4 @@
+import { Field } from '@/entities';
 import { FieldType } from './types';
 
 export function mysqlDataTypeToCategory(type: string): FieldType | 'unknown' {
@@ -43,3 +44,24 @@ export function mysqlDataTypeToCategory(type: string): FieldType | 'unknown' {
     return 'unknown';
   }
 }
+
+export const getFieldSqlArr = (fields: Field[], rename = true) =>
+  fields.map((c) =>
+    rename ? `\`${c.fieldname}\` AS "${c.name}"` : `\`${c.fieldname}\``,
+  );
+
+export const getFieldSqlStr = (fields: Field[], rename = true) =>
+  getFieldSqlArr(fields, rename).join(', ');
+
+export const getQuotaSqlArr = (fields: Field[]) =>
+  fields.map((f) => {
+    switch (f.type) {
+      case FieldType.STRING:
+      case FieldType.DATE:
+        return `AVG(\`${f.fieldname}\`) AS "${f.name}"`;
+      case FieldType.NUMBER:
+        return `AVG(\`${f.fieldname}\`) AS "${f.name}"`;
+      default:
+        break;
+    }
+  });

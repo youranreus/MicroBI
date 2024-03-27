@@ -7,10 +7,12 @@ import {
   CreateDataSetDto,
   UpdateDataSetDto,
   DatasetFieldCreateDto,
+  QueryDataDto,
 } from '@/dtos';
 import { Field, DataSet, DataSource } from '@/entities';
 import { paginate } from 'nestjs-typeorm-paginate';
 import { isNil } from 'lodash';
+import { getFieldSqlStr, getQuotaSqlArr, getFieldSqlArr } from '@/utils';
 
 interface DataSetQueryParam {
   datasource?: string;
@@ -342,14 +344,63 @@ export class DataSetService {
     });
     await db.initialize();
 
-    const fieldStr = ds.fields
-      .map((c) => `\`${c.fieldname}\` "${c.name}"`)
-      .join(', ');
+    const fieldStr = getFieldSqlStr(ds.fields);
 
     const data = await db.query(`SELECT ${fieldStr} FROM ${ds.tablename}`);
 
     await db.destroy();
 
     return data;
+  }
+
+  async queryData(user: number, id: number, body: QueryDataDto) {
+    const ds = await this.dsRepo.findOneOrFail({
+      where: { id },
+      relations: {
+        datasource: true,
+        workspace: {
+          users: true,
+        },
+        fields: true,
+      },
+    });
+
+    const src = ds.datasource;
+
+    if (!ds.workspace.users.some((u) => u.id === user)) {
+      BusinessException.throwForbidden();
+    }
+
+    const quotas = ds.fields.filter((f) => body.quotas.includes(f.id));
+    const dims = ds.fields.filter((f) => body.dims.includes(f.id));
+    // const filters = ds.fields.filter((f) => body.filters.includes(f.id));
+
+    const db = new DB({
+      type: src.type,
+      host: src.ip,
+      port: src.port,
+      username: src.user,
+      password: src.password,
+      database: src.database,
+      synchronize: false,
+      logging: true,
+      connectorPackage: 'mysql2',
+    });
+    await db.initialize();
+
+    let sql = `SELECT ${[
+      ...getQuotaSqlArr(quotas),
+      ...getFieldSqlArr(dims),
+    ].join(', ')} FROM ${ds.tablename}`;
+    if (dims.length) {
+      sql += ` GROUP BY ${getFieldSqlStr(dims, false)}`;
+    }
+
+    const data = await db.query(sql);
+
+    return {
+      data,
+      sql,
+    };
   }
 }

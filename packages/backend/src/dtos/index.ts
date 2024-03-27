@@ -6,6 +6,7 @@ export * from './datasource/create-datasource';
 export * from './datasource/update-datasource';
 export * from './dataset/create-dataset';
 export * from './dataset/update-dataset';
+export * from './dataset/chart-query.dto';
 export * from './chart/create-chart.dto';
 export * from './chart/update-chart.dto';
 export * from './dashboard/create-dashboard.dto';

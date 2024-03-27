@@ -20,6 +20,7 @@ import {
   UpdateDataSetDto,
   DatasetFieldCreateDto,
   DatasetFieldUpdateDto,
+  QueryDataDto,
 } from '@/dtos';
 
 @Controller({
@@ -56,6 +57,16 @@ export class DataSetController {
   @AuthRoles('user')
   findOne(@UserParams() user: UserJwtPayload, @Param('id') id: string) {
     return this.dataSetService.findOne(user.id, +id);
+  }
+
+  @Post(':id/query')
+  @AuthRoles('user')
+  queryData(
+    @UserParams() user: UserJwtPayload,
+    @Param('id') id: string,
+    @Body() body: QueryDataDto,
+  ) {
+    return this.dataSetService.queryData(user.id, +id, body);
   }
 
   @Patch(':id')
