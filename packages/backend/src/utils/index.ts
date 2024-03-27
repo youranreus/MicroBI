@@ -1,5 +1,6 @@
 import { Field } from '@/entities';
-import { FieldType } from './types';
+import { FieldType, CalcType } from './types';
+import { QueryDataField, QueryDataQuota } from '@/dtos';
 
 export function mysqlDataTypeToCategory(type: string): FieldType | 'unknown' {
   // 数字类型
@@ -53,15 +54,19 @@ export const getFieldSqlArr = (fields: Field[], rename = true) =>
 export const getFieldSqlStr = (fields: Field[], rename = true) =>
   getFieldSqlArr(fields, rename).join(', ');
 
-export const getQuotaSqlArr = (fields: Field[]) =>
+export const getQuotaSqlArr = (fields: QueryDataQuota[]) =>
   fields.map((f) => {
     switch (f.type) {
-      case FieldType.STRING:
-      case FieldType.DATE:
+      case CalcType.AVG:
         return `AVG(\`${f.fieldname}\`) AS "${f.name}"`;
-      case FieldType.NUMBER:
-        return `AVG(\`${f.fieldname}\`) AS "${f.name}"`;
+      case CalcType.SUM:
+        return `SUM(\`${f.fieldname}\`) AS "${f.name}"`;
       default:
         break;
     }
   });
+
+export const transferDto2Sql = (fields: QueryDataField[], rename = true) =>
+  fields.map((c) =>
+    rename ? `\`${c.fieldname}\` AS "${c.name}"` : `\`${c.fieldname}\``,
+  );

@@ -1,12 +1,33 @@
-import { IsInt } from 'class-validator';
+import { CalcType } from '@/utils/types';
+import { Type } from 'class-transformer';
+import { IsEnum, IsInt, IsString, ValidateNested } from 'class-validator';
+
+export class QueryDataField {
+  @IsInt()
+  id: number;
+
+  @IsString()
+  name: string;
+
+  @IsString()
+  fieldname: string;
+}
+
+export class QueryDataQuota extends QueryDataField {
+  @IsEnum(CalcType)
+  type: CalcType;
+}
 
 export class QueryDataDto {
-  @IsInt({ each: true })
-  quotas: number[];
+  @ValidateNested()
+  @Type(() => QueryDataQuota)
+  quotas: QueryDataQuota[];
 
-  @IsInt({ each: true })
-  dims: number[];
+  @ValidateNested()
+  @Type(() => QueryDataField)
+  dims: QueryDataField[];
 
-  @IsInt({ each: true })
-  filters: number[];
+  @ValidateNested()
+  @Type(() => QueryDataField)
+  filters: QueryDataField[];
 }

@@ -12,7 +12,7 @@ import {
 import { Field, DataSet, DataSource } from '@/entities';
 import { paginate } from 'nestjs-typeorm-paginate';
 import { isNil } from 'lodash';
-import { getFieldSqlStr, getQuotaSqlArr, getFieldSqlArr } from '@/utils';
+import { getFieldSqlStr, getQuotaSqlArr, transferDto2Sql } from '@/utils';
 
 interface DataSetQueryParam {
   datasource?: string;
@@ -361,7 +361,6 @@ export class DataSetService {
         workspace: {
           users: true,
         },
-        fields: true,
       },
     });
 
@@ -370,10 +369,6 @@ export class DataSetService {
     if (!ds.workspace.users.some((u) => u.id === user)) {
       BusinessException.throwForbidden();
     }
-
-    const quotas = ds.fields.filter((f) => body.quotas.includes(f.id));
-    const dims = ds.fields.filter((f) => body.dims.includes(f.id));
-    // const filters = ds.fields.filter((f) => body.filters.includes(f.id));
 
     const db = new DB({
       type: src.type,
@@ -389,11 +384,11 @@ export class DataSetService {
     await db.initialize();
 
     let sql = `SELECT ${[
-      ...getQuotaSqlArr(quotas),
-      ...getFieldSqlArr(dims),
+      ...getQuotaSqlArr(body.quotas),
+      ...transferDto2Sql(body.dims),
     ].join(', ')} FROM ${ds.tablename}`;
-    if (dims.length) {
-      sql += ` GROUP BY ${getFieldSqlStr(dims, false)}`;
+    if (body.dims.length) {
+      sql += ` GROUP BY ${transferDto2Sql(body.dims, false)}`;
     }
 
     const data = await db.query(sql);

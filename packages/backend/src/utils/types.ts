@@ -9,6 +9,11 @@ export enum FieldType {
   DATE = 'date',
 }
 
+export enum CalcType {
+  AVG = 'AVG',
+  SUM = 'SUM',
+}
+
 export interface Restful<T> {
   code: number;
   msg: string;
