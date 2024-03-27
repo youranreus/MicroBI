@@ -2,7 +2,7 @@
   <div :ref="Drop" class="min-h-7 flex items-center gap-x-4">
     <span class="font-bold">{{ displayType }}</span>
     <div class="flex-1 flex gap-x-2">
-      <span v-if="!fields.length">暂无字段</span>
+      <span v-if="!fields.length && !isActive">暂无字段</span>
       <template v-else>
         <n-tag
           v-for="field in fields"
@@ -15,8 +15,8 @@
         >
           {{ field.name }}
         </n-tag>
-        <n-tag v-if="isActive" size="medium" round>添加至{{ displayType }}</n-tag>
       </template>
+      <n-tag v-if="isActive" size="medium" round>添加至{{ displayType }}</n-tag>
     </div>
   </div>
 </template>
