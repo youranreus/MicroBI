@@ -23,7 +23,6 @@
   </div>
 </template>
 <script setup lang="ts">
-import { useAnalyzeStore } from '@/stores/analyze'
 import { useQueryStore } from '@/stores/query'
 import { FolderOpenOutline } from '@vicons/ionicons5'
 import VCodeBlock from '@wdns/vue-code-block'
@@ -32,18 +31,17 @@ defineOptions({
   name: 'AnalyzeResult'
 })
 
-const { data } = useQueryStore()
-const { conditions } = useAnalyzeStore()
+const { data, currentConditions } = useQueryStore()
 
 const hasResult = computed(() => data.value.sql)
 
 const tableColumns = computed(() => {
-  const dimCols = conditions.value.dim.value.map((f) => ({
+  const dimCols = currentConditions.value.dim.map((f) => ({
     title: f.name,
     key: f.name
   }))
 
-  const quotaCols = conditions.value.quota.value.map((f) => ({
+  const quotaCols = currentConditions.value.quota.map((f) => ({
     title: f.name,
     key: f.name
   }))
