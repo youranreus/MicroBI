@@ -393,6 +393,8 @@ export class DataSetService {
 
     const data = await db.query(sql);
 
+    await db.destroy();
+
     return {
       data,
       sql,
