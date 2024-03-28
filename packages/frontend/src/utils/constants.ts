@@ -89,3 +89,8 @@ export const FieldIconMap = {
   [FieldType.DATE]: CalendarClearOutline,
   [FieldType.NUMBER]: StatsChartOutline
 }
+
+export enum ChartDisplayMode {
+  CHART = 'chart',
+  SQL = 'sql'
+}
