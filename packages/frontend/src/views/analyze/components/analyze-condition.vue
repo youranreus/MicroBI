@@ -4,16 +4,13 @@
     <div class="flex-1 flex gap-x-2">
       <span v-if="!fields.length && !isActive">暂无字段</span>
       <template v-else>
-        <n-tag
+        <condition-item
           v-for="field in fields"
           :key="field.id"
-          :type="fieldColor"
-          closable
-          size="medium"
-          @close="handleDelField(field)"
-        >
-          {{ field.name }}
-        </n-tag>
+          :field="field"
+          :type="type"
+          @del="handleDelField(field)"
+        ></condition-item>
       </template>
       <n-tag v-if="isActive" size="medium">
         添加「 {{ collect.item.name }} 」至{{ displayType }}
@@ -24,6 +21,7 @@
 <script setup lang="ts">
 import { useAnalyzeStore } from '@/stores/analyze'
 import { AnalyzeType, type Field } from '@/types/field'
+import ConditionItem from './condition-item.vue'
 import { useDrop } from 'vue3-dnd'
 
 defineOptions({
@@ -50,16 +48,6 @@ const displayType = computed(() => {
     [AnalyzeType.QUOTA]: '指标',
     [AnalyzeType.DIM]: '维度',
     [AnalyzeType.FILTER]: '过滤'
-  }
-
-  return map[props.type]
-})
-
-const fieldColor = computed(() => {
-  const map: Record<AnalyzeType, 'info' | 'warning' | 'error' | 'default'> = {
-    [AnalyzeType.QUOTA]: 'info',
-    [AnalyzeType.DIM]: 'warning',
-    [AnalyzeType.FILTER]: 'error'
   }
 
   return map[props.type]
