@@ -1,6 +1,6 @@
 import { type Condition, ChartType } from '@/types/chart'
 import type { DatasetMeta } from '@/types/dataset'
-import { AnalyzeType } from '@/types/field'
+import { AnalyzeType, type Field } from '@/types/field'
 
 const useStore = defineStore(
   'analyze',
@@ -9,7 +9,7 @@ const useStore = defineStore(
     const dims = ref<Condition[]>([])
     const filters = ref<Condition[]>([])
     const dataset = ref<DatasetMeta>()
-    const allFields = ref<Condition[]>([])
+    const allFields = ref<Field[]>([])
     const type = ref<ChartType>(ChartType.TABLE)
 
     const currentDatasetId = computed(() => dataset.value?.id)
@@ -38,7 +38,7 @@ const useStore = defineStore(
 
     const changeType = (val: ChartType) => (type.value = val)
 
-    const changeFields = (data: Condition[]) => {
+    const changeFields = (data: Field[]) => {
       allFields.value = data
     }
 
