@@ -56,7 +56,7 @@ export const getFieldSqlStr = (fields: Field[], rename = true) =>
 
 export const getQuotaSqlArr = (fields: QueryDataQuota[]) =>
   fields.map((f) => {
-    switch (f.type) {
+    switch (f.calc) {
       case CalcType.AVG:
         return `AVG(\`${f.fieldname}\`) AS "${f.name}"`;
       case CalcType.SUM:

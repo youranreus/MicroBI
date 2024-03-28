@@ -15,7 +15,7 @@ export class QueryDataField {
 
 export class QueryDataQuota extends QueryDataField {
   @IsEnum(CalcType)
-  type: CalcType;
+  calc: CalcType;
 }
 
 export class QueryDataDto {
