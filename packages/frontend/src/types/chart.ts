@@ -32,3 +32,15 @@ export interface ChartData extends ChartMeta {
   quotas: Field[]
   filters: Field[]
 }
+
+export enum CalcType {
+  AVG = 'AVG',
+  SUM = 'SUM',
+  COUNT = 'COUNT',
+  MAX = 'MAX',
+  MIN = 'MIN'
+}
+
+export interface Condition extends Field {
+  calc: CalcType
+}

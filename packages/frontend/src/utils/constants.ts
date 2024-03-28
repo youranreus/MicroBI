@@ -2,6 +2,7 @@ import type { MenuOption } from 'naive-ui'
 import type { RouteRecordRaw } from 'vue-router'
 import { adminMenuItems, analyzeMenuItems, dashboardMenuItems } from '@/router/detail-routes'
 import { FieldType } from '@/types/field'
+import { CalcType } from '@/types/chart'
 
 export const NAV_ITEMS = [
   {
@@ -48,3 +49,25 @@ export const FieldTypeOptions = [
     value: FieldType.DATE
   }
 ]
+
+export const FieldCalcMap: Record<FieldType, CalcType[]> = {
+  [FieldType.STRING]: [CalcType.MAX, CalcType.MIN, CalcType.COUNT],
+  [FieldType.NUMBER]: [CalcType.MAX, CalcType.MIN, CalcType.COUNT, CalcType.AVG, CalcType.SUM],
+  [FieldType.DATE]: [CalcType.MAX, CalcType.MIN, CalcType.COUNT]
+}
+
+export const CalcNameMap: Record<CalcType, string> = {
+  [CalcType.AVG]: '平均',
+  [CalcType.COUNT]: '计数',
+  [CalcType.MAX]: '最大值',
+  [CalcType.MIN]: '最小值',
+  [CalcType.SUM]: '求和'
+}
+
+export const FieldCalcOptions = Object.keys(FieldCalcMap).reduce(
+  (p, c) => ({
+    ...p,
+    [c]: FieldCalcMap[c as FieldType].map((t) => ({ label: CalcNameMap[t], value: t }))
+  }),
+  {} as Record<FieldType, { label: string; value: CalcType }[]>
+)

@@ -46,6 +46,7 @@ declare module 'vue' {
     NP: typeof import('naive-ui')['NP']
     NPagination: typeof import('naive-ui')['NPagination']
     NPopover: typeof import('naive-ui')['NPopover']
+    NPopselect: typeof import('naive-ui')['NPopselect']
     NRadio: typeof import('naive-ui')['NRadio']
     NRadioGroup: typeof import('naive-ui')['NRadioGroup']
     NResult: typeof import('naive-ui')['NResult']

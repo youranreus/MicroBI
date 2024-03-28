@@ -1,18 +1,19 @@
+import type { Condition } from '@/types/chart'
 import type { DatasetMeta } from '@/types/dataset'
-import { type Field, AnalyzeType } from '@/types/field'
+import { AnalyzeType } from '@/types/field'
 
 const useStore = defineStore(
   'analyze',
   () => {
-    const quotas = ref<Field[]>([])
-    const dims = ref<Field[]>([])
-    const filters = ref<Field[]>([])
+    const quotas = ref<Condition[]>([])
+    const dims = ref<Condition[]>([])
+    const filters = ref<Condition[]>([])
     const dataset = ref<DatasetMeta>()
-    const allFields = ref<Field[]>([])
+    const allFields = ref<Condition[]>([])
 
     const currentDatasetId = computed(() => dataset.value?.id)
 
-    const conditions = computed<Record<AnalyzeType, Ref<Field[]>>>(() => {
+    const conditions = computed<Record<AnalyzeType, Ref<Condition[]>>>(() => {
       return {
         [AnalyzeType.DIM]: dims,
         [AnalyzeType.QUOTA]: quotas,
@@ -33,15 +34,15 @@ const useStore = defineStore(
       }
     }
 
-    const changeFields = (data: Field[]) => {
+    const changeFields = (data: Condition[]) => {
       allFields.value = data
     }
 
-    const updateField = (type: AnalyzeType, data: Field[]) => {
+    const updateField = (type: AnalyzeType, data: Condition[]) => {
       conditions.value[type].value = data
     }
 
-    const addFieldTo = (type: AnalyzeType, data: Field) => {
+    const addFieldTo = (type: AnalyzeType, data: Condition) => {
       conditions.value[type].value = [...conditions.value[type].value, data]
     }
 
