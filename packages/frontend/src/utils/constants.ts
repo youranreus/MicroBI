@@ -2,7 +2,8 @@ import type { MenuOption } from 'naive-ui'
 import type { RouteRecordRaw } from 'vue-router'
 import { adminMenuItems, analyzeMenuItems, dashboardMenuItems } from '@/router/detail-routes'
 import { FieldType } from '@/types/field'
-import { CalcType } from '@/types/chart'
+import { CalcType, ChartType } from '@/types/chart'
+import { CalendarClearOutline, StatsChartOutline, TextOutline } from '@vicons/ionicons5'
 
 export const NAV_ITEMS = [
   {
@@ -71,3 +72,20 @@ export const FieldCalcOptions = Object.keys(FieldCalcMap).reduce(
   }),
   {} as Record<FieldType, { label: string; value: CalcType }[]>
 )
+
+export const ChartTypeMap: Record<ChartType, string> = {
+  [ChartType.TABLE]: '表格',
+  [ChartType.LINE]: '线图',
+  [ChartType.BAR]: '柱状图'
+}
+
+export const ChartTypeOptions = Object.entries(ChartTypeMap).map(([value, label]) => ({
+  label,
+  value
+}))
+
+export const FieldIconMap = {
+  [FieldType.STRING]: TextOutline,
+  [FieldType.DATE]: CalendarClearOutline,
+  [FieldType.NUMBER]: StatsChartOutline
+}

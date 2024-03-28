@@ -1,17 +1,18 @@
 <template>
-  <div :ref="Drop" class="min-h-7 flex items-center gap-x-4">
-    <span class="font-bold">{{ displayType }}</span>
-    <div class="flex-1 flex gap-x-2">
-      <span v-if="!fields.length && !isActive">暂无字段</span>
-      <template v-else>
-        <condition-item
-          v-for="field in fields"
-          :key="field.id"
-          :field="field"
-          :type="type"
-          @del="handleDelField(field)"
-        ></condition-item>
-      </template>
+  <div
+    :ref="Drop"
+    class="min-h-7 flex items-center gap-x-4 border-b py-2"
+    :class="{ 'bg-gray-100': isActive }"
+  >
+    <span class="h-7 leading-7">{{ displayType }}</span>
+    <div class="flex-1 flex gap-x-2 min-h-7 leading-7">
+      <condition-item
+        v-for="field in fields"
+        :key="field.id"
+        :field="field"
+        :type="type"
+        @del="handleDelField(field)"
+      ></condition-item>
       <n-tag v-if="isActive" size="medium">
         添加「 {{ collect.item.name }} 」至{{ displayType }}
       </n-tag>

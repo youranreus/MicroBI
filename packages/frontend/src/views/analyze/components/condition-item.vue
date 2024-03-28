@@ -9,16 +9,22 @@
   >
     <n-tag class="cursor-pointer" :type="fieldColor" closable size="medium" @close="emit('del')">
       {{ `${CalcNameMap[field.calc]} | ${field.name}` }}
+      <template #icon>
+        <n-icon :component="FieldIconMap[field.type]" size="small"></n-icon>
+      </template>
     </n-tag>
   </n-popselect>
   <n-tag v-else :type="fieldColor" closable size="medium" @close="emit('del')">
     {{ field.name }}
+    <template #icon>
+      <n-icon :component="FieldIconMap[field.type]" size="small"></n-icon>
+    </template>
   </n-tag>
 </template>
 <script setup lang="ts">
 import { useAnalyzeStore } from '@/stores/analyze'
 import type { CalcType, Condition } from '@/types/chart'
-import { CalcNameMap, FieldCalcOptions } from '@/utils/constants'
+import { CalcNameMap, FieldCalcOptions, FieldIconMap } from '@/utils/constants'
 import { AnalyzeType } from '@/types/field'
 import { cloneDeep } from 'lodash-es'
 
