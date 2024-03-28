@@ -28,9 +28,13 @@
       </n-button>
     </n-flex>
   </div>
+  <div class="h-[calc(100%-262px)]">
+    <analyze-result></analyze-result>
+  </div>
 </template>
 <script setup lang="ts">
 import AnalyzeCondition from './analyze-condition.vue'
+import AnalyzeResult from './analyze-result.vue'
 import { useQueryChart } from '@/composables/useQueryChart'
 import { useAnalyzeStore } from '@/stores/analyze'
 import { AnalyzeType } from '@/types/field'
