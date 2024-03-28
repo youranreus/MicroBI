@@ -12,6 +12,9 @@ export enum FieldType {
 export enum CalcType {
   AVG = 'AVG',
   SUM = 'SUM',
+  COUNT = 'COUNT',
+  MAX = 'MAX',
+  MIN = 'MIN',
 }
 
 export interface Restful<T> {

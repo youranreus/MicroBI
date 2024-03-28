@@ -61,7 +61,14 @@ export const getQuotaSqlArr = (fields: QueryDataQuota[]) =>
         return `AVG(\`${f.fieldname}\`) AS "${f.name}"`;
       case CalcType.SUM:
         return `SUM(\`${f.fieldname}\`) AS "${f.name}"`;
+      case CalcType.COUNT:
+        return `COUNT(\`${f.fieldname}\`) AS "${f.name}"`;
+      case CalcType.MAX:
+        return `MAX(\`${f.fieldname}\`) AS "${f.name}"`;
+      case CalcType.MIN:
+        return `MIN(\`${f.fieldname}\`) AS "${f.name}"`;
       default:
+        return `\`${f.fieldname}\` AS "${f.name}"`;
         break;
     }
   });
