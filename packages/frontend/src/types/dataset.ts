@@ -1,6 +1,7 @@
 import type { Restful, Pagination, ItemDateData } from '.'
 import type { UserData } from './user'
 import type { Field } from './field'
+import type { Condition } from './chart'
 
 export interface DatasetMeta extends ItemDateData {
   name: string
@@ -25,3 +26,14 @@ export interface DatasetDetailRes {
 }
 
 export type TableColumnRes = Restful<Pick<Field, 'name' | 'type'>[]>
+
+export interface QueryDataParams {
+  quotas: Condition[]
+  dims: Condition[]
+  filters: Condition[]
+}
+
+export type QueryDataRes = Restful<{
+  data: Record<string, any>[]
+  sql: string
+}>

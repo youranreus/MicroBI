@@ -3,7 +3,9 @@ import type {
   DatasetListRes,
   DatasetCreateParams,
   DatasetDetailRes,
-  TableColumnRes
+  TableColumnRes,
+  QueryDataRes,
+  QueryDataParams
 } from '@/types/dataset'
 import type { Restful } from '@/types'
 import type { Field } from '@/types/field'
@@ -44,3 +46,6 @@ export const addField = (dataset: number, data: Pick<Field, 'name' | 'type' | 'f
 
 export const getFieldList = (dataset: number) =>
   api.Get<Restful<Field[]>>(`/dataset/${dataset}/field`)
+
+export const queryData = (dataset: number, data: QueryDataParams) =>
+  api.Post<QueryDataRes>(`/dataset/${dataset}/query`, data)
