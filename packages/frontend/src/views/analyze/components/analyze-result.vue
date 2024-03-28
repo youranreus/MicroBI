@@ -19,9 +19,11 @@
     <n-h5 prefix="bar">
       <n-text type="primary"> 图表 </n-text>
     </n-h5>
+    <n-data-table :columns="tableColumns" :data="data.data" bordered striped />
   </div>
 </template>
 <script setup lang="ts">
+import { useAnalyzeStore } from '@/stores/analyze'
 import { useQueryStore } from '@/stores/query'
 import { FolderOpenOutline } from '@vicons/ionicons5'
 import VCodeBlock from '@wdns/vue-code-block'
@@ -31,7 +33,21 @@ defineOptions({
 })
 
 const { data } = useQueryStore()
+const { conditions } = useAnalyzeStore()
 
-const isEmpty = computed(() => !data.value.data.length)
 const hasResult = computed(() => data.value.sql)
+
+const tableColumns = computed(() => {
+  const dimCols = conditions.value.dim.value.map((f) => ({
+    title: f.name,
+    key: f.name
+  }))
+
+  const quotaCols = conditions.value.quota.value.map((f) => ({
+    title: f.name,
+    key: f.name
+  }))
+
+  return [...dimCols, ...quotaCols]
+})
 </script>
