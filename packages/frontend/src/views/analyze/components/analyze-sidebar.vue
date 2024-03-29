@@ -28,6 +28,7 @@ import { useDatasetFields } from '@/composables/useDatasetFields'
 import { useAnalyzeStore } from '@/stores/analyze'
 import FieldItem from './field-item.vue'
 import type { DatasetMeta } from '@/types/dataset'
+import { useQueryStore } from '@/stores/query'
 
 defineOptions({
   name: 'AnalyzeSidebar'
@@ -36,6 +37,7 @@ defineOptions({
 const route = useRoute()
 const { data: datasetList, loading: datasetLoading } = useDatasetList(100)
 const { dataset, currentDatasetId, changeDataset, changeFields } = useAnalyzeStore()
+const { updateData } = useQueryStore()
 
 const { data: fieldList, loading: fieldsLoading } = useDatasetFields(currentDatasetId, () => {
   changeFields(fieldList.value.data)
@@ -51,5 +53,9 @@ const datasetOptions = computed(() => {
 
 const handleSelectDataset = (value: number) => {
   changeDataset(datasetList.value.find((ds) => ds.id === value) as DatasetMeta)
+  updateData({
+    data: [],
+    sql: ''
+  })
 }
 </script>

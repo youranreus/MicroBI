@@ -68,9 +68,7 @@ const useStore = defineStore(
     }
   },
   {
-    persist: {
-      key: 'analyze-store'
-    }
+    persist: false
   }
 )
 
