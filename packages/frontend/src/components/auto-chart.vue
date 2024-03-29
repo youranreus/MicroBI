@@ -73,15 +73,18 @@ const series = computed(() => {
     return {
       name,
       type: props.type,
-      data: serieData
+      data: serieData,
+      smooth: true
     }
   })
 })
 
 const chartOptions = computed(() => ({
   tooltip: {
-    trigger: 'item',
-    formatter: '{a} <br/>{b} : {c}'
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    }
   },
   legend: {
     orient: 'vertical',
@@ -93,8 +96,13 @@ const chartOptions = computed(() => ({
     data: legends.value
   },
   yAxis: {
-    type: 'value'
+    type: 'value',
+    boundaryGap: ['0%', '10%']
   },
+  // axisPointer: {
+  //   type: 'shadow',
+  //   show: true
+  // },
   series: series.value
 }))
 </script>
