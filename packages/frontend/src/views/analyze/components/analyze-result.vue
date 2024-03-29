@@ -6,7 +6,7 @@
       </template>
     </n-empty>
   </div>
-  <div class="flex flex-col p-4">
+  <div v-else class="flex flex-col p-4">
     <n-h5 prefix="bar">
       <n-text type="primary"> SQL </n-text>
     </n-h5>
