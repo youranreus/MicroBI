@@ -2,7 +2,7 @@ import type { MenuOption } from 'naive-ui'
 import type { RouteRecordRaw } from 'vue-router'
 import { adminMenuItems, analyzeMenuItems, dashboardMenuItems } from '@/router/detail-routes'
 import { FieldType } from '@/types/field'
-import { CalcType, ChartType } from '@/types/chart'
+import { CalcType, ChartType, SortType } from '@/types/chart'
 import { CalendarClearOutline, StatsChartOutline, TextOutline } from '@vicons/ionicons5'
 
 export const NAV_ITEMS = [
@@ -65,6 +65,12 @@ export const CalcNameMap: Record<CalcType, string> = {
   [CalcType.SUM]: '求和'
 }
 
+export const SortNameMap: Record<SortType, string> = {
+  [SortType.DESC]: '降序',
+  [SortType.ASC]: '升序',
+  [SortType.NONE]: '默认排序'
+}
+
 export const FieldCalcOptions = Object.keys(FieldCalcMap).reduce(
   (p, c) => ({
     ...p,
@@ -72,6 +78,11 @@ export const FieldCalcOptions = Object.keys(FieldCalcMap).reduce(
   }),
   {} as Record<FieldType, { label: string; value: CalcType }[]>
 )
+
+export const FieldSortOptions = Object.entries(SortNameMap).map(([value, label]) => ({
+  label,
+  value
+}))
 
 export const ChartTypeMap: Record<ChartType, string> = {
   [ChartType.TABLE]: '表格',

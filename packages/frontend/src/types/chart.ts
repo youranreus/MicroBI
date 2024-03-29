@@ -41,6 +41,13 @@ export enum CalcType {
   MIN = 'MIN'
 }
 
+export enum SortType {
+  NONE = '',
+  DESC = 'DESC',
+  ASC = 'ASC'
+}
+
 export interface Condition extends Field {
   calc: CalcType
+  sort?: SortType
 }

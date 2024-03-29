@@ -4,7 +4,7 @@
     <div>
       <analyze-condition :type="AnalyzeType.QUOTA"></analyze-condition>
       <analyze-condition :type="AnalyzeType.DIM"></analyze-condition>
-      <analyze-condition :type="AnalyzeType.FILTER"></analyze-condition>
+      <!-- <analyze-condition :type="AnalyzeType.FILTER"></analyze-condition> -->
     </div>
     <n-flex justify="space-between" align="center">
       <n-flex>

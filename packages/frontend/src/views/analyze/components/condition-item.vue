@@ -1,32 +1,32 @@
 <template>
   <n-popselect
-    v-if="type === AnalyzeType.QUOTA"
     :value="field.calc"
-    :options="FieldCalcOptions[field.type]"
+    :options="popupOptions"
     trigger="click"
     placement="bottom-start"
     :on-update:value="handleChangeCalc"
   >
     <n-tag class="cursor-pointer" :type="fieldColor" closable size="medium" @close="emit('del')">
-      {{ `${CalcNameMap[field.calc]} | ${field.name}` }}
+      {{ `${prefix} | ${field.name}` }}
       <template #icon>
         <n-icon :component="FieldIconMap[field.type]" size="small"></n-icon>
       </template>
     </n-tag>
   </n-popselect>
-  <n-tag v-else :type="fieldColor" closable size="medium" @close="emit('del')">
-    {{ field.name }}
-    <template #icon>
-      <n-icon :component="FieldIconMap[field.type]" size="small"></n-icon>
-    </template>
-  </n-tag>
 </template>
 <script setup lang="ts">
 import { useAnalyzeStore } from '@/stores/analyze'
 import type { CalcType, Condition } from '@/types/chart'
-import { CalcNameMap, FieldCalcOptions, FieldIconMap } from '@/utils/constants'
+import {
+  CalcNameMap,
+  FieldCalcOptions,
+  FieldIconMap,
+  FieldSortOptions,
+  SortNameMap
+} from '@/utils/constants'
 import { AnalyzeType } from '@/types/field'
 import { cloneDeep } from 'lodash-es'
+import type { SortType } from '@/types/chart'
 
 defineOptions({
   name: 'ConditionItem'
@@ -60,13 +60,33 @@ const fieldColor = computed(() => {
   return map[props.type]
 })
 
-const handleChangeCalc = (val: CalcType) => {
+const handleChangeCalc = (val: CalcType | SortType) => {
   const newValue = cloneDeep(fields.value)
   const target = newValue.find((f) => f.id === props.field.id)
   if (target) {
-    target.calc = val
+    if (props.type === AnalyzeType.DIM) {
+      target.sort = val as SortType
+    } else {
+      target.calc = val as CalcType
+    }
   }
 
   updateField(props.type, newValue)
 }
+
+const popupOptions = computed(() => {
+  if (props.type === AnalyzeType.QUOTA) {
+    return FieldCalcOptions[props.field.type]
+  }
+
+  return FieldSortOptions
+})
+
+const prefix = computed(() => {
+  if (props.type === AnalyzeType.QUOTA) {
+    return CalcNameMap[props.field.calc]
+  }
+
+  return props.field.sort ? SortNameMap[props.field.sort] : ''
+})
 </script>
