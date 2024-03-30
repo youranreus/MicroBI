@@ -1,6 +1,6 @@
 <template>
-  <div class="m-2 flex flex-col gap-y-4">
-    <div class="text-xl font-bold">{{ isEdit ? '编辑' : '创建' }}分析</div>
+  <div class="p-2 flex flex-col gap-y-4 h-full">
+    <div class="text-lg font-bold pt-2">{{ isEdit ? '编辑' : '创建' }}分析</div>
 
     <div class="flex flex-col gap-y-2">
       <div>选择数据集</div>
@@ -20,6 +20,9 @@
         <field-item v-for="field in fieldList?.data" :key="field.id" :field="field" />
       </div>
     </n-spin>
+    <div class="flex-1 flex items-center justify-center">
+      <n-empty v-if="!fieldList?.data?.length" description="暂无可用字段"></n-empty>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
