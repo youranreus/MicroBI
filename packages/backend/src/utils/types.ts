@@ -17,6 +17,12 @@ export enum CalcType {
   MIN = 'MIN',
 }
 
+export enum SortType {
+  NONE = '',
+  DESC = 'DESC',
+  ASC = 'ASC',
+}
+
 export interface Restful<T> {
   code: number;
   msg: string;

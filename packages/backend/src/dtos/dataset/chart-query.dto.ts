@@ -1,4 +1,4 @@
-import { CalcType } from '@/utils/types';
+import { CalcType, SortType } from '@/utils/types';
 import { Type } from 'class-transformer';
 import { IsEnum, IsInt, IsString, ValidateNested } from 'class-validator';
 
@@ -15,7 +15,12 @@ export class QueryDataField {
 
 export class QueryDataQuota extends QueryDataField {
   @IsEnum(CalcType)
-  calc: CalcType;
+  calc?: CalcType;
+}
+
+export class QueryDataDim extends QueryDataField {
+  @IsEnum(SortType)
+  sort?: SortType;
 }
 
 export class QueryDataDto {
@@ -24,8 +29,8 @@ export class QueryDataDto {
   quotas: QueryDataQuota[];
 
   @ValidateNested()
-  @Type(() => QueryDataField)
-  dims: QueryDataField[];
+  @Type(() => QueryDataDim)
+  dims: QueryDataDim[];
 
   @ValidateNested()
   @Type(() => QueryDataField)

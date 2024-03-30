@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BusinessException } from '@reus-able/nestjs';
-import { mysqlDataTypeToCategory } from '@/utils';
+import { getOrderArr, mysqlDataTypeToCategory } from '@/utils';
 import { DataSource as DB, Like, Repository } from 'typeorm';
 import {
   CreateDataSetDto,
@@ -389,6 +389,11 @@ export class DataSetService {
     ].join(', ')} FROM ${ds.tablename}`;
     if (body.dims.length) {
       sql += ` GROUP BY ${transferDto2Sql(body.dims, false)}`;
+    }
+
+    const orderArr = getOrderArr(body.dims).filter(Boolean);
+    if (orderArr.length) {
+      sql += ` ORDER BY ${orderArr.join(', ')}`;
     }
 
     const data = await db.query(sql);

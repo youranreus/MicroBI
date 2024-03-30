@@ -1,6 +1,6 @@
 import { Field } from '@/entities';
-import { FieldType, CalcType } from './types';
-import { QueryDataField, QueryDataQuota } from '@/dtos';
+import { FieldType, CalcType, SortType } from './types';
+import { QueryDataDim, QueryDataField, QueryDataQuota } from '@/dtos';
 
 export function mysqlDataTypeToCategory(type: string): FieldType | 'unknown' {
   // 数字类型
@@ -70,6 +70,18 @@ export const getQuotaSqlArr = (fields: QueryDataQuota[]) =>
       default:
         return `\`${f.fieldname}\` AS "${f.name}"`;
         break;
+    }
+  });
+
+export const getOrderArr = (fields: QueryDataDim[]) =>
+  fields.map((f) => {
+    switch (f.sort) {
+      case SortType.DESC:
+        return `\`${f.fieldname}\` DESC`;
+      case SortType.ASC:
+        return `\`${f.fieldname}\` ASC`;
+      default:
+        return '';
     }
   });
 
