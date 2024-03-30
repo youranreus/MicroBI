@@ -1,6 +1,6 @@
 <template>
   <div class="py-4 px-6 flex flex-col gap-y-4 border-b border-gray-200">
-    <div class="text-lg font-bold">分析条件</div>
+    <analyze-title />
     <div>
       <analyze-condition :type="AnalyzeType.QUOTA"></analyze-condition>
       <analyze-condition :type="AnalyzeType.DIM"></analyze-condition>
@@ -35,6 +35,7 @@
 <script setup lang="ts">
 import AnalyzeCondition from './analyze-condition.vue'
 import AnalyzeResult from './analyze-result.vue'
+import AnalyzeTitle from './analyze-title.vue'
 import { useQueryChart } from '@/composables/useQueryChart'
 import { useAnalyzeStore } from '@/stores/analyze'
 import { AnalyzeType } from '@/types/field'
