@@ -9,6 +9,7 @@ declare module 'vue' {
   export interface GlobalComponents {
     AutoChart: typeof import('./src/components/auto-chart.vue')['default']
     ChartTypeTag: typeof import('./src/components/chart-type-tag.vue')['default']
+    DarkmodeBtn: typeof import('./src/components/darkmode-btn.vue')['default']
     DatasourceType: typeof import('./src/components/datasource-type.vue')['default']
     NAvatar: typeof import('naive-ui')['NAvatar']
     NAvatarGroup: typeof import('naive-ui')['NAvatarGroup']

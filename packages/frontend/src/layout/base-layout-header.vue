@@ -17,11 +17,13 @@
       <div v-if="hasLoggedIn">
         <user-meta :data="userData" show-logout />
       </div>
+      <dark-mode-btn></dark-mode-btn>
     </n-flex>
   </div>
 </template>
 <script setup lang="ts">
 import UserMeta from '@/components/user-meta.vue'
+import DarkModeBtn from '@/components/darkmode-btn.vue'
 import { NAV_ITEMS } from '@/utils/constants'
 import { useUserStore } from '@/stores/user'
 import { useMenuStore } from '@/stores/menu'

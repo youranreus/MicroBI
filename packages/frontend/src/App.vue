@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import BaseLayout from '@/layout/base-layout.vue'
+import { useGlobalStore } from '@/stores/global'
+
+const { currentTheme } = useGlobalStore()
 </script>
 
 <template>
-  <n-config-provider>
+  <n-config-provider :theme="currentTheme">
     <n-modal-provider>
       <n-dialog-provider>
         <n-message-provider>
