@@ -22,7 +22,7 @@
 <script setup lang="ts">
 import { useAnalyzeStore } from '@/stores/analyze'
 import { AnalyzeType, type Field } from '@/types/field'
-import { CalcType } from '@/types/chart'
+import { CalcType, SortType } from '@/types/chart'
 import ConditionItem from './condition-item.vue'
 import { useDrop } from 'vue3-dnd'
 
@@ -67,7 +67,8 @@ const handleDrop = (item: Field) => {
   }
   addFieldTo(props.type, {
     ...item,
-    calc: CalcType.COUNT
+    calc: CalcType.COUNT,
+    sort: SortType.NONE
   })
 }
 
