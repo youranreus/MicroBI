@@ -11,6 +11,7 @@ import {
 import { Workspace } from './Workspace';
 import { DataSource } from './DataSource';
 import { Field } from './Field';
+import { Chart } from './Chart';
 
 export interface DataSetExportData {
   id: number;
@@ -51,6 +52,13 @@ export class DataSet {
     onUpdate: 'CASCADE',
   })
   fields: Field[];
+
+  @OneToMany(() => Chart, (c) => c.dataset, {
+    cascade: true,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  charts: Field[];
 
   @CreateDateColumn()
   created_at: Date;

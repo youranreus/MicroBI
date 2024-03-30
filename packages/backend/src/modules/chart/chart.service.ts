@@ -31,6 +31,7 @@ export class ChartService {
       },
       relations: {
         workspace: true,
+        dataset: true,
       },
     });
   }
@@ -58,9 +59,14 @@ export class ChartService {
       quotas,
       dims,
       filters,
+      dataset: quotas[0].dataset,
       type: body.type,
       workspace: ws,
       owner: ws.users.find((u) => u.id === user),
+      addition: {
+        quotas: body.quotaData,
+        dims: body.dimData,
+      },
     });
 
     await this.repo.save(chart);
@@ -100,6 +106,7 @@ export class ChartService {
         dims: true,
         quotas: true,
         filters: true,
+        dataset: true,
         workspace: {
           users: true,
         },
@@ -127,6 +134,7 @@ export class ChartService {
         filters: true,
         owner: true,
         workspace: true,
+        dataset: true,
       },
     });
 
@@ -136,6 +144,10 @@ export class ChartService {
 
     chart.type = body.type;
     chart.name = body.name;
+    chart.addition = {
+      quotas: body.quotaData,
+      dims: body.dimData,
+    };
 
     await this.repo.save(chart);
 
