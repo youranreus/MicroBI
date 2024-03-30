@@ -23,11 +23,12 @@ defineOptions({
   name: 'AnalyzeEdit'
 })
 const route = useRoute()
-const { changeDataset, setName, changeType, updateField, clear } = useAnalyzeStore()
+const { changeDataset, setName, changeType, updateField, setId, clear } = useAnalyzeStore()
 const { metadata, dims, quotas, resData, query } = useGetChart(() => {
   changeDataset(resData.value.data.dataset)
   setName(metadata.value.name)
   changeType(metadata.value.type)
+  setId(resData.value.data.id)
   updateField(AnalyzeType.QUOTA, quotas.value)
   updateField(AnalyzeType.DIM, dims.value)
 })

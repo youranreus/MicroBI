@@ -12,6 +12,7 @@ const useStore = defineStore(
     const allFields = ref<Field[]>([])
     const type = ref<ChartType>(ChartType.TABLE)
     const name = ref('新建图表')
+    const id = ref(0)
 
     const currentDatasetId = computed(() => dataset.value?.id)
 
@@ -54,6 +55,8 @@ const useStore = defineStore(
 
     const setName = (val: string) => (name.value = val)
 
+    const setId = (val: number) => (id.value = val)
+
     const clear = () => {
       quotas.value = []
       dims.value = []
@@ -62,6 +65,7 @@ const useStore = defineStore(
       allFields.value = []
       type.value = ChartType.TABLE
       name.value = '新建图表'
+      id.value = 0
     }
 
     return {
@@ -71,6 +75,7 @@ const useStore = defineStore(
       conditions,
       type,
       name,
+      id,
       dataset,
       allFields,
       currentDatasetId,
@@ -81,7 +86,8 @@ const useStore = defineStore(
       addFieldTo,
       changeType,
       setName,
-      clear
+      clear,
+      setId
     }
   },
   {

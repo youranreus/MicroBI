@@ -18,9 +18,24 @@
             />
           </n-radio-group>
         </n-flex>
-        <n-button :loading="loading" :disabled="loading || !canQuery" type="primary" @click="query">
-          查询
-        </n-button>
+        <n-button-group>
+          <n-button
+            :loading="saveLoading"
+            :disabled="saveLoading || !canQuery"
+            secondary
+            @click="save"
+          >
+            保存
+          </n-button>
+          <n-button
+            :loading="loading"
+            :disabled="loading || !canQuery"
+            type="primary"
+            @click="query"
+          >
+            查询
+          </n-button>
+        </n-button-group>
       </n-flex>
     </div>
     <div class="h-[calc(100%-223px)]">
@@ -33,12 +48,14 @@ import AnalyzeCondition from './analyze-condition.vue'
 import AnalyzeResult from './analyze-result.vue'
 import AnalyzeTitle from './analyze-title.vue'
 import { useQueryChart } from '@/composables/useQueryChart'
+import { useSaveChart } from '@/composables/useSaveChart'
 import { useAnalyzeStore } from '@/stores/analyze'
 import { AnalyzeType } from '@/types/field'
 import { ChartTypeOptions } from '@/utils/constants'
 
 const { canQuery, loading, query } = useQueryChart()
 const { type, changeType } = useAnalyzeStore()
+const { loading: saveLoading, save } = useSaveChart()
 
 const bodyRef = ref<HTMLElement>()
 
