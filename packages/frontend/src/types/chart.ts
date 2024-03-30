@@ -16,18 +16,6 @@ export interface ChartMeta extends ItemDateData {
 
 export type ChartListRes = Restful<Pagination<ChartMeta>>
 
-export interface ChartUpdateParams {
-  name: string
-  type: ChartType
-  quotas: number[]
-  dims: number[]
-  filters: number[]
-}
-
-export interface ChartCreateParams extends ChartUpdateParams {
-  workspace: number
-}
-
 export enum CalcType {
   AVG = 'AVG',
   SUM = 'SUM',
@@ -42,6 +30,27 @@ export enum SortType {
   ASC = 'ASC'
 }
 
+export interface ChartQuota {
+  id: number
+  calc: CalcType
+}
+
+export interface ChartDim {
+  id: number
+  sort: SortType
+}
+
+export interface ChartSaveParams {
+  name: string
+  type: ChartType
+  workspace: number
+  quotas: number[]
+  dims: number[]
+  filters: number[]
+  quotaData: ChartQuota[]
+  dimData: ChartDim[]
+}
+
 export interface Condition extends Field {
   calc: CalcType
   sort?: SortType
@@ -53,7 +62,7 @@ export interface ChartData extends ChartMeta {
   filters: Field[]
   dataset: DatasetMeta
   addition: {
-    quotas: { id: number; calc: CalcType }[]
-    dims: { id: number; sort: SortType }[]
+    quotas: ChartQuota[]
+    dims: ChartDim[]
   }
 }
