@@ -28,12 +28,13 @@ const useStore = defineStore(
       dims.value = []
       filters.value = []
       type.value = ChartType.TABLE
+      dataset.value = undefined
     }
 
     const changeDataset = (data: DatasetMeta) => {
       if (data.id !== dataset.value?.id) {
-        dataset.value = data
         resetChart()
+        dataset.value = data
       }
     }
 
@@ -53,6 +54,16 @@ const useStore = defineStore(
 
     const setName = (val: string) => (name.value = val)
 
+    const clear = () => {
+      quotas.value = []
+      dims.value = []
+      filters.value = []
+      dataset.value = undefined
+      allFields.value = []
+      type.value = ChartType.TABLE
+      name.value = '新建图表'
+    }
+
     return {
       quotas,
       dims,
@@ -69,7 +80,8 @@ const useStore = defineStore(
       updateField,
       addFieldTo,
       changeType,
-      setName
+      setName,
+      clear
     }
   },
   {

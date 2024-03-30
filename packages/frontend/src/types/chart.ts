@@ -1,4 +1,5 @@
 import type { Restful, Pagination, ItemDateData } from '.'
+import type { DatasetMeta } from './dataset'
 import type { Field } from './field'
 
 export enum ChartType {
@@ -27,12 +28,6 @@ export interface ChartCreateParams extends ChartUpdateParams {
   workspace: number
 }
 
-export interface ChartData extends ChartMeta {
-  dims: Field[]
-  quotas: Field[]
-  filters: Field[]
-}
-
 export enum CalcType {
   AVG = 'AVG',
   SUM = 'SUM',
@@ -50,4 +45,15 @@ export enum SortType {
 export interface Condition extends Field {
   calc: CalcType
   sort?: SortType
+}
+
+export interface ChartData extends ChartMeta {
+  dims: Field[]
+  quotas: Field[]
+  filters: Field[]
+  dataset: DatasetMeta
+  addition: {
+    quotas: { id: number; calc: CalcType }[]
+    dims: { id: number; sort: SortType }[]
+  }
 }

@@ -13,10 +13,32 @@
 <script setup lang="ts">
 import AnalyzeSidebar from './components/analyze-sidebar.vue'
 import AnalyzeBody from './components/analyze-body.vue'
+import { useGetChart } from '@/composables/useGetChart'
 import { DndProvider } from 'vue3-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import { useAnalyzeStore } from '@/stores/analyze'
+import { AnalyzeType } from '@/types/field'
 
 defineOptions({
   name: 'AnalyzeEdit'
 })
+const route = useRoute()
+const { changeDataset, setName, changeType, updateField, clear } = useAnalyzeStore()
+const { metadata, dims, quotas, resData, query } = useGetChart(() => {
+  changeDataset(resData.value.data.dataset)
+  setName(metadata.value.name)
+  changeType(metadata.value.type)
+  updateField(AnalyzeType.QUOTA, quotas.value)
+  updateField(AnalyzeType.DIM, dims.value)
+})
+
+watch(() => route.name, clear)
+
+onMounted(() => {
+  if (route.params.chartId) {
+    query(Number(route.params.chartId))
+  }
+})
+
+onUnmounted(clear)
 </script>
