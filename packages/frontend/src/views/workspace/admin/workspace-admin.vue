@@ -33,9 +33,7 @@
       <n-form-item label="添加用户">
         <n-input-group>
           <n-input v-model:value="newUser" v-bind="commonBindings" placeholder="新用户id" />
-          <n-button type="primary" v-bind="commonBindings" ghost @click="handleClickAdd">
-            添加
-          </n-button>
+          <n-button type="primary" v-bind="commonBindings" @click="handleClickAdd"> 添加 </n-button>
         </n-input-group>
       </n-form-item>
       <n-divider dashed> 我的信息 </n-divider>

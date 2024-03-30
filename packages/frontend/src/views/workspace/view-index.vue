@@ -8,7 +8,7 @@
           <n-h3>创建一个工作区</n-h3>
           <n-input-group>
             <n-input v-bind="workspaceNameBindings" placeholder="workspace名称" />
-            <n-button type="primary" :loading="loading" ghost @click="create"> 创建 </n-button>
+            <n-button type="primary" :loading="loading" @click="create"> 创建 </n-button>
           </n-input-group>
         </div>
         <div class="h-[352px]">

@@ -1,5 +1,5 @@
 <template>
-  <div class="py-4 px-6 flex flex-col gap-y-4 border-b border-gray-200">
+  <div class="py-4 px-6 flex flex-col gap-y-4 border-b border-solid border-gray-200">
     <analyze-title />
     <div>
       <analyze-condition :type="AnalyzeType.QUOTA"></analyze-condition>

@@ -11,6 +11,7 @@ const useStore = defineStore(
     const dataset = ref<DatasetMeta>()
     const allFields = ref<Field[]>([])
     const type = ref<ChartType>(ChartType.TABLE)
+    const name = ref('新建图表')
 
     const currentDatasetId = computed(() => dataset.value?.id)
 
@@ -50,12 +51,15 @@ const useStore = defineStore(
       conditions.value[type].value = [...conditions.value[type].value, data]
     }
 
+    const setName = (val: string) => (name.value = val)
+
     return {
       quotas,
       dims,
       filters,
       conditions,
       type,
+      name,
       dataset,
       allFields,
       currentDatasetId,
@@ -64,7 +68,8 @@ const useStore = defineStore(
       resetChart,
       updateField,
       addFieldTo,
-      changeType
+      changeType,
+      setName
     }
   },
   {
