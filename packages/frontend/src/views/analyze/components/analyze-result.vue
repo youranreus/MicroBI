@@ -19,7 +19,12 @@
     <n-h5 prefix="bar">
       <n-text type="primary"> 图表 </n-text>
     </n-h5>
-    <auto-chart :conditions="currentConditions" :data="data.data" :type="type" />
+    <auto-chart
+      :height="containerHeight - 212"
+      :conditions="currentConditions"
+      :data="data.data"
+      :type="type"
+    />
   </div>
 </template>
 <script setup lang="ts">
@@ -32,6 +37,15 @@ import { useAnalyzeStore } from '@/stores/analyze'
 defineOptions({
   name: 'AnalyzeResult'
 })
+
+withDefaults(
+  defineProps<{
+    containerHeight?: number
+  }>(),
+  {
+    containerHeight: 500
+  }
+)
 
 const { data, currentConditions } = useQueryStore()
 const { type } = useAnalyzeStore()
