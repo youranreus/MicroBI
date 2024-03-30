@@ -38,4 +38,9 @@ const handleEdit = () => {
 
   isEdit.value = false
 }
+
+watch(
+  () => name.value,
+  (val) => (tmpValue.value = val)
+)
 </script>
