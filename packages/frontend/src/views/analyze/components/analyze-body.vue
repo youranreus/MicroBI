@@ -23,7 +23,7 @@
         </n-button>
       </n-flex>
     </div>
-    <div class="h-[calc(100%-217px)]">
+    <div class="h-[calc(100%-223px)]">
       <analyze-result :container-height="resultHeight"></analyze-result>
     </div>
   </div>
@@ -42,5 +42,5 @@ const { type, changeType } = useAnalyzeStore()
 
 const bodyRef = ref<HTMLElement>()
 
-const resultHeight = computed(() => (bodyRef.value ? bodyRef.value.clientHeight - 217 : 0))
+const resultHeight = computed(() => (bodyRef.value ? bodyRef.value.clientHeight - 223 : 0))
 </script>

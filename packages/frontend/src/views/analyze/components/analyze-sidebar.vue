@@ -20,8 +20,11 @@
         <field-item v-for="field in fieldList?.data" :key="field.id" :field="field" />
       </div>
     </n-spin>
-    <div class="flex-1 flex items-center justify-center">
-      <n-empty v-if="!fieldList?.data?.length" description="暂无可用字段"></n-empty>
+    <div
+      v-if="!datasetLoading && !fieldList?.data?.length"
+      class="flex-1 flex items-center justify-center"
+    >
+      <n-empty description="暂无可用字段"></n-empty>
     </div>
   </div>
 </template>
