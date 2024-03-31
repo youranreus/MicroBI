@@ -2,7 +2,10 @@
   <div
     :ref="Drop"
     class="min-h-7 flex items-center gap-x-4 border-b py-2"
-    :class="{ 'bg-gray-100': isActive }"
+    :class="{ 'bg-gray-100': isActive && !isDarkMode }"
+    :style="{
+      borderColor: themeVars.borderColor
+    }"
   >
     <span class="h-7 leading-7">{{ displayType }}</span>
     <div class="flex-1 flex gap-x-2 min-h-7 leading-7">
@@ -25,6 +28,8 @@ import { AnalyzeType, type Field } from '@/types/field'
 import { CalcType, SortType } from '@/types/chart'
 import ConditionItem from './condition-item.vue'
 import { useDrop } from 'vue3-dnd'
+import { useGlobalStore } from '@/stores/global'
+import { useThemeVars } from 'naive-ui'
 
 defineOptions({
   name: 'AnalyzeCondition'
@@ -40,6 +45,8 @@ const props = withDefaults(
 )
 
 const { conditions, addFieldTo, updateField } = useAnalyzeStore()
+const { isDarkMode } = useGlobalStore()
+const themeVars = useThemeVars()
 
 const msg = useMessage()
 

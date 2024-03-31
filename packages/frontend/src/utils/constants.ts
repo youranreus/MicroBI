@@ -1,9 +1,15 @@
-import type { MenuOption } from 'naive-ui'
+import type { MenuOption, GlobalThemeOverrides } from 'naive-ui'
 import type { RouteRecordRaw } from 'vue-router'
 import { adminMenuItems, analyzeMenuItems, dashboardMenuItems } from '@/router/detail-routes'
 import { FieldType } from '@/types/field'
 import { CalcType, ChartType, SortType } from '@/types/chart'
 import { CalendarClearOutline, StatsChartOutline, TextOutline } from '@vicons/ionicons5'
+
+export const theme_overrides: GlobalThemeOverrides = {
+  List: {
+    color: 'transparent'
+  }
+}
 
 export const NAV_ITEMS = [
   {

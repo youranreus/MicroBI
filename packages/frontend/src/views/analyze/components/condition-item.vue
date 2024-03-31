@@ -6,7 +6,14 @@
     placement="bottom-start"
     :on-update:value="handleChangeCalc"
   >
-    <n-tag class="cursor-pointer" :type="fieldColor" closable size="medium" @close="emit('del')">
+    <n-tag
+      class="cursor-pointer"
+      :type="fieldColor"
+      :bordered="false"
+      closable
+      size="medium"
+      @close="emit('del')"
+    >
       {{ `${prefix} | ${field.name}` }}
       <template #icon>
         <n-icon :component="FieldIconMap[field.type]" size="small"></n-icon>

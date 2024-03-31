@@ -1,6 +1,11 @@
 <template>
   <div ref="bodyRef" class="h-full">
-    <div class="py-4 px-6 flex flex-col gap-y-4 border-b border-solid border-gray-200">
+    <div
+      class="py-4 px-6 flex flex-col gap-y-4 border-b border-solid"
+      :style="{
+        borderColor: themeVars.borderColor
+      }"
+    >
       <analyze-title />
       <div>
         <analyze-condition :type="AnalyzeType.QUOTA"></analyze-condition>
@@ -52,10 +57,12 @@ import { useSaveChart } from '@/composables/useSaveChart'
 import { useAnalyzeStore } from '@/stores/analyze'
 import { AnalyzeType } from '@/types/field'
 import { ChartTypeOptions } from '@/utils/constants'
+import { useThemeVars } from 'naive-ui'
 
 const { canQuery, loading, query } = useQueryChart()
 const { type, changeType } = useAnalyzeStore()
 const { loading: saveLoading, save } = useSaveChart()
+const themeVars = useThemeVars()
 
 const bodyRef = ref<HTMLElement>()
 
