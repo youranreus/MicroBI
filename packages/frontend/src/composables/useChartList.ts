@@ -1,12 +1,14 @@
 import { getChartList } from '@/api/chart'
+import { useWorkspaceStore } from '@/stores/workspace'
 import { usePagination } from '@alova/scene-vue'
 
 export const useChartList = () => {
   const msg = useMessage()
+  const { data: ws } = useWorkspaceStore()
   const searchValue = ref('')
 
   const { refresh, data, loading, page, pageSize, total, onError } = usePagination(
-    (page: number, size: number) => getChartList(page, size, searchValue.value),
+    (page: number, size: number) => getChartList(page, size, ws.value.id, searchValue.value),
     {
       initialPage: 1,
       initialPageSize: 10,
