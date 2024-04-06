@@ -129,12 +129,20 @@ export const dashboardChildren: RouteRecordRaw[] = [
     component: () => import('@/views/dashboard/dashboard-list.vue')
   },
   {
+    path: '',
+    name: 'dashboard-create',
+    meta: {
+      title: '看板'
+    },
+    component: () => import('@/views/dashboard/dashboard-view.vue')
+  },
+  {
     path: ':pid',
     name: 'dashboard-view',
     meta: {
       title: '看板',
       hide: true,
-      menuAlias: 'dashboard-list'
+      menuAlias: 'dashboard-create'
     },
     component: () => import('@/views/dashboard/dashboard-view.vue')
   },
@@ -144,7 +152,7 @@ export const dashboardChildren: RouteRecordRaw[] = [
     meta: {
       title: '看板编辑',
       hide: true,
-      menuAlias: 'dashboard-list'
+      menuAlias: 'dashboard-create'
     },
     component: () => import('@/views/dashboard/dashboard-edit.vue')
   }
