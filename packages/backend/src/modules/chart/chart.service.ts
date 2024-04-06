@@ -73,7 +73,13 @@ export class ChartService {
     return null;
   }
 
-  async findAll(page = 1, limit = 10, user: number, search = '') {
+  async findAll(
+    page = 1,
+    limit = 10,
+    user: number,
+    workspace: number,
+    search = '',
+  ) {
     const { items, meta } = await paginate<Chart>(
       this.repo,
       { page, limit },
@@ -82,6 +88,9 @@ export class ChartService {
           name: Like(`%${search}%`),
           owner: {
             id: user,
+          },
+          workspace: {
+            id: workspace,
           },
         },
         relations: {

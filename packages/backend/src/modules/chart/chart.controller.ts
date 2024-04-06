@@ -37,10 +37,11 @@ export class ChartController {
   findAll(
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
     @Query('size', new DefaultValuePipe(10), ParseIntPipe) size = 10,
+    @Query('workspace') workspace: number,
     @Query('search') search = '',
     @UserParams() user: UserJwtPayload,
   ) {
-    return this.chartService.findAll(page, size, user.id, search);
+    return this.chartService.findAll(page, size, user.id, +workspace, search);
   }
 
   @Get(':id')
