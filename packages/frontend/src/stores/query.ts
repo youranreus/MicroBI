@@ -23,7 +23,14 @@ const useStore = defineStore(
     const saveConditions = (val: Record<AnalyzeType, Condition[]>) =>
       (currentConditions.value = val)
 
-    return { data, loading, currentConditions, setLoading, updateData, saveConditions }
+    const clear = () => {
+      data.value = {
+        data: [],
+        sql: ''
+      }
+    }
+
+    return { data, loading, currentConditions, setLoading, updateData, saveConditions, clear }
   },
   {
     persist: false

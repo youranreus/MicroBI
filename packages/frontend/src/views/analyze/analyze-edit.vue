@@ -18,12 +18,14 @@ import { DndProvider } from 'vue3-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { useAnalyzeStore } from '@/stores/analyze'
 import { AnalyzeType } from '@/types/field'
+import { useQueryStore } from '@/stores/query'
 
 defineOptions({
   name: 'AnalyzeEdit'
 })
 const route = useRoute()
 const { changeDataset, setName, changeType, updateField, setId, clear } = useAnalyzeStore()
+const { clear: clearQuery } = useQueryStore()
 const { metadata, dims, quotas, resData, query } = useGetChart(() => {
   changeDataset(resData.value.data.dataset)
   setName(metadata.value.name)
@@ -41,5 +43,8 @@ onMounted(() => {
   }
 })
 
-onUnmounted(clear)
+onUnmounted(() => {
+  clear()
+  clearQuery()
+})
 </script>
