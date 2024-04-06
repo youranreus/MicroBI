@@ -39,8 +39,15 @@ export class DashboardController {
     @Query('size', new DefaultValuePipe(10), ParseIntPipe) size = 10,
     @Query('search') search = '',
     @UserParams() user: UserJwtPayload,
+    @Query('workspace') workspace: number,
   ) {
-    return this.dashboardService.findAll(page, size, user.id, search);
+    return this.dashboardService.findAll(
+      page,
+      size,
+      user.id,
+      +workspace,
+      search,
+    );
   }
 
   @Get(':id')
