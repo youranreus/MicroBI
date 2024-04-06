@@ -35,7 +35,12 @@ const { metadata, dims, quotas, resData, query } = useGetChart(() => {
   updateField(AnalyzeType.DIM, dims.value)
 })
 
-watch(() => route.name, clear)
+const reset = () => {
+  clear()
+  clearQuery()
+}
+
+watch(() => route.name, reset)
 
 onMounted(() => {
   if (route.params.chartId) {
@@ -43,8 +48,5 @@ onMounted(() => {
   }
 })
 
-onUnmounted(() => {
-  clear()
-  clearQuery()
-})
+onUnmounted(reset)
 </script>
