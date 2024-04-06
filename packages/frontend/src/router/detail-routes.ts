@@ -126,7 +126,7 @@ export const dashboardChildren: RouteRecordRaw[] = [
     meta: {
       title: '我的看板'
     },
-    component: () => import('@/views/dashboard/dashboard-view.vue')
+    component: () => import('@/views/dashboard/dashboard-list.vue')
   },
   {
     path: ':pid',
