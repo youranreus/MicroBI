@@ -75,7 +75,7 @@ const router = createRouter({
               },
               component: () => import('@/views/dashboard/view-index.vue'),
               children: dashboardChildren,
-              redirect: { name: 'dashboard-view' }
+              redirect: { name: 'dashboard-list' }
             },
             {
               path: 'analyze',

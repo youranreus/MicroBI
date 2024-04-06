@@ -121,10 +121,20 @@ export const analyzeChildren: RouteRecordRaw[] = [
 
 export const dashboardChildren: RouteRecordRaw[] = [
   {
-    path: '',
+    path: 'list',
+    name: 'dashboard-list',
+    meta: {
+      title: '我的看板'
+    },
+    component: () => import('@/views/dashboard/dashboard-view.vue')
+  },
+  {
+    path: ':pid',
     name: 'dashboard-view',
     meta: {
-      title: '图表'
+      title: '看板',
+      hide: true,
+      menuAlias: 'dashboard-list'
     },
     component: () => import('@/views/dashboard/dashboard-view.vue')
   },
@@ -132,9 +142,9 @@ export const dashboardChildren: RouteRecordRaw[] = [
     path: ':pid',
     name: 'dashboard-edit',
     meta: {
-      title: '图表编辑',
+      title: '看板编辑',
       hide: true,
-      menuAlias: 'dashboard-view'
+      menuAlias: 'dashboard-list'
     },
     component: () => import('@/views/dashboard/dashboard-edit.vue')
   }
