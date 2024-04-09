@@ -2,11 +2,13 @@
   <n-spin :show="loading">
     <div class="p-8">
       <dashboard-header></dashboard-header>
+      <dashboard-grid></dashboard-grid>
     </div>
   </n-spin>
 </template>
 <script setup lang="ts">
 import DashboardHeader from './components/dashboard-header.vue'
+import DashboardGrid from './components/dashboard-grid.vue'
 import { useGetDashboard } from '@/composables/useGetDashboard'
 import { useDashboardStore } from '@/stores/dashboard'
 
