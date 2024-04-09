@@ -1,7 +1,9 @@
 <template>
-  <div class="p-8">
-    <dashboard-header></dashboard-header>
-  </div>
+  <n-spin :show="loading">
+    <div class="p-8">
+      <dashboard-header></dashboard-header>
+    </div>
+  </n-spin>
 </template>
 <script setup lang="ts">
 import DashboardHeader from './components/dashboard-header.vue'
@@ -15,7 +17,7 @@ defineOptions({
 const route = useRoute()
 
 const { initDashbaord } = useDashboardStore()
-const { resData, query } = useGetDashboard(() => {
+const { resData, query, loading } = useGetDashboard(() => {
   initDashbaord(resData.value.data)
 })
 
