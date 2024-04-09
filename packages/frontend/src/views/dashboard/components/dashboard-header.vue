@@ -1,9 +1,15 @@
 <template>
   <n-thing>
     <template #header>
-      <n-popover trigger="hover" placement="bottom-start">
+      <n-popover :disabled="editMode" trigger="hover" placement="bottom-start">
         <template #trigger>
-          <span class="text-2xl">{{ metadata.name }}</span>
+          <span v-if="!editMode" class="text-2xl">{{ metadata.name }}</span>
+          <n-input
+            v-else
+            v-model:value="editValue"
+            :placeholder="metadata.name"
+            :status="!editValue ? 'error' : undefined"
+          ></n-input>
         </template>
         <n-descriptions :columns="1">
           <n-descriptions-item label="创建于">
@@ -20,28 +26,47 @@
     </template>
     <template #header-extra>
       <n-flex>
-        <n-button secondary circle>
+        <n-button secondary round @click="toggleEdit()">
           <template #icon>
-            <n-icon :component="PencilOutline"></n-icon>
+            <n-icon :component="editMode ? SaveOutline : PencilOutline"></n-icon>
           </template>
+          {{ editMode ? '保存' : '编辑' }}
         </n-button>
-        <n-button secondary circle type="error">
+        <n-button secondary round type="error">
           <template #icon>
             <n-icon :component="TrashOutline"></n-icon>
           </template>
+          删除
         </n-button>
       </n-flex>
     </template>
   </n-thing>
+  <n-divider dashed />
 </template>
 <script setup lang="ts">
 import { useDashboardStore } from '@/stores/dashboard'
-import { PencilOutline, TrashOutline } from '@vicons/ionicons5'
+import { PencilOutline, TrashOutline, SaveOutline } from '@vicons/ionicons5'
 import dayjs from 'dayjs'
 
 defineOptions({
   name: 'DashboardHeader'
 })
 
-const { metadata } = useDashboardStore()
+const { editMode, metadata, toggleEditMode } = useDashboardStore()
+const editValue = ref(metadata.value.name)
+
+watch(
+  () => metadata.value.name,
+  (val) => (editValue.value = val)
+)
+
+const toggleEdit = () => {
+  if (!editValue.value) {
+    editValue.value = metadata.value.name
+  } else {
+    metadata.value.name = editValue.value
+  }
+
+  toggleEditMode()
+}
 </script>

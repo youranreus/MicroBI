@@ -25,6 +25,8 @@ const useStore = defineStore(
 
     const charts = ref<DashboardChartItem[]>([])
 
+    const editMode = ref(false)
+
     const initDashbaord = (data: DashboardDetail) => {
       metadata.value = {
         name: data.name,
@@ -41,7 +43,23 @@ const useStore = defineStore(
 
     const updateName = (data: string) => (metadata.value.name = data)
 
-    return { metadata, charts, initDashbaord, updateCharts, updateName }
+    const reset = () => {
+      metadata.value = cloneDeep(DEFAULT_VALUE)
+      charts.value = []
+    }
+
+    const toggleEditMode = (val?: boolean) => (editMode.value = val ?? !editMode.value)
+
+    return {
+      metadata,
+      charts,
+      editMode,
+      initDashbaord,
+      updateCharts,
+      updateName,
+      reset,
+      toggleEditMode
+    }
   },
   {
     persist: false
