@@ -29,6 +29,12 @@ export type DashboardListRes = Restful<Pagination<DashboardMeta>>
 
 export type DashboardDetailRes = Restful<DashboardDetail>
 
+export interface DashboardSaveParam {
+  name: string
+  workspace: number
+  charts: ({ chart: number } & DashboardPosition)[]
+}
+
 export interface LayoutItemRequired {
   w: number
   h: number
