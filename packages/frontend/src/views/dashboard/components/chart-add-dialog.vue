@@ -89,7 +89,7 @@ const {
     chart: newData.id,
     data: newData,
     x: 0,
-    y: maxY + 1,
+    y: maxY || charts.value.length ? maxY + 1 : 0,
     w: 3,
     h: 1
   }
