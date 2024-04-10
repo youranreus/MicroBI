@@ -1,8 +1,9 @@
 import type { DashboardChartItem, DashboardDetail, DashboardMeta } from '@/types/dashboard'
 import { cloneDeep } from 'lodash-es'
+import { useUserStore } from './user'
 
 const DEFAULT_VALUE = {
-  name: '',
+  name: '新的看板',
   id: 0,
   created_at: '',
   updated_at: '',
@@ -27,6 +28,10 @@ const useStore = defineStore(
 
     const editMode = ref(false)
 
+    const isCreate = computed(() => !metadata.value.id)
+
+    const { userData } = useUserStore()
+
     const initDashbaord = (data: DashboardDetail) => {
       metadata.value = {
         name: data.name,
@@ -44,7 +49,10 @@ const useStore = defineStore(
     const updateName = (data: string) => (metadata.value.name = data)
 
     const reset = () => {
-      metadata.value = cloneDeep(DEFAULT_VALUE)
+      metadata.value = cloneDeep({
+        ...DEFAULT_VALUE,
+        creator: cloneDeep(userData.value)
+      })
       charts.value = []
     }
 
@@ -54,6 +62,7 @@ const useStore = defineStore(
       metadata,
       charts,
       editMode,
+      isCreate,
       initDashbaord,
       updateCharts,
       updateName,

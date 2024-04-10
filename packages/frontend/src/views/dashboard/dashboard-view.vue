@@ -18,7 +18,7 @@ defineOptions({
 
 const route = useRoute()
 
-const { initDashbaord } = useDashboardStore()
+const { initDashbaord, reset } = useDashboardStore()
 const { resData, query, loading } = useGetDashboard(() => {
   initDashbaord(resData.value.data)
 })
@@ -26,6 +26,10 @@ const { resData, query, loading } = useGetDashboard(() => {
 onMounted(() => {
   if (route.params.pid) {
     query(Number(route.params.pid))
+  } else {
+    reset()
   }
 })
+
+onUnmounted(reset)
 </script>

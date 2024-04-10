@@ -5,8 +5,7 @@ import type { DashboardSaveParam } from '@/types/dashboard'
 
 export const useEditDashbaord = () => {
   const { data: ws } = useWorkspaceStore()
-  const { metadata, charts } = useDashboardStore()
-  const isCreate = computed(() => !metadata.value.id)
+  const { metadata, charts, isCreate } = useDashboardStore()
   const loading = ref(false)
   const msg = useMessage()
   const dialog = useDialog()
