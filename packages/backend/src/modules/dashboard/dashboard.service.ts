@@ -104,6 +104,7 @@ export class DashboardService {
           dims: true,
           quotas: true,
           filters: true,
+          dataset: true,
         },
       },
     });
