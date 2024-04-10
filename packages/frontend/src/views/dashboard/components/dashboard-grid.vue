@@ -14,6 +14,7 @@
       :is-resizable="editMode"
       :vertical-compact="true"
       :use-css-transforms="true"
+      :restore-on-drag="true"
     >
       <grid-item
         v-for="item in charts"
@@ -24,6 +25,9 @@
         :y="item.y"
         :w="item.w"
         :h="item.h"
+        :static="false"
+        :is-draggable="editMode"
+        :is-resizable="editMode"
         @resize="handleResized"
       >
         <dashboard-grid-item :data="item" />
@@ -81,7 +85,8 @@ const layout = computed({
       x: item.x,
       y: item.y,
       h: item.h,
-      w: item.w
+      w: item.w,
+      static: false
     })),
   set: updateLayout
 })
