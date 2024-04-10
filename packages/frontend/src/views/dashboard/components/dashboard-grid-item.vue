@@ -75,7 +75,7 @@ const requestParams = computed<QueryDataParams>(() => {
     calc: chart.value.addition.quotas.find((q) => q.id === item.id)?.calc || CalcType.COUNT
   }))
 
-  const dims: Condition[] = chart.value.quotas.map((item) => ({
+  const dims: Condition[] = chart.value.dims.map((item) => ({
     ...item,
     calc: CalcType.COUNT,
     sort: chart.value.addition.dims.find((q) => q.id === item.id)?.sort || SortType.NONE
@@ -94,7 +94,7 @@ const chartConditions = computed(() => {
     calc: chart.value.addition.quotas.find((q) => q.id === item.id)?.calc || CalcType.COUNT
   }))
 
-  const dim: Condition[] = chart.value.quotas.map((item) => ({
+  const dim: Condition[] = chart.value.dims.map((item) => ({
     ...item,
     calc: CalcType.COUNT,
     sort: chart.value.addition.dims.find((q) => q.id === item.id)?.sort || SortType.NONE
