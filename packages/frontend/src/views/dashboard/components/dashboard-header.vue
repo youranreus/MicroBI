@@ -32,6 +32,7 @@
           </template>
           {{ editMode ? '保存' : '编辑' }}
         </n-button>
+        <chart-add-dialog v-if="editMode" :loading="loading"></chart-add-dialog>
         <n-button v-if="!isCreate" secondary circle type="error" :loading="loading" @click="del()">
           <template #icon>
             <n-icon :component="TrashOutline"></n-icon>
@@ -45,6 +46,7 @@
 <script setup lang="ts">
 import { useEditDashbaord } from '@/composables/useEditDashboard'
 import { useDashboardStore } from '@/stores/dashboard'
+import ChartAddDialog from './chart-add-dialog.vue'
 import { PencilOutline, TrashOutline, SaveOutline } from '@vicons/ionicons5'
 import dayjs from 'dayjs'
 
