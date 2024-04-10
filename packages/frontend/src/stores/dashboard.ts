@@ -26,6 +26,8 @@ const useStore = defineStore(
 
     const charts = ref<DashboardChartItem[]>([])
 
+    const originData = ref<Omit<DashboardDetail, 'workspace'>>()
+
     const editMode = ref(false)
 
     const isCreate = computed(() => !metadata.value.id)
@@ -38,13 +40,38 @@ const useStore = defineStore(
         id: data.id,
         created_at: data.created_at,
         updated_at: data.updated_at,
-        creator: data.creator
+        creator: cloneDeep(data.creator)
       }
 
-      charts.value = data.charts
+      charts.value = cloneDeep(data.charts)
+      originData.value = cloneDeep(data)
     }
 
     const updateCharts = (data: DashboardChartItem[]) => (charts.value = data)
+
+    const updateOrigin = () => {
+      originData.value = {
+        name: metadata.value.name,
+        id: metadata.value.id,
+        created_at: metadata.value.created_at,
+        updated_at: metadata.value.updated_at,
+        creator: metadata.value.creator,
+        charts: charts.value
+      }
+    }
+
+    const cancelEdit = () => {
+      if (originData.value) {
+        metadata.value = {
+          name: originData.value.name,
+          id: originData.value.id,
+          created_at: originData.value.created_at,
+          updated_at: originData.value.updated_at,
+          creator: cloneDeep(originData.value.creator)
+        }
+        charts.value = cloneDeep(originData.value.charts)
+      }
+    }
 
     const updateName = (data: string) => (metadata.value.name = data)
 
@@ -67,7 +94,9 @@ const useStore = defineStore(
       updateCharts,
       updateName,
       reset,
-      toggleEditMode
+      toggleEditMode,
+      updateOrigin,
+      cancelEdit
     }
   },
   {

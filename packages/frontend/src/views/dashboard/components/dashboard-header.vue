@@ -26,12 +26,26 @@
     </template>
     <template #header-extra>
       <n-flex>
+        <n-button
+          v-if="editMode"
+          secondary
+          round
+          type="warning"
+          @click="handleCancelEdit"
+          :loading="loading"
+        >
+          <template #icon>
+            <n-icon :component="CloseOutline"></n-icon>
+          </template>
+          取消编辑
+        </n-button>
         <n-button secondary round @click="toggleEdit" :loading="loading">
           <template #icon>
             <n-icon :component="editMode ? SaveOutline : PencilOutline"></n-icon>
           </template>
           {{ editMode ? '保存' : '编辑' }}
         </n-button>
+
         <chart-add-dialog v-if="editMode" :loading="loading"></chart-add-dialog>
         <n-button v-if="!isCreate" secondary circle type="error" :loading="loading" @click="del()">
           <template #icon>
@@ -47,14 +61,15 @@
 import { useEditDashbaord } from '@/composables/useEditDashboard'
 import { useDashboardStore } from '@/stores/dashboard'
 import ChartAddDialog from './chart-add-dialog.vue'
-import { PencilOutline, TrashOutline, SaveOutline } from '@vicons/ionicons5'
+import { PencilOutline, TrashOutline, SaveOutline, CloseOutline } from '@vicons/ionicons5'
 import dayjs from 'dayjs'
 
 defineOptions({
   name: 'DashboardHeader'
 })
 
-const { editMode, metadata, isCreate, toggleEditMode } = useDashboardStore()
+const { editMode, metadata, isCreate, toggleEditMode, cancelEdit, updateOrigin } =
+  useDashboardStore()
 const { save, loading, del } = useEditDashbaord()
 const editValue = ref(metadata.value.name)
 
@@ -73,7 +88,15 @@ const toggleEdit = () => {
   if (!editMode.value) {
     toggleEditMode()
   } else {
-    save(toggleEditMode)
+    save(() => {
+      toggleEditMode()
+      updateOrigin()
+    })
   }
+}
+
+const handleCancelEdit = () => {
+  cancelEdit()
+  toggleEditMode()
 }
 </script>

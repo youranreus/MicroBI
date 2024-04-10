@@ -1,5 +1,5 @@
 <template>
-  <n-button secondary round :loading="loading" @click="visible = true">
+  <n-button secondary round type="info" :loading="loading" @click="visible = true">
     <template #icon>
       <n-icon :component="PieChartOutline"></n-icon>
     </template>
