@@ -6,30 +6,31 @@
   >
     <grid-layout
       :layout="layout"
-      :col-num="12"
-      :row-height="40"
+      :col-num="6"
+      :margin="[16, 16]"
+      :row-height="200"
       :is-draggable="editMode"
       :is-resizable="editMode"
       :vertical-compact="true"
       :use-css-transforms="true"
-      :margin="[16, 16]"
     >
       <grid-item
-        v-for="item in layout"
+        v-for="item in charts"
         class="touch-none"
-        :key="item.i"
-        :i="item.i"
+        :key="item.data.id"
+        :i="`${item.data.id}`"
         :x="item.x"
         :y="item.y"
         :w="item.w"
         :h="item.h"
       >
-        <span class="text">{{ item.i }}</span>
+        <dashboard-grid-item :data="item" />
       </grid-item>
     </grid-layout>
   </div>
 </template>
-<script setup lang="ts">
+<script setup>
+import DashboardGridItem from './dashboard-grid-item.vue'
 import { useDashboardStore } from '@/stores/dashboard'
 import { GridLayout, GridItem } from 'vue3-grid-layout-next'
 
