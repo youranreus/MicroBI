@@ -26,17 +26,16 @@
     </template>
     <template #header-extra>
       <n-flex>
-        <n-button secondary round @click="toggleEdit()">
+        <n-button secondary round @click="toggleEdit" :loading="loading">
           <template #icon>
             <n-icon :component="editMode ? SaveOutline : PencilOutline"></n-icon>
           </template>
           {{ editMode ? '保存' : '编辑' }}
         </n-button>
-        <n-button secondary round type="error">
+        <n-button secondary circle type="error" :loading="loading">
           <template #icon>
             <n-icon :component="TrashOutline"></n-icon>
           </template>
-          删除
         </n-button>
       </n-flex>
     </template>
@@ -44,6 +43,7 @@
   <n-divider dashed />
 </template>
 <script setup lang="ts">
+import { useEditDashbaord } from '@/composables/useEditDashboard'
 import { useDashboardStore } from '@/stores/dashboard'
 import { PencilOutline, TrashOutline, SaveOutline } from '@vicons/ionicons5'
 import dayjs from 'dayjs'
@@ -53,6 +53,7 @@ defineOptions({
 })
 
 const { editMode, metadata, toggleEditMode } = useDashboardStore()
+const { save, loading } = useEditDashbaord()
 const editValue = ref(metadata.value.name)
 
 watch(
@@ -67,6 +68,10 @@ const toggleEdit = () => {
     metadata.value.name = editValue.value
   }
 
-  toggleEditMode()
+  if (!editMode.value) {
+    toggleEditMode()
+  } else {
+    save(toggleEditMode)
+  }
 }
 </script>
