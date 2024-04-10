@@ -32,7 +32,7 @@
           </template>
           {{ editMode ? '保存' : '编辑' }}
         </n-button>
-        <n-button secondary circle type="error" :loading="loading">
+        <n-button secondary circle type="error" :loading="loading" @click="del()">
           <template #icon>
             <n-icon :component="TrashOutline"></n-icon>
           </template>
@@ -53,7 +53,7 @@ defineOptions({
 })
 
 const { editMode, metadata, toggleEditMode } = useDashboardStore()
-const { save, loading } = useEditDashbaord()
+const { save, loading, del } = useEditDashbaord()
 const editValue = ref(metadata.value.name)
 
 watch(
