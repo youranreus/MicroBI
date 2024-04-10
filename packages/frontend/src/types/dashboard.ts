@@ -28,3 +28,22 @@ export interface DashboardDetail extends DashboardMeta {
 export type DashboardListRes = Restful<Pagination<DashboardMeta>>
 
 export type DashboardDetailRes = Restful<DashboardDetail>
+
+export interface LayoutItemRequired {
+  w: number
+  h: number
+  x: number
+  y: number
+  i: string
+}
+export type LayoutItem = LayoutItemRequired & {
+  minW?: number
+  minH?: number
+  maxW?: number
+  maxH?: number
+  moved?: boolean
+  static?: boolean
+  isDraggable?: boolean
+  isResizable?: boolean
+}
+export type Layout = Array<LayoutItem>

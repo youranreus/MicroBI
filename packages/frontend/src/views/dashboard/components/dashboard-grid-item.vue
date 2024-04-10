@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full overflow-hidden border border-gray-200">
+  <div class="w-full h-full overflow-hidden border border-gray-200 p-3 rounded-lg bg-white">
     <div class="header">
       {{ chart.name }}
     </div>
