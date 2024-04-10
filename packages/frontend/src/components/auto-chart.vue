@@ -6,7 +6,7 @@
       :data="data"
       bordered
       striped
-      :max-height="height"
+      :max-height="height > 49 ? height - 49 : 49"
     />
     <v-chart v-else class="h-full w-full" :option="chartOptions" autoresize></v-chart>
   </div>
