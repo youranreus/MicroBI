@@ -1,10 +1,15 @@
 import { queryData } from '@/api/dataset'
 import { useAnalyzeStore } from '@/stores/analyze'
 import { useQueryStore } from '@/stores/query'
+import type { QueryDataParams, QueryDataRes } from '@/types/dataset'
 
 export const useQueryChart = () => {
   const { conditions, dataset } = useAnalyzeStore()
   const { loading, currentConditions, setLoading, updateData, saveConditions } = useQueryStore()
+  const resData = ref<QueryDataRes['data']>({
+    data: [],
+    sql: ''
+  })
 
   const canQuery = computed(() => conditions.value.quota.value.length)
 
@@ -31,5 +36,16 @@ export const useQueryChart = () => {
       })
   }
 
-  return { canQuery, loading, currentConditions, query }
+  const directQuery = (dataset: number, params: QueryDataParams) => {
+    setLoading(true)
+    queryData(dataset, params)
+      .then((res) => {
+        resData.value = res.data
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }
+
+  return { resData, canQuery, loading, currentConditions, query, directQuery }
 }
