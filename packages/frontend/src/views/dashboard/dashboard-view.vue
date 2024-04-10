@@ -1,6 +1,6 @@
 <template>
   <n-spin :show="loading">
-    <div class="p-8">
+    <div class="p-8 h-full">
       <dashboard-header></dashboard-header>
       <dashboard-grid></dashboard-grid>
     </div>

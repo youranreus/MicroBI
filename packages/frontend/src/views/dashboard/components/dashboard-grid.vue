@@ -33,10 +33,19 @@
         <dashboard-grid-item :data="item" />
       </grid-item>
     </grid-layout>
+
+    <div v-if="!charts.length" class="h-[500px] w-full flex items-center justify-center">
+      <n-empty size="large" description="还没有图表">
+        <template v-if="editMode" #extra>
+          <chart-add-dialog />
+        </template>
+      </n-empty>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
 import DashboardGridItem from './dashboard-grid-item.vue'
+import ChartAddDialog from './chart-add-dialog.vue'
 import { useDashboardStore } from '@/stores/dashboard'
 import { GridLayout, GridItem } from 'vue3-grid-layout-next'
 import type { Layout } from '@/types/dashboard'
