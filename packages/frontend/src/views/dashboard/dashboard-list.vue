@@ -1,6 +1,9 @@
 <template>
   <div class="w-[768px] mx-auto my-10">
-    <div class="mb-4 text-2xl font-bold">我的看板</div>
+    <n-flex justify="space-between">
+      <div class="mb-4 text-2xl font-bold">我的看板</div>
+      <n-button secondary type="primary" @click="createDashboard">创建看板</n-button>
+    </n-flex>
 
     <n-list>
       <n-spin :show="loading">
@@ -47,5 +50,9 @@ const router = useRouter()
 
 const redirect = (pid: number) => {
   router.push({ name: 'dashboard-view', params: { pid } })
+}
+
+const createDashboard = () => {
+  router.push({ name: 'dashboard-create' })
 }
 </script>
