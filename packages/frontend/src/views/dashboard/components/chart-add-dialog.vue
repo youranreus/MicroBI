@@ -84,12 +84,12 @@ const {
     visible.value = false
     return
   }
-  const maxY = charts.value.reduce((p, c) => (c.y + c.h > p ? c.y : p), 0)
+  const maxY = charts.value.reduce((p, c) => (c.y + c.h > p ? c.y + c.h : p), 0)
   const newChart = {
     chart: newData.id,
     data: newData,
     x: 0,
-    y: maxY || charts.value.length ? maxY + 1 : 0,
+    y: maxY || charts.value.length ? maxY : 0,
     w: 3,
     h: 1
   }
