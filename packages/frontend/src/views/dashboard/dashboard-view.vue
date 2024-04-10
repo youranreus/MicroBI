@@ -18,7 +18,7 @@ defineOptions({
 
 const route = useRoute()
 
-const { initDashbaord, reset } = useDashboardStore()
+const { initDashbaord, reset, toggleEditMode } = useDashboardStore()
 const { resData, query, loading } = useGetDashboard(() => {
   initDashbaord(resData.value.data)
 })
@@ -31,5 +31,8 @@ onMounted(() => {
   }
 })
 
-onUnmounted(reset)
+onUnmounted(() => {
+  reset()
+  toggleEditMode(false)
+})
 </script>
