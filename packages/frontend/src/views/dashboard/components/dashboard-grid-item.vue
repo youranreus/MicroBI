@@ -5,9 +5,14 @@
         {{ chart.name }}
       </n-h6>
 
-      <n-popconfirm positive-text="确定" negative-text="取消" @positive-click="handleDeleteChart">
+      <n-popconfirm
+        v-if="editMode"
+        positive-text="确定"
+        negative-text="取消"
+        @positive-click="handleDeleteChart"
+      >
         <template #trigger>
-          <n-button v-if="editMode" size="small" circle secondary type="error">
+          <n-button size="small" circle secondary type="error">
             <template #icon>
               <n-icon :component="TrashOutline"></n-icon>
             </template>
