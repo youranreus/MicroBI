@@ -9,7 +9,7 @@
       v-model:layout="layout"
       :col-num="6"
       :margin="[16, 16]"
-      :row-height="200"
+      :row-height="400"
       :is-draggable="editMode"
       :is-resizable="editMode"
       :vertical-compact="true"
