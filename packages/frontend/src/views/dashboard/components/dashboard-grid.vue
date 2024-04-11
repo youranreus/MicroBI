@@ -1,10 +1,5 @@
 <template>
-  <div
-    :class="{
-      'bg-slate-50': editMode
-    }"
-    class="dashboard-grid"
-  >
+  <div class="dashboard-grid">
     <grid-layout
       v-model:layout="layout"
       :col-num="6"

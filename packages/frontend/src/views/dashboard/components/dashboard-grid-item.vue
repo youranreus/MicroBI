@@ -1,7 +1,11 @@
 <template>
   <div
     ref="containerRef"
-    class="w-full h-full overflow-hidden border border-gray-200 p-3 rounded-lg bg-white"
+    class="w-full h-full overflow-hidden border p-3 rounded-lg"
+    :style="{
+      background: themeVars.cardColor,
+      borderColor: themeVars.borderColor
+    }"
   >
     <div class="header flex justify-between items-center mb-4">
       <n-h6 prefix="bar" align-text class="mb-0">
@@ -47,6 +51,7 @@ import { CalcType, SortType, type Condition } from '@/types/chart'
 import type { DashboardChartItem } from '@/types/dashboard'
 import type { QueryDataParams } from '@/types/dataset'
 import { TrashOutline } from '@vicons/ionicons5'
+import { useThemeVars } from 'naive-ui'
 
 defineOptions({
   name: 'DashboardGridItem'
@@ -57,6 +62,7 @@ const props = defineProps<{
 }>()
 
 const chart = computed(() => props.data.data)
+const themeVars = useThemeVars()
 
 const { editMode, charts, updateCharts } = useDashboardStore()
 const { directQuery, loading, resData } = useQueryChart()
