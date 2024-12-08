@@ -151,7 +151,7 @@ export const useDatasource = (formRef: Ref<FormInst | undefined>, id?: number) =
     formRef.value
       ?.validate()
       .then(() => {
-        if (!canSave.value) {
+        if (!canSave.value || !id) {
           return
         }
 

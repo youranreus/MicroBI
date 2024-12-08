@@ -16,4 +16,6 @@ export type WorkspaceData = WorkspaceMeta & {
   datasources: number[]
 }
 
-export type WorkspaceUpdateParams = Pick<WorkspaceData, 'name' | 'logo' | 'users'>
+export type WorkspaceUpdateParams = Pick<WorkspaceData, 'name' | 'logo'> & {
+  users: number[]
+}

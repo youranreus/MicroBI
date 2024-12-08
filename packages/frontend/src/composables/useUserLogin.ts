@@ -28,7 +28,7 @@ export const useUserLogin = () => {
       return
     }
 
-    send(route.query.ticket)
+    send(String(route.query.ticket))
   }
 
   onSuccess(() => {

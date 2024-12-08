@@ -245,11 +245,11 @@ export const useDataset = (formRef: Ref<FormInst | undefined>, id?: number) => {
     formRef.value
       ?.validate()
       .then(() => {
-        if (!canSave.value) {
+        if (!canSave.value || !id) {
           return
         }
 
-        sendCreate(editData.value, id)
+        sendCreate(editData.value as DatasetCreateParams, id)
       })
       .catch(() => {})
   }
